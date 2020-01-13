@@ -20,9 +20,5 @@ public class Main {
 		glfwSetWindowPos(window, (videoMode.width() - 640)/2, (videoMode.height()-480)/2);
 		
 		glfwShowWindow(window);
-		
-		while (!glfwWindowShouldClose(window)) {
-			glfwPollEvents();
-		}
 	}
 }
