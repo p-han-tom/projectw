@@ -19,7 +19,8 @@ import com.mygdx.maps.TileMap;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
-	private static Hero hero;
+	private static Hero heroDbu;
+	private static Hero heroMee;
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch;
@@ -46,9 +47,10 @@ public class PlayState extends GameState{
 		sr.setAutoShapeType(true);
 		sr.end();
 		spritesheet = new Texture("placeholder/sheet.png");
-		Sprite heroSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		hero = new Hero("Dbu", 1, 1, heroSprite);
-		
+		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
+		Hero heroDbu = new Hero("Dbu", 1, 1, heroDbuSprite);
+		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
+		Hero heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
 		batch = new SpriteBatch();
 	}
 
@@ -58,7 +60,11 @@ public class PlayState extends GameState{
 
 	public void draw() {
 		tmap.draw();
-		hero.draw(batch, tmap);
+		heroDbu.draw(batch, tmap);
+		for (Unit unit:units) {
+			System.out.print(unit.getName()+" ");
+		}
+		System.out.println();
 	}
 
 	public void handleInput() {
@@ -69,8 +75,8 @@ public class PlayState extends GameState{
 			int a = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 			int b = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 			if (b < tmap.mapLength && b >= 0 && a < tmap.mapWidth && a >= 0 ) {
-				hero.setCol(a);
-				hero.setRow(b);
+				heroDbu.setCol(a);
+				heroDbu.setRow(b);
 			}
 		}
 	}
