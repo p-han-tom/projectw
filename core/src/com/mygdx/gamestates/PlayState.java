@@ -1,6 +1,10 @@
 package com.mygdx.gamestates;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.entities.Player;
@@ -14,23 +18,30 @@ public class PlayState extends GameState{
 	private static GridMap map;
 	private static ShapeRenderer sr;
 	private static Player player;
+	private static Texture spritesheet;
+	private static int spritedim = 16;
+	private static SpriteBatch batch;
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
 	}
 	public void init() {
 		int[][] mapint = {{1,1,1,1,1,1,1,1},
-						{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
+						{1,0,1,0,0,0,0,1},
+					   	{1,0,1,0,0,0,0,1},
+					   	{1,0,1,0,0,0,0,1},
+					   	{1,0,0,0,0,1,0,1},
+					   	{1,0,0,0,0,1,0,1},
+					   	{1,0,0,0,0,1,0,1},
 					  	{1,1,1,1,1,1,1,1}};
 		map = new GridMap(mapint);
 		sr = new ShapeRenderer();
 		sr.setAutoShapeType(true);
 		sr.end();
-		player = new Player(2,2,Color.RED);
+		spritesheet = new Texture("placeholder/sheet.png");
+		Sprite playerSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
+		player = new Player(1,1,Color.RED, playerSprite);
+		
+		batch = new SpriteBatch();
 	}
 
 	public void update(float dt) {
@@ -40,7 +51,10 @@ public class PlayState extends GameState{
 
 	public void draw() {
 		map.draw(sr);
-		player.draw(sr, map);
+		player.draw(batch, map);
+		batch.begin();
+		Player.getSprite().draw(batch);
+		batch.end();
 	}
 
 	public void handleInput() {
