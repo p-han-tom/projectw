@@ -21,9 +21,11 @@ public class PlayState extends GameState{
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch;
+	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
 	}
+	
 	public void init() {
 		int[][] mapint = {{1,1,1,1,1,1,1,1},
 						{1,0,1,0,0,0,0,1},
@@ -46,15 +48,14 @@ public class PlayState extends GameState{
 
 	public void update(float dt) {
 		handleInput();
-		//player.update(dt);
 	}
 
 	public void draw() {
 		map.draw(sr);
 		player.draw(batch, map);
-		batch.begin();
-		Player.getSprite().draw(batch);
-		batch.end();
+//		batch.begin();
+//		Player.getSprite().draw(batch);
+//		batch.end();
 	}
 
 	public void handleInput() {

@@ -20,7 +20,7 @@ public class GridMap {
 	}
 	public static void setMap(int map[][]) {
 		GridMap.map = map;
-		tileDim = 40;
+		tileDim = 50;
 		offsetX = (Game.WIDTH-(map.length*tileDim))/2;
 		offsetY = (Game.HEIGHT-(map.length*tileDim))/2;
 		mapLength = map.length;
