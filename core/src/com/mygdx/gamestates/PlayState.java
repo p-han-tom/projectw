@@ -61,13 +61,11 @@ public class PlayState extends GameState{
 		//player.setLeft(GameKeys.isDown(GameKeys.LEFT));
 		//player.setRight(GameKeys.isDown(GameKeys.RIGHT));
 		//player.setUp(GameKeys.isDown(GameKeys.UP));
-		if (MouseButtons.isLeftPressed()) {
+		if (MouseButtons.isLeftDown()) {
 			int a = (MouseButtons.getX()-map.offsetX)/map.tileDim;
 			int b = (Game.HEIGHT-(MouseButtons.getY()+map.offsetY))/map.tileDim;
-			if (b < map.mapLength && b >= 0 && a < map.mapWidth && a >= 0 && map.getMap()[b][a] == 0) {
-				player.setCol(a);
-				player.setRow(b);
-			}
+			Player.setCol(a);
+			Player.setRow(b);
 		}
 	}
 
