@@ -12,15 +12,15 @@ import com.mygdx.game.Game;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
 import com.mygdx.managers.MouseButtons;
-import com.mygdx.maps.GridMap;
+import com.mygdx.maps.TileMap;
 
 public class PlayState extends GameState{
-	private static GridMap map;
 	private static ShapeRenderer sr;
 	private static Player player;
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch;
+	private static TileMap tmap;
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -35,7 +35,9 @@ public class PlayState extends GameState{
 					   	{1,0,0,0,0,1,0,1},
 					   	{1,0,0,0,0,1,0,1},
 					  	{1,1,1,1,1,1,1,1}};
-		map = new GridMap(mapint);
+		
+		tmap = new TileMap(mapint, 50);
+		
 		sr = new ShapeRenderer();
 		sr.setAutoShapeType(true);
 		sr.end();
@@ -51,11 +53,8 @@ public class PlayState extends GameState{
 	}
 
 	public void draw() {
-		map.draw(sr);
-		player.draw(batch, map);
-//		batch.begin();
-//		Player.getSprite().draw(batch);
-//		batch.end();
+		tmap.draw();
+		player.draw(batch, tmap);
 	}
 
 	public void handleInput() {
@@ -63,9 +62,9 @@ public class PlayState extends GameState{
 		//player.setRight(GameKeys.isDown(GameKeys.RIGHT));
 		//player.setUp(GameKeys.isDown(GameKeys.UP));
 		if (MouseButtons.isLeftPressed()) {
-			int a = (MouseButtons.getX()-map.offsetX)/map.tileDim;
-			int b = (Game.HEIGHT-(MouseButtons.getY()+map.offsetY))/map.tileDim;
-			if (b < map.mapLength && b >= 0 && a < map.mapWidth && a >= 0 && map.getMap()[b][a] == 0) {
+			int a = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
+			int b = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
+			if (b < tmap.mapLength && b >= 0 && a < tmap.mapWidth && a >= 0 ) {
 				player.setCol(a);
 				player.setRow(b);
 			}

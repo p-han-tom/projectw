@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.gamestates.PlayState;
-import com.mygdx.maps.GridMap;
+import com.mygdx.maps.TileMap;
 
 public abstract class Entity {
 	private static int col; 
@@ -18,9 +18,9 @@ public abstract class Entity {
 		this.row= row;
 		this.color = color;
 		this.setSprite(sprite);
-		sprite.setSize(GridMap.tileDim, GridMap.tileDim);
+		sprite.setSize(TileMap.tileDim, TileMap.tileDim);
 	}
-	public static void draw(SpriteBatch batch, GridMap map) {
+	public static void draw(SpriteBatch batch, TileMap map) {
 		batch.begin();
 		sprite.setPosition(col*map.tileDim+map.offsetX, row*map.tileDim+map.offsetY);
 		sprite.draw(batch);
