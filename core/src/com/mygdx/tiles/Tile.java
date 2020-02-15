@@ -7,6 +7,7 @@ import com.mygdx.maps.TileMap;
 
 public abstract class Tile {
 	
+	//static is feelsweirdman for tiledm, offx, and offy. needs to change
 	protected static Texture spritesheet = new Texture("placeholder/sheet.png");
 	protected static int tileDim = TileMap.tileDim;
 	protected static int offx = TileMap.offsetX;
@@ -15,7 +16,7 @@ public abstract class Tile {
 	
 	protected int row, col, movement;
 	protected Sprite sprite;
-	protected boolean passable;
+	public boolean passable;
 		
 	public Tile(int row, int col) {
 		this.row = row;

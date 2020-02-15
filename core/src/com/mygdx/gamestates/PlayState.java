@@ -1,6 +1,7 @@
 package com.mygdx.gamestates;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,10 +23,10 @@ public class PlayState extends GameState{
 	private static Hero heroDbu;
 	private static Hero heroMee;
 	private static Texture spritesheet;
-	private static int spritedim = 16;
-	private static SpriteBatch batch;
+	private int spritedim = 16;
+	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
-	public static ArrayList<Unit> units = new ArrayList<Unit>();
+	private static List<Unit> units = new ArrayList<Unit>();
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -47,11 +48,15 @@ public class PlayState extends GameState{
 		sr.setAutoShapeType(true);
 		sr.end();
 		spritesheet = new Texture("placeholder/sheet.png");
+		
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
 		Hero heroDbu = new Hero("Dbu", 1, 1, heroDbuSprite);
+		units.add(heroDbu);
+		
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
 		Hero heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
-		batch = new SpriteBatch();
+		units.add(heroMee);
+		
 	}
 
 	public void update(float dt) {
@@ -61,16 +66,10 @@ public class PlayState extends GameState{
 	public void draw() {
 		tmap.draw();
 		heroDbu.draw(batch, tmap);
-		for (Unit unit:units) {
-			System.out.print(unit.getName()+" ");
-		}
-		System.out.println();
 	}
 
 	public void handleInput() {
-		//player.setLeft(GameKeys.isDown(GameKeys.LEFT));
-		//player.setRight(GameKeys.isDown(GameKeys.RIGHT));
-		//player.setUp(GameKeys.isDown(GameKeys.UP));
+		
 		if (MouseButtons.isLeftPressed()) {
 			int a = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 			int b = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
