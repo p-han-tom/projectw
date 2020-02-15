@@ -18,6 +18,9 @@ public abstract class TurnManager {
 			initiativeAndUnitMap.put(roll, unit);
 		}
 		Collections.sort(initiativeRolls);
+		for (Integer roll:initiativeRolls) {
+			turnOrder.add(initiativeAndUnitMap.get(roll));
+		}
 		return turnOrder;
 	}
 }
