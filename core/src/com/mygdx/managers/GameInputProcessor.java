@@ -29,6 +29,9 @@ public class GameInputProcessor extends InputAdapter{
 		if (k == Keys.SHIFT_LEFT || k == Keys.SHIFT_RIGHT) {
 			GameKeys.setKey(GameKeys.SHIFT, true);
 		}
+		
+		
+		
 		return true;
 	}
 	public boolean keyUp(int k) {

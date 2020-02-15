@@ -11,6 +11,7 @@ public class GridMap {
 	public static int offsetX;
 	public static int offsetY;
 	public static int mapLength;
+	public static int mapWidth;
 	public GridMap(int map[][]) {
 		this.setMap(map);
 	}
@@ -23,6 +24,7 @@ public class GridMap {
 		offsetX = (Game.WIDTH-(map.length*tileDim))/2;
 		offsetY = (Game.HEIGHT-(map.length*tileDim))/2;
 		mapLength = map.length;
+		mapWidth = map[0].length;
 	}
 	public static void draw(ShapeRenderer sr) {
 		for (int row = 0; row<map.length; row++) {
