@@ -27,6 +27,7 @@ public class PlayState extends GameState{
 	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
 	private static List<Unit> units = new ArrayList<Unit>();
+	private static int unitTracker = 0;
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -50,11 +51,11 @@ public class PlayState extends GameState{
 		spritesheet = new Texture("placeholder/sheet.png");
 		
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		Hero heroDbu = new Hero("Dbu", 1, 1, heroDbuSprite);
+		heroDbu = new Hero("Dbu", 1, 1, heroDbuSprite);
 		units.add(heroDbu);
 		
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		Hero heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
+		heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
 		units.add(heroMee);
 		
 	}
@@ -65,7 +66,7 @@ public class PlayState extends GameState{
 
 	public void draw() {
 		tmap.draw();
-		heroDbu.draw(batch, tmap);
+		for (Unit unit : units) unit.draw(batch, tmap);
 	}
 
 	public void handleInput() {
@@ -74,8 +75,12 @@ public class PlayState extends GameState{
 			int a = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 			int b = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 			if (b < tmap.mapLength && b >= 0 && a < tmap.mapWidth && a >= 0 ) {
-				heroDbu.setCol(a);
-				heroDbu.setRow(b);
+				units.get(unitTracker).setCol(a);
+				units.get(unitTracker).setRow(b);
+				unitTracker++;
+				if (unitTracker == units.size()) {
+					unitTracker = 0;
+				}
 			}
 		}
 	}

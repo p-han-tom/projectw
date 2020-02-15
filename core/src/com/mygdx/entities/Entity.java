@@ -34,4 +34,6 @@ public abstract class Entity {
 		this.col = col;
 	}
 	
+	
+	
 }
