@@ -39,4 +39,5 @@ public abstract class Entity {
 	public static void setColor(Color color) {
 		Entity.color = color;
 	}
+	//test comment for commit 
 }
