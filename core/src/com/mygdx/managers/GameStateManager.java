@@ -29,6 +29,7 @@ public class GameStateManager {
 	}
 	
 	public void draw() {
+		gameState.init();
 		gameState.draw();
 	}
 }
