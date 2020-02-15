@@ -1,5 +1,7 @@
 package com.mygdx.gamestates;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -8,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.entities.Hero;
+import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
@@ -21,6 +24,7 @@ public class PlayState extends GameState{
 	private static int spritedim = 16;
 	private static SpriteBatch batch;
 	private static TileMap tmap;
+	public static ArrayList<Unit> units = new ArrayList<Unit>();
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -43,7 +47,7 @@ public class PlayState extends GameState{
 		sr.end();
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		hero = new Hero(1,1,heroSprite);
+		hero = new Hero("Dbu", 1, 1, heroSprite);
 		
 		batch = new SpriteBatch();
 	}

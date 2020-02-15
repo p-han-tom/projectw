@@ -9,11 +9,13 @@ import com.mygdx.gamestates.PlayState;
 import com.mygdx.maps.TileMap;
 
 public abstract class Entity {
+	private static String name;
 	private static int col; 
 	private static int row;
 	private static Color color;
 	private static Sprite sprite;
-	public Entity(int col, int row, Sprite sprite) {
+	public Entity(String name, int col, int row, Sprite sprite) {
+		this.name = name;
 		this.col = col;
 		this.row= row;
 		this.color = color;
@@ -51,5 +53,11 @@ public abstract class Entity {
 	}
 	public static void setSprite(Sprite sprite) {
 		Entity.sprite = sprite;
+	}
+	public static String getName() {
+		return name;
+	}
+	public static void setName(String name) {
+		Entity.name = name;
 	}
 }

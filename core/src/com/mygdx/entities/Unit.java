@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public abstract class Unit extends Entity{
 
-	public Unit(int col, int row, Sprite sprite) {
-		super(col, row, sprite);
+	public Unit(String name, int col, int row, Sprite sprite) {
+		super(name, col, row, sprite);
 	}
 
 }
