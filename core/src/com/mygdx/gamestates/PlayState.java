@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.entities.Player;
+import com.mygdx.entities.Hero;
 import com.mygdx.game.Game;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
@@ -17,7 +17,7 @@ import com.mygdx.maps.GridMap;
 public class PlayState extends GameState{
 	private static GridMap map;
 	private static ShapeRenderer sr;
-	private static Player player;
+	private static Hero player;
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch;
@@ -41,7 +41,7 @@ public class PlayState extends GameState{
 		sr.end();
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite playerSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		player = new Player(1,1,Color.RED, playerSprite);
+		player = new Hero(1,1, playerSprite);
 		
 		batch = new SpriteBatch();
 	}
@@ -63,11 +63,12 @@ public class PlayState extends GameState{
 		//player.setRight(GameKeys.isDown(GameKeys.RIGHT));
 		//player.setUp(GameKeys.isDown(GameKeys.UP));
 		if (MouseButtons.isLeftPressed()) {
-			int a = (MouseButtons.getX()-map.offsetX)/map.tileDim;
-			int b = (Game.HEIGHT-(MouseButtons.getY()+map.offsetY))/map.tileDim;
-			if (b < map.mapLength && b >= 0 && a < map.mapWidth && a >= 0 && map.getMap()[b][a] == 0) {
-				player.setCol(a);
-				player.setRow(b);
+			// move this to Player.move eventually
+			int col = (MouseButtons.getX()-map.offsetX)/map.tileDim;
+			int row = (Game.HEIGHT-(MouseButtons.getY()+map.offsetY))/map.tileDim;
+			if (row < map.mapLength && row >= 0 && col < map.mapWidth && col >= 0 && map.getMap()[row][col] == 0) {
+				player.setCol(col);
+				player.setRow(row);
 			}
 		}
 	}

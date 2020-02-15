@@ -13,7 +13,7 @@ public abstract class Entity {
 	private static int row;
 	private static Color color;
 	private static Sprite sprite;
-	public Entity(int col, int row, Color color, Sprite sprite) {
+	public Entity(int col, int row, Sprite sprite) {
 		this.col = col;
 		this.row= row;
 		this.color = color;
