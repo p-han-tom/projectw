@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.managers.GameInputProcessor;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
+import com.mygdx.managers.MouseButtons;
 
 public class Game extends ApplicationAdapter {
 	public static int WIDTH;
@@ -41,5 +42,6 @@ public class Game extends ApplicationAdapter {
 		gsm.draw();
 		
 		GameKeys.update();
+		MouseButtons.update();
 	}
 }
