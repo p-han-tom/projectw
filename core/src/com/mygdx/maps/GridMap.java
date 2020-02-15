@@ -30,16 +30,16 @@ public class GridMap {
 				if (map[row][col]==0) {
 					sr.begin(ShapeType.Line);
 					sr.setColor(Color.WHITE);
-					sr.rect(row*tileDim+offsetX, col*tileDim+offsetY, tileDim, tileDim);
+					sr.rect(col*tileDim+offsetX, row*tileDim+offsetY, tileDim, tileDim);
 				}
 				else if (map[row][col]==1) {
 					sr.begin(ShapeType.Filled);
 					sr.setColor(Color.WHITE);
-					sr.rect(row*tileDim+offsetX, col*tileDim+offsetY, tileDim, tileDim);
+					sr.rect(col*tileDim+offsetX, row*tileDim+offsetY, tileDim, tileDim);
 					sr.end();
 					sr.begin(ShapeType.Line);
 					sr.setColor(Color.BLACK);
-					sr.rect(row*tileDim+offsetX, col*tileDim+offsetY, tileDim, tileDim);
+					sr.rect(col*tileDim+offsetX, row*tileDim+offsetY, tileDim, tileDim);
 				}
 				sr.end();
 			}

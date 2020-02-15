@@ -1,24 +1,30 @@
 package com.mygdx.entities;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.gamestates.PlayState;
 import com.mygdx.maps.GridMap;
 
 public abstract class Entity {
 	private static int col; 
 	private static int row;
 	private static Color color;
-	public Entity(int col, int row, Color color) {
+	private static Sprite sprite;
+	public Entity(int col, int row, Color color, Sprite sprite) {
 		this.col = col;
 		this.row= row;
 		this.color = color;
+		this.setSprite(sprite);
+		sprite.setSize(GridMap.tileDim, GridMap.tileDim);
 	}
-	public static void draw(ShapeRenderer sr, GridMap map) {
-		sr.begin(ShapeType.Filled);
-		sr.setColor(color);
-		sr.circle(col*map.tileDim+map.tileDim/2+map.offsetX, row*map.tileDim+map.tileDim/2+map.offsetY, (int)(map.tileDim/2*0.8));
-		sr.end();
+	public static void draw(SpriteBatch batch, GridMap map) {
+		batch.begin();
+		sprite.setPosition(col*map.tileDim+map.offsetX, row*map.tileDim+map.offsetY);
+		sprite.draw(batch);
+		batch.end();
 		
 	}
 	public static int getCol() {
@@ -40,4 +46,10 @@ public abstract class Entity {
 		Entity.color = color;
 	}
 	//test comment for commit 
+	public static Sprite getSprite() {
+		return sprite;
+	}
+	public static void setSprite(Sprite sprite) {
+		Entity.sprite = sprite;
+	}
 }
