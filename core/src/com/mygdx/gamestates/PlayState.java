@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.entities.Hero;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.managers.GameKeys;
@@ -24,8 +23,8 @@ import com.mygdx.ui.TextBox;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
-	private static Hero heroDbu;
-	private static Hero heroMee;
+	private static Unit heroDbu;
+	private static Unit heroMee;
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch = new SpriteBatch();
@@ -48,7 +47,7 @@ public class PlayState extends GameState{
 					   	{1,0,0,0,0,1,0,1},
 					  	{1,1,1,1,1,1,1,1}};
 		
-		tmap = new TileMap(mapint, 50);
+		tmap = new TileMap(mapint, 60);
 		
 		sr = new ShapeRenderer();
 		sr.setAutoShapeType(true);
@@ -57,11 +56,11 @@ public class PlayState extends GameState{
 		System.out.println(tmap.offsetX + " " + tmap.offsetY);
 		
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		heroDbu = new Hero("Dbu", 1, 1, tmap.tileDim, heroDbuSprite);
+		heroDbu = new Unit("Dbu", 1, 1, tmap.tileDim, heroDbuSprite, true);
 		units.add(heroDbu);
 		
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Hero("Mee", 3, 2, tmap.tileDim, heroMeeSprite);
+		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, true);
 		units.add(heroMee);
 		
 		units = TurnManager.newTurnOrder(units);
