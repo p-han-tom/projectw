@@ -80,12 +80,12 @@ public class PlayState extends GameState{
 	}
 
 	public void handleInput() {
+		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
+		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		if (MouseButtons.isLeftPressed()) {
-			int a = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
-			int b = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
-			if (b < tmap.mapLength && b >= 0 && a < tmap.mapWidth && a >= 0 ) {
-				units.get(unitTracker).setCol(a);
-				units.get(unitTracker).setRow(b);
+			if (mouseRow < tmap.mapLength && mouseRow >= 0 && mouseCol < tmap.mapWidth && mouseCol >= 0 ) {
+				units.get(unitTracker).setCol(mouseCol);
+				units.get(unitTracker).setRow(mouseRow);
 				unitTracker++;
 				if (unitTracker == units.size()) {
 					unitTracker = 0;
