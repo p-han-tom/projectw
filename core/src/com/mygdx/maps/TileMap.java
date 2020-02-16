@@ -11,20 +11,13 @@ import com.mygdx.game.*;
 public class TileMap {
 	private Tile[][] map;
 	private SpriteBatch drawer = new SpriteBatch();
-	public int tileDim;
-	public int offsetX;
-	public int offsetY;
-	
-	public int mapLength, mapWidth;
-
 	private static Map<Integer, Tile> tileKey = new HashMap<>();
-	
-	
+	public int tileDim, offsetX, offsetY, mapLength, mapWidth;
+
 	public TileMap(int[][] map, int tileDim) {
 		
 		//intakes a 2d int array and copies dimensions to tile array
 		this.map = new Tile[map.length][map[0].length];
-		//also takes in a tile dimension parameter 
 		this.tileDim = tileDim;
 		
 		mapLength = map.length;

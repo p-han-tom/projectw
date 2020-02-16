@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
+import com.mygdx.managers.BattleManager;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
 import com.mygdx.managers.MouseButtons;
@@ -34,6 +35,7 @@ public class PlayState extends GameState{
 	private static List<Unit> units = new ArrayList<Unit>();
 	private static int unitTracker = 0;
 	private static BitmapFont font;
+	private static BattleManager combat;
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -53,8 +55,8 @@ public class PlayState extends GameState{
 		tmap = new TileMap(mapint, 60);
 		
 		sr = new ShapeRenderer();
-		sr.setAutoShapeType(true);
-		sr.end();
+//		sr.setAutoShapeType(true);
+//		sr.end();
 		
 		// shitty font
 		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
@@ -62,7 +64,6 @@ public class PlayState extends GameState{
 		
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
-		System.out.println(tmap.offsetX + " " + tmap.offsetY);
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
 		heroDbu = new Unit("Dbu", 1, 1, tmap.tileDim, heroDbuSprite, true);
 		units.add(heroDbu);
@@ -70,7 +71,9 @@ public class PlayState extends GameState{
 		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, true);
 		units.add(heroMee);
 		
+		
 		// When the level starts, have each unit roll for initiative
+		combat = new BattleManager(tmap, units);
 		units = TurnManager.newTurnOrder(units);
 	}
 
@@ -79,13 +82,12 @@ public class PlayState extends GameState{
 	}
 
 	public void draw() {
-		tmap.draw();
-		for (Unit unit : units) unit.draw(batch, tmap);
+		combat.draw();
 		
 		// this below is very basic ui but once its fleshed out more it will belong in a ui class. It displays whose turn it is
 		batch.begin();
 		font.setColor(Color.WHITE);
-		font.draw(batch, "It is currently "+units.get(unitTracker).getName()+"'s turn", 10, Game.HEIGHT-10);
+		font.draw(batch, "It is currently "+combat.getCurrentUnit().getName()+"'s turn", 10, Game.HEIGHT-10);
 		batch.end();
 	}
 
@@ -95,25 +97,14 @@ public class PlayState extends GameState{
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		
 		// This loops through the units to see if it is being hovered over. Probably belongs somewhere else
-		for (Unit unit:units) {
+		for (Unit unit:combat.units) {
 			if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
 				String text = unit.getName();
 				TextBox.draw(batch, font, sr, MouseButtons.getX()+20, Game.HEIGHT-MouseButtons.getY(), text, Color.WHITE, Color.BLACK);
 			}
 		}
 		
-		// Moves the unit to the tile if it is clicked. Probably belongs somewhere else
-		if (MouseButtons.isLeftPressed()) {
-			if (mouseRow < tmap.mapLength && mouseRow >= 0 && mouseCol < tmap.mapWidth && mouseCol >= 0 ) {
-				if (!tmap.getTile(mouseRow, mouseCol).passable) return;
-				units.get(unitTracker).move(mouseRow, mouseCol);
-				unitTracker++;
-				if (unitTracker == units.size()) {
-					unitTracker = 0;
-					units = TurnManager.newTurnOrder(units);
-				}
-			}
-		}
+		combat.handleTurn(mouseRow, mouseCol);
 	}
 
 	public void dispose() {
