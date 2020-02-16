@@ -9,13 +9,13 @@ public abstract class Entity {
 	private int col; 
 	private int row;
 	private Sprite sprite;
-
-	public Entity(String name, int col, int row, Sprite sprite) {
+	
+	public Entity(String name, int col, int row, int tileDim, Sprite sprite) {
 		this.setName(name);
 		this.col = col;
 		this.row= row;
 		this.sprite = sprite;
-		sprite.setSize(TileMap.tileDim, TileMap.tileDim);
+		sprite.setSize(tileDim, tileDim);
 	}
 
 	public void draw(SpriteBatch batch, TileMap map) {

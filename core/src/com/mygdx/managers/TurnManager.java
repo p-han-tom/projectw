@@ -9,10 +9,12 @@ import com.mygdx.entities.Unit;
 
 public abstract class TurnManager {
 	public static Unit currentTurn;
+	
 	public static List<Unit> newTurnOrder(List<Unit> units) {
 		List<Unit> turnOrder = new ArrayList<Unit>();
 		HashMap<Integer, Unit> initiativeAndUnitMap = new HashMap<Integer, Unit>();
 		List<Integer> initiativeRolls = new ArrayList<Integer>();
+		
 		for (Unit unit:units) {
 			int roll = unit.rollInitiative();
 			while (initiativeRolls.contains(roll)) {

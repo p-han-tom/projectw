@@ -54,13 +54,14 @@ public class PlayState extends GameState{
 		sr.setAutoShapeType(true);
 		sr.end();
 		spritesheet = new Texture("placeholder/sheet.png");
+		System.out.println(tmap.offsetX + " " + tmap.offsetY);
 		
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		heroDbu = new Hero("Dbu", 1, 1, heroDbuSprite);
+		heroDbu = new Hero("Dbu", 1, 1, tmap.tileDim, heroDbuSprite);
 		units.add(heroDbu);
 		
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
+		heroMee = new Hero("Mee", 3, 2, tmap.tileDim, heroMeeSprite);
 		units.add(heroMee);
 		
 		units = TurnManager.newTurnOrder(units);
@@ -91,9 +92,13 @@ public class PlayState extends GameState{
 			}
 		}
 		if (MouseButtons.isLeftPressed()) {
+			
 			if (mouseRow < tmap.mapLength && mouseRow >= 0 && mouseCol < tmap.mapWidth && mouseCol >= 0 ) {
-				units.get(unitTracker).setCol(mouseCol);
-				units.get(unitTracker).setRow(mouseRow);
+
+				if (!tmap.getTile(mouseRow, mouseCol).passable) return;
+				
+				units.get(unitTracker).move(mouseRow, mouseCol);
+				
 				unitTracker++;
 				if (unitTracker == units.size()) {
 					unitTracker = 0;
