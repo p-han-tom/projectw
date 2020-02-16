@@ -10,6 +10,8 @@ import com.mygdx.entities.Unit;
 public abstract class TurnManager {
 	public static Unit currentTurn;
 	
+	// Kinda shitty thing that will roll initiative for each unit and return an array with the units in their turn order
+	// Currently doesn't account for initiative bonus (?) because units dont have stats yet 
 	public static List<Unit> newTurnOrder(List<Unit> units) {
 		List<Unit> turnOrder = new ArrayList<Unit>();
 		HashMap<Integer, Unit> initiativeAndUnitMap = new HashMap<Integer, Unit>();
@@ -24,6 +26,7 @@ public abstract class TurnManager {
 			initiativeAndUnitMap.put(roll, unit);
 		}
 		Collections.sort(initiativeRolls);
+		Collections.reverse(initiativeRolls);
 		for (Integer roll:initiativeRolls) {
 			turnOrder.add(initiativeAndUnitMap.get(roll));
 		}

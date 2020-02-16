@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.maps.TileMap;
 
+// An entity is anything that has a position on the map
 public abstract class Entity {
 	private String name;
 	private int col; 
