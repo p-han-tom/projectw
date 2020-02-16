@@ -16,6 +16,7 @@ import com.mygdx.game.Game;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
 import com.mygdx.managers.MouseButtons;
+import com.mygdx.managers.TurnManager;
 import com.mygdx.maps.TileMap;
 
 public class PlayState extends GameState{
@@ -58,6 +59,7 @@ public class PlayState extends GameState{
 		heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
 		units.add(heroMee);
 		
+		units = TurnManager.newTurnOrder(units);
 	}
 
 	public void update(float dt) {
@@ -80,6 +82,7 @@ public class PlayState extends GameState{
 				unitTracker++;
 				if (unitTracker == units.size()) {
 					unitTracker = 0;
+					units = TurnManager.newTurnOrder(units);
 				}
 			}
 		}
