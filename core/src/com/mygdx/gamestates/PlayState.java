@@ -76,12 +76,9 @@ public class PlayState extends GameState{
 		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, 4);
 		units.add(heroMee);
 
-
-
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units);
 		units = TurnManager.newTurnOrder(units);
-
 	}
 
 	public void update(float dt) {

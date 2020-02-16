@@ -10,7 +10,7 @@ import com.mygdx.game.*;
 
 public class TileMap {
 	private Tile[][] map;
-	private SpriteBatch drawer = new SpriteBatch();
+	private SpriteBatch batch = new SpriteBatch();
 	private static Map<Integer, Tile> tileKey = new HashMap<>();
 	public int tileDim, offsetX, offsetY, mapLength, mapWidth;
 
@@ -47,7 +47,7 @@ public class TileMap {
 	public void draw() {
 		for (int row = 0; row < map.length; row ++) {
 			for (int col = 0; col < map[0].length; col ++) {
-				map[row][col].render(drawer, row, col);
+				map[row][col].render(batch, row, col);
 				
 			}
 		}
