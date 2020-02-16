@@ -72,7 +72,6 @@ public class PlayState extends GameState{
 	}
 
 	public void handleInput() {
-		
 		if (MouseButtons.isLeftPressed()) {
 			int a = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 			int b = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;

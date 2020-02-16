@@ -18,11 +18,9 @@ public abstract class TurnManager {
 			while (initiativeRolls.contains(roll)) {
 				roll = unit.rollInitiative();
 			}
-			System.out.println(roll);
 			initiativeRolls.add(roll);
 			initiativeAndUnitMap.put(roll, unit);
 		}
-		System.out.println();
 		Collections.sort(initiativeRolls);
 		for (Integer roll:initiativeRolls) {
 			turnOrder.add(initiativeAndUnitMap.get(roll));
