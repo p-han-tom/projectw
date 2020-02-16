@@ -48,38 +48,22 @@ public class PlayState extends GameState{
 		// Define the map. This should be replaced eventually with some dungeon generation algorithim or something
 		// THE MAP IS UPSIDE DOWN BUT EVERYTHING STILL WORKS
 		int[][] mapint = {{1,1,1,1,1,1,1,1},
-<<<<<<< HEAD
-						{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					   	{1,0,0,0,0,0,0,1},
-					  	{1,1,1,1,1,1,1,1}};
-		
-=======
-				{1,0,1,0,0,0,0,1},
-				{1,0,1,0,0,0,0,1},
-				{1,0,1,0,0,0,0,1},
-				{1,0,0,0,0,1,0,1},
-				{1,0,0,0,0,1,0,1},
-				{1,0,0,0,0,1,0,1},
-				{1,1,1,1,1,1,1,1}};
+						{1,0,1,0,0,0,0,1},
+						{1,0,1,0,0,0,0,1},
+						{1,0,1,0,0,0,0,1},
+						{1,0,0,0,0,1,0,1},
+						{1,0,0,0,0,1,0,1},
+						{1,0,0,0,0,1,0,1},
+						{1,1,1,1,1,1,1,1}};
 
->>>>>>> ed14294bad38e7ec1d6d0dab7d01ccdd3150fcd9
 		tmap = new TileMap(mapint, 60);
 
 		sr = new ShapeRenderer();
-<<<<<<< HEAD
-		sr.setAutoShapeType(true);
-		sr.end();
-		
-=======
+
 		//		sr.setAutoShapeType(true);
 		//		sr.end();
 
 		// shitty font
->>>>>>> ed14294bad38e7ec1d6d0dab7d01ccdd3150fcd9
 		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
 		font.getData().setScale(0.5f, 0.5f);
 
@@ -91,18 +75,13 @@ public class PlayState extends GameState{
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
 		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, 4);
 		units.add(heroMee);
-<<<<<<< HEAD
-		
-		// When the level starts, have each unit roll for initiative
-		combat = new BattleManager(tmap, units);
-=======
+
 
 
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units);
 		units = TurnManager.newTurnOrder(units);
 
->>>>>>> ed14294bad38e7ec1d6d0dab7d01ccdd3150fcd9
 	}
 
 	public void update(float dt) {
