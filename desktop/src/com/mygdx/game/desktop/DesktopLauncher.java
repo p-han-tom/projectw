@@ -11,6 +11,7 @@ public class DesktopLauncher {
 		config.height = 400;
 		config.width = 500;
 		config.resizable = false;
+		config.fullscreen = false;
 		//test comment bruv
 	}
 }
