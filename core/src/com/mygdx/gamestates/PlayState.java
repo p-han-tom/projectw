@@ -43,38 +43,36 @@ public class PlayState extends GameState{
 	
 	public void init() {
 		// Define the map. This should be replaced eventually with some dungeon generation algorithim or something
+		// THE MAP IS UPSIDE DOWN BUT EVERYTHING STILL WORKS
 		int[][] mapint = {{1,1,1,1,1,1,1,1},
-						{1,0,1,0,0,0,0,1},
-					   	{1,0,1,0,0,0,0,1},
-					   	{1,0,1,0,0,0,0,1},
-					   	{1,0,0,0,0,1,0,1},
-					   	{1,0,0,0,0,1,0,1},
-					   	{1,0,0,0,0,1,0,1},
+						{1,0,0,0,0,0,0,1},
+					   	{1,0,0,0,0,0,0,1},
+					   	{1,0,0,0,0,0,0,1},
+					   	{1,0,0,0,0,0,0,1},
+					   	{1,0,0,0,0,0,0,1},
+					   	{1,0,0,0,0,0,0,1},
 					  	{1,1,1,1,1,1,1,1}};
 		
 		tmap = new TileMap(mapint, 60);
 		
 		sr = new ShapeRenderer();
-//		sr.setAutoShapeType(true);
-//		sr.end();
+		sr.setAutoShapeType(true);
+		sr.end();
 		
-		// shitty font
 		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
 		font.getData().setScale(0.5f, 0.5f);
 		
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		heroDbu = new Unit("Dbu", 1, 1, tmap.tileDim, heroDbuSprite, true);
+		heroDbu = new Unit("Dbu", 1, 1, tmap.tileDim, heroDbuSprite, 4);
 		units.add(heroDbu);
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, true);
+		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, 4);
 		units.add(heroMee);
-		
 		
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units);
-		units = TurnManager.newTurnOrder(units);
 	}
 
 	public void update(float dt) {
