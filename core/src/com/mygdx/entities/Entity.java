@@ -11,7 +11,7 @@ public abstract class Entity {
 	private Sprite sprite;
 	
 	public Entity(String name, int col, int row, Sprite sprite) {
-		this.name = name;
+		this.setName(name);
 		this.col = col;
 		this.row= row;
 		this.sprite = sprite;
@@ -32,6 +32,14 @@ public abstract class Entity {
 	
 	public void setCol(int col) {
 		this.col = col;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

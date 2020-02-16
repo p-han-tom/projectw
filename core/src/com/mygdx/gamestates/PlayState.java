@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -29,6 +30,7 @@ public class PlayState extends GameState{
 	private static TileMap tmap;
 	private static List<Unit> units = new ArrayList<Unit>();
 	private static int unitTracker = 0;
+	private static BitmapFont font = new BitmapFont();
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -69,6 +71,12 @@ public class PlayState extends GameState{
 	public void draw() {
 		tmap.draw();
 		for (Unit unit : units) unit.draw(batch, tmap);
+		
+		// this below is ui prototype but it belongs in a ui manager or class idk
+		batch.begin();
+		font.setColor(Color.WHITE);
+		font.draw(batch, "It is currently "+units.get(unitTracker).getName()+"'s turn", 10, Game.HEIGHT-10);
+		batch.end();
 	}
 
 	public void handleInput() {
