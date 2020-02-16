@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+//see comments for abstract class Tile
 public class TreeTile extends Tile {
 
 	public TreeTile(int tileDm, int offx, int offy) {

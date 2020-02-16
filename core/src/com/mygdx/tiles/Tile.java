@@ -8,10 +8,17 @@ import com.mygdx.maps.TileMap;
 public abstract class Tile {
 	
 	protected static Texture spritesheet = new Texture("placeholder/sheet.png");
+	
+	//tile dimensions is the size of a tile
+	//offsets x and y are for centering the grid 
+	//movement is for the movement restriction of a tile
+	//sprite dimension is for the size of a sprite on the sprite sheet
 	protected int tileDim, offx, offy, movement;
 	protected int spritedim = 16;
 	
 	protected Sprite sprite;
+	
+	//impassable tiles such as TreeTile cannot be moved through normally
 	public boolean passable;
 		
 	public Tile(int tileDm, int offx, int offy) {
@@ -20,6 +27,7 @@ public abstract class Tile {
 		this.offy = offy;
 	}
 	
+	//method for drawing the tile
 	public abstract void render(SpriteBatch batch, int row, int col);
 
 }

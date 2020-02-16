@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+//see comments for abstract class Tile
 public class GrassTile extends Tile {
 
 	public GrassTile(int tileDim, int offx, int offy) {
