@@ -17,19 +17,24 @@ public abstract class Entity {
 		this.sprite = sprite;
 		sprite.setSize(tileDim, tileDim);
 	}
-	
+
 	public void draw(SpriteBatch batch, TileMap map) {
 		batch.begin();
 		sprite.setPosition(col*map.tileDim+map.offsetX, row*map.tileDim+map.offsetY);
 		sprite.draw(batch);
 		batch.end();
-		
+
 	}
-	
+	public int getRow() {
+		return row;
+	}
+	public int getCol() {
+		return col;
+	}
 	public void setRow(int row) {
 		this.row = row;
 	}
-	
+
 	public void setCol(int col) {
 		this.col = col;
 	}
@@ -41,7 +46,7 @@ public abstract class Entity {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
-	
+
+
+
 }

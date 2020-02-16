@@ -3,6 +3,7 @@ package com.mygdx.gamestates;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ import com.mygdx.managers.GameStateManager;
 import com.mygdx.managers.MouseButtons;
 import com.mygdx.managers.TurnManager;
 import com.mygdx.maps.TileMap;
+import com.mygdx.ui.TextBox;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
@@ -83,6 +85,12 @@ public class PlayState extends GameState{
 	public void handleInput() {
 		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
+		for (Unit unit:units) {
+			if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
+				String text = unit.getName();
+				TextBox.draw(batch, font, sr, MouseButtons.getX()+20, Game.HEIGHT-MouseButtons.getY(), text, Color.WHITE, Color.BLACK);
+			}
+		}
 		if (MouseButtons.isLeftPressed()) {
 			
 			if (mouseRow < tmap.mapLength && mouseRow >= 0 && mouseCol < tmap.mapWidth && mouseCol >= 0 ) {
