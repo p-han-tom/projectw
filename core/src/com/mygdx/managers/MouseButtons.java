@@ -33,6 +33,14 @@ public class MouseButtons {
 	public static boolean isLeftDown() {
 		return Gdx.input.isButtonPressed(Input.Buttons.LEFT);
 	}
+	public static boolean isRightPressed() {
+		clicks[RIGHT_CLICK] = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
+		return clicks[RIGHT_CLICK] && !pclicks[RIGHT_CLICK];
+	}
+	
+	public static boolean isRightDown() {
+		return Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
+	}
 	public static int getX() {
 		return Gdx.input.getX();
 	}
