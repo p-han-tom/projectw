@@ -1,8 +1,10 @@
 package com.mygdx.gamestates;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -31,7 +33,7 @@ public class PlayState extends GameState{
 	private static TileMap tmap;
 	private static List<Unit> units = new ArrayList<Unit>();
 	private static int unitTracker = 0;
-	private static BitmapFont font = new BitmapFont();
+	private static BitmapFont font;
 	
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -53,6 +55,10 @@ public class PlayState extends GameState{
 		sr = new ShapeRenderer();
 		sr.setAutoShapeType(true);
 		sr.end();
+		
+		// shitty font
+		font = new BitmapFont(Gdx.files.internal("font/origa_white.fnt"), false);
+		font.getData().setScale(0.5f, 0.5f);
 		
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
