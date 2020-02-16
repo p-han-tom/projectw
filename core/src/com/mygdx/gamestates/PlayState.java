@@ -23,7 +23,7 @@ public class PlayState extends GameState{
 	private static Hero heroDbu;
 	private static Hero heroMee;
 	private static Texture spritesheet;
-	private int spritedim = 16;
+	private static int spritedim = 16;
 	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
 	private static List<Unit> units = new ArrayList<Unit>();
@@ -54,7 +54,7 @@ public class PlayState extends GameState{
 		heroDbu = new Hero("Dbu", 1, 1, heroDbuSprite);
 		units.add(heroDbu);
 		
-		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
+		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
 		heroMee = new Hero("Mee", 2, 2, heroMeeSprite);
 		units.add(heroMee);
 		
