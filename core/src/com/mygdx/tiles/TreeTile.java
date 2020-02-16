@@ -4,13 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class GrassTile extends Tile {
+public class TreeTile extends Tile {
 
-	public GrassTile(int tileDim, int offx, int offy) {
-		super(tileDim, offx, offy);
-		sprite = new Sprite(new TextureRegion(spritesheet, 6*spritedim+6, 0*spritedim, spritedim, spritedim));
+	public TreeTile(int tileDm, int offx, int offy) {
+		super(tileDm, offx, offy);
+		sprite = new Sprite(new TextureRegion(spritesheet, 0, 1*spritedim+1, spritedim, spritedim));
 		sprite.setSize(tileDim, tileDim);
-		passable = true;
+		passable = false;
 		movement = 0;
 	}
 

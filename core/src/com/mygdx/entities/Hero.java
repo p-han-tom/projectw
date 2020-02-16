@@ -4,10 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Hero extends Unit{
-	public Hero(String name, int col, int row, Sprite sprite) {
-		super(name, col, row, sprite);
+	public Hero(String name, int col, int row, int tileDim, Sprite sprite) {
+		super(name, col, row, tileDim, sprite);
 	}
 	public void move(int row, int col) {
-		// move handler goes here (currently in playstate.java)
+		this.setCol(col);
+		this.setRow(row);
 	}
 }
