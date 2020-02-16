@@ -57,7 +57,7 @@ public class PlayState extends GameState{
 		sr.end();
 		
 		// shitty font
-		font = new BitmapFont(Gdx.files.internal("font/origa_white.fnt"), false);
+		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
 		font.getData().setScale(0.5f, 0.5f);
 		
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess

@@ -1,7 +1,7 @@
 info face="Origami Mommy" size=32 bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=1,1 outline=0
-common lineHeight=32 base=28 scaleW=256 scaleH=256 pages=2 packed=0 alphaChnl=0 redChnl=3 greenChnl=3 blueChnl=3
-page id=0 file="origa_black_0.png"
-page id=1 file="origa_black_1.png"
+common lineHeight=32 base=28 scaleW=256 scaleH=256 pages=2 packed=0 alphaChnl=0 redChnl=4 greenChnl=4 blueChnl=4
+page id=0 file="origa_0.png"
+page id=1 file="origa_1.png"
 chars count=104
 char id=32   x=254   y=0     width=1     height=1     xoffset=0     yoffset=0     xadvance=14    page=0  chnl=15
 char id=33   x=26    y=58    width=17    height=28    xoffset=1     yoffset=0     xadvance=21    page=1  chnl=15
