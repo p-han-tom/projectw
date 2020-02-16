@@ -108,13 +108,14 @@ public class PlayState extends GameState{
 		if (statboxOpen == true) {
 			if (MouseButtons.isLeftPressed() || MouseButtons.isRightPressed()) {
 				statbox = null;
+				statboxOpen = false;
 			}
 		}
 		if (MouseButtons.isRightPressed()) {
 			for (Unit unit:combat.units) {
 				if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
 					String text = unit.getName();
-					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim/2, text, Color.WHITE, Color.BLACK);
+					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim, text, Color.WHITE, Color.BLACK);
 					statboxOpen = true;
 				}
 			}
