@@ -20,6 +20,7 @@ public abstract class Tile {
 	
 	//impassable tiles such as TreeTile cannot be moved through normally
 	public boolean passable;
+	public boolean isOccupied = false;
 		
 	public Tile(int tileDm, int offx, int offy) {
 		this.tileDim = tileDm;

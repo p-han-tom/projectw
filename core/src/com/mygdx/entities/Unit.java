@@ -24,9 +24,8 @@ public class Unit extends Entity{
 			return "("+x+", "+y+")";
 		}
 	}
-	
+	public List<Pair> range = new ArrayList<Pair>();
 	private int moves, mLength, mWidth;
-	private List<Pair> range = new ArrayList<Pair>();
 	private boolean[][] visited;
 	private ShapeRenderer sr = new ShapeRenderer();
 	
@@ -54,7 +53,7 @@ public class Unit extends Entity{
 	//Movement range methods
 	public void findRange(TileMap map, int row, int col, int moves) {
 		if (moves >= 0 && row < map.mapLength && col < map.mapWidth && 
-			map.getTile(row, col).passable) {
+			map.getTile(row, col).passable && !map.getTile(row, col).isOccupied) {
 			if (!visited[row][col]) {
 				range.add(new Pair(row, col));
 				visited[row][col] = true;

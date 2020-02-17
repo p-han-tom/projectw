@@ -30,14 +30,20 @@ public class BattleManager {
 		this.units = TurnManager.newTurnOrder(units);
 		this.traps = traps;
 		for (Unit unit : units) unit.mapContext(map.mapLength, map.mapWidth);
+		
 	}
 	
 	public Unit getCurrentUnit() {return units.get(current);}
 	
 	public void draw() {
 		cUnit = units.get(current);
-		cUnit.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
-		units.get(current).displayRange(map.offsetX, map.offsetY);
+		if (cUnit.range.isEmpty()) {
+			for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
+			map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
+			
+			cUnit.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
+		}
+		cUnit.displayRange(map.offsetX, map.offsetY);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Trap trap : traps) trap.draw(batcher, map);
@@ -46,14 +52,9 @@ public class BattleManager {
 	public void handleTurn(int mRow, int mCol) {
 		
 		if (MouseButtons.isLeftPressed()) {
+			
 			if (mRow < map.mapLength && mRow >= 0 && mCol < map.mapWidth && mCol >= 0 && map.getTile(mRow, mCol).passable) {
-				
 				if (!cUnit.inRange(mRow, mCol)) return;
-				for (Unit unit : units) {
-					if (!unit.getName().equals(cUnit.getName()) && 
-					unit.getRow() == cUnit.getRow() && 
-					unit.getCol() == cUnit.getCol()) return;
-				}
 				
 				cUnit.move(mRow, mCol);
 				current++;
@@ -63,6 +64,9 @@ public class BattleManager {
 					units = TurnManager.newTurnOrder(units);
 				}
 				
+				for (Unit unit : units) {
+					map.getTile(unit.getRow(), unit.getCol()).passable = true;
+				}
 				cUnit.clearRange();
 			}
 		}
