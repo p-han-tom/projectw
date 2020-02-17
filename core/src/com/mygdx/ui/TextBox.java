@@ -49,4 +49,7 @@ public class TextBox {
 	public void setPaddingY(int paddingY) {
 		this.paddingY = paddingY;
 	}
+	public void setMaxLineLength(int maxLineLength) {
+		this.maxLineLength = maxLineLength;
+	}
 }

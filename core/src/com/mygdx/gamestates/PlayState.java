@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.managers.BattleManager;
@@ -21,21 +22,30 @@ import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
 import com.mygdx.managers.MouseButtons;
 import com.mygdx.managers.TurnManager;
+import com.mygdx.managers.UIManager;
 import com.mygdx.maps.TileMap;
 import com.mygdx.ui.TextBox;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
-	private static Unit heroDbu;
-	private static Unit heroMee;
+	
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
+	
 	private static List<Unit> units = new ArrayList<Unit>();
+	private static List<Trap> traps = new ArrayList<Trap>();
+	
+	private static Unit heroDbu;
+	private static Unit heroMee;
+	
+	private static Trap trapMagic;
+	
 	private static int unitTracker = 0;
 	private static BitmapFont font;
 	private static BattleManager combat;
+	private static UIManager uim;
 	
 	private static boolean statboxOpen = false;
 	private static TextBox statbox;
@@ -72,10 +82,15 @@ public class PlayState extends GameState{
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
 		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, 2);
 		units.add(heroMee);
-
+		Sprite trapMagicSprite = new Sprite(new TextureRegion(spritesheet, 31*spritedim+31, 11*spritedim+11, spritedim, spritedim));
+		trapMagic = new Trap("Magic trap", 3, 3, tmap.tileDim, trapMagicSprite);
+		traps.add(trapMagic);
+		
 		// When the level starts, have each unit roll for initiative
-		combat = new BattleManager(tmap, units);
+		combat = new BattleManager(tmap, units, traps);
 		units = TurnManager.newTurnOrder(units);
+		
+		uim = new UIManager(combat, tmap);
 	}
 
 	public void update(float dt) {
@@ -91,9 +106,7 @@ public class PlayState extends GameState{
 		font.draw(batch, "It is currently "+combat.getCurrentUnit().getName()+"'s turn", 10, Game.HEIGHT-10);
 		batch.end();
 
-		if (statbox!=null) {
-			statbox.draw(batch, font, sr);
-		}
+		UIManager.draw(batch, font, sr);
 	}
 
 	public void handleInput() {
@@ -101,23 +114,7 @@ public class PlayState extends GameState{
 		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		
-		// Move this to UI manager class bruv
-		if (statboxOpen == true) {
-			if (MouseButtons.isLeftPressed() || MouseButtons.isRightPressed()) {
-				statbox = null;
-				statboxOpen = false;
-			}
-		}
-		if (MouseButtons.isRightPressed()) {
-			for (Unit unit:combat.units) {
-				if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
-					String text = unit.getName();
-					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim, text, Color.WHITE, Color.BLACK);
-					statboxOpen = true;
-				}
-			}
-		}
-		// Above goes to UI manager bruv
+		uim.handleInput(mouseCol, mouseRow);
 		
 		combat.handleTurn(mouseRow, mouseCol);
 	}
