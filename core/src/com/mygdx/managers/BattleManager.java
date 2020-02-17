@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.entities.Unit.Pair;
 import com.mygdx.maps.TileMap;
@@ -17,14 +18,16 @@ public class BattleManager {
 	
 	public TileMap map;
 	public List<Unit> units;
+	public List<Trap> traps;
 	
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer();
 	private int current = 0;
 	
-	public BattleManager(TileMap map, List<Unit> units) {
+	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
 		this.units = TurnManager.newTurnOrder(units);
+		this.traps = traps;
 		for (Unit unit : units) unit.mapContext(map.mapLength, map.mapWidth);
 	}
 	
@@ -33,6 +36,7 @@ public class BattleManager {
 	public void draw() {
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
+		for (Trap trap : traps) trap.draw(batcher, map);
 	}
 	
 	public void handleTurn(int mRow, int mCol) {
