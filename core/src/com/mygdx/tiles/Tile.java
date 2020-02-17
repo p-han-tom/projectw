@@ -28,6 +28,11 @@ public abstract class Tile {
 	}
 	
 	//method for drawing the tile
-	public abstract void render(SpriteBatch batch, int row, int col);
+	public void render(SpriteBatch batch, int row, int col) {
+		batch.begin();
+		sprite.setPosition(col*tileDim+offx, row*tileDim+offy);
+		sprite.draw(batch);
+		batch.end();
+	}
 
 }

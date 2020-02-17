@@ -14,13 +14,4 @@ public class GrassTile extends Tile {
 		passable = true;
 		movement = 0;
 	}
-
-	@Override
-	public void render(SpriteBatch batch, int row, int col) {
-		batch.begin();
-		sprite.setPosition(col*tileDim+offx, row*tileDim+offy);
-		sprite.draw(batch);
-		batch.end();
-	}
-
 }
