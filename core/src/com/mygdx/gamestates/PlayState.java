@@ -28,28 +28,25 @@ import com.mygdx.ui.TextBox;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
-	
+
 	private static Texture spritesheet;
 	private static int spritedim = 16;
 	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
-	
+
 	private static List<Unit> units = new ArrayList<Unit>();
 	private static List<Trap> traps = new ArrayList<Trap>();
-	
+
 	private static Unit heroDbu;
 	private static Unit heroMee;
-	
+
 	private static Trap trapMagic;
-	
+
 	private static int unitTracker = 0;
 	private static BitmapFont font;
 	private static BattleManager combat;
 	private static UIManager uim;
-	
-	private static boolean statboxOpen = false;
-	private static TextBox statbox;
-	
+
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
 	}
@@ -58,13 +55,13 @@ public class PlayState extends GameState{
 		// Define the map. This should be replaced eventually with some dungeon generation algorithim or something
 		// THE MAP IS UPSIDE DOWN BUT EVERYTHING STILL WORKS
 		int[][] mapint = {{1,1,1,1,1,1,1,1},
-						{1,0,1,0,0,0,0,1},
-						{1,0,1,0,0,0,0,1},
-						{1,0,0,0,2,0,0,1},
-						{1,0,0,2,0,0,0,1},
-						{1,0,2,2,0,1,0,1},
-						{1,0,2,2,0,1,0,1},
-						{1,1,1,1,1,1,1,1}};
+				{1,0,1,0,0,0,0,1},
+				{1,0,1,0,0,0,0,1},
+				{1,0,0,0,2,0,0,1},
+				{1,0,0,2,0,0,0,1},
+				{1,0,2,2,0,1,0,1},
+				{1,0,2,2,0,1,0,1},
+				{1,1,1,1,1,1,1,1}};
 
 		tmap = new TileMap(mapint, 60);
 
@@ -85,11 +82,11 @@ public class PlayState extends GameState{
 		Sprite trapMagicSprite = new Sprite(new TextureRegion(spritesheet, 31*spritedim+31, 11*spritedim+11, spritedim, spritedim));
 		trapMagic = new Trap("Magic trap", 3, 3, tmap.tileDim, trapMagicSprite);
 		traps.add(trapMagic);
-		
+
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
 		units = TurnManager.newTurnOrder(units);
-		
+
 		uim = new UIManager(combat, tmap);
 	}
 
@@ -114,9 +111,11 @@ public class PlayState extends GameState{
 		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		
-		uim.handleInput(mouseCol, mouseRow);
+		if (!uim.isStatBoxOpen()) {
+			combat.handleTurn(mouseRow, mouseCol);
+		}
 		
-		combat.handleTurn(mouseRow, mouseCol);
+		uim.handleInput(mouseCol, mouseRow);
 	}
 
 	public void dispose() {

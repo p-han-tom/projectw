@@ -12,7 +12,7 @@ import com.mygdx.maps.TileMap;
 import com.mygdx.ui.TextBox;
 
 public class UIManager {
-	private boolean statboxOpen = false;
+	private static boolean statboxOpen = false;
 	private static TextBox statbox;
 	private BattleManager combat;
 	private TileMap tmap;
@@ -41,5 +41,8 @@ public class UIManager {
 		if (statbox!=null) {
 			statbox.draw(batch, font, sr);
 		}
+	}
+	public static boolean isStatBoxOpen() {
+		return statboxOpen;
 	}
 }
