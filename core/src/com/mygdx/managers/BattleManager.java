@@ -48,10 +48,12 @@ public class BattleManager {
 		if (MouseButtons.isLeftPressed()) {
 			if (mRow < map.mapLength && mRow >= 0 && mCol < map.mapWidth && mCol >= 0 && map.getTile(mRow, mCol).passable) {
 				
-				
-				
-				 
 				if (!cUnit.inRange(mRow, mCol)) return;
+				for (Unit unit : units) {
+					if (!unit.getName().equals(cUnit.getName()) && 
+					unit.getRow() == cUnit.getRow() && 
+					unit.getCol() == cUnit.getCol()) return;
+				}
 				
 				cUnit.move(mRow, mCol);
 				current++;

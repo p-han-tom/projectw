@@ -87,9 +87,7 @@ public class PlayState extends GameState{
 		traps.add(trapMagic);
 		
 		// When the level starts, have each unit roll for initiative
-		combat = new BattleManager(tmap, units, traps);
-		units = TurnManager.newTurnOrder(units);
-		
+		combat = new BattleManager(tmap, units, traps);		
 		uim = new UIManager(combat, tmap);
 	}
 
