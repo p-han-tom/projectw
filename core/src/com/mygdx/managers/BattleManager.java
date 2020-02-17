@@ -21,6 +21,7 @@ public class BattleManager {
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer();
 	private int current = 0;
+	private Unit cUnit;
 	
 	public BattleManager(TileMap map, List<Unit> units) {
 		this.map = map;
@@ -31,17 +32,22 @@ public class BattleManager {
 	public Unit getCurrentUnit() {return units.get(current);}
 	
 	public void draw() {
+		cUnit = units.get(current);
+		cUnit.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
+		units.get(current).displayRange(map.offsetX, map.offsetY);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
+		
 	}
 	
 	public void handleTurn(int mRow, int mCol) {
 		
 		if (MouseButtons.isLeftPressed()) {
 			if (mRow < map.mapLength && mRow >= 0 && mCol < map.mapWidth && mCol >= 0 && map.getTile(mRow, mCol).passable) {
-				Unit cUnit = units.get(current);
 				
-				cUnit.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement()); 
+				
+				
+				 
 				if (!cUnit.inRange(mRow, mCol)) return;
 				
 				cUnit.move(mRow, mCol);
