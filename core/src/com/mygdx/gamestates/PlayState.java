@@ -50,18 +50,15 @@ public class PlayState extends GameState{
 		int[][] mapint = {{1,1,1,1,1,1,1,1},
 						{1,0,1,0,0,0,0,1},
 						{1,0,1,0,0,0,0,1},
-						{1,0,1,0,0,0,0,1},
-						{1,0,0,0,0,1,0,1},
-						{1,0,0,0,0,1,0,1},
+						{1,0,0,0,2,0,0,1},
+						{1,0,0,2,0,0,0,1},
+						{1,0,2,2,0,1,0,1},
 						{1,0,0,0,0,1,0,1},
 						{1,1,1,1,1,1,1,1}};
 
 		tmap = new TileMap(mapint, 60);
 
 		sr = new ShapeRenderer();
-
-		//		sr.setAutoShapeType(true);
-		//		sr.end();
 
 		// shitty font
 		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);

@@ -34,5 +34,9 @@ public abstract class Tile {
 		sprite.draw(batch);
 		batch.end();
 	}
+	
+	public int moveValue() {
+		return movement;
+	}
 
 }

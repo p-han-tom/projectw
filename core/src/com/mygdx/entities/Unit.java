@@ -59,13 +59,23 @@ public class Unit extends Entity{
 			}	
 		} else return;
 		
-		findRange(map,row+1,col,moves-1);
-		findRange(map,row-1,col,moves-1);
-		findRange(map,row,col+1,moves-1);
-		findRange(map,row,col-1,moves-1);
+		findRange(map,row+1,col,moves-map.getTile(row, col).moveValue());
+		findRange(map,row-1,col,moves-map.getTile(row, col).moveValue());
+		findRange(map,row,col+1,moves-map.getTile(row, col).moveValue());
+		findRange(map,row,col-1,moves-map.getTile(row, col).moveValue());
 	}
 	
 	public void clearRange() {
+		
+		for (int i = 0; i < mLength; i ++) {
+			for (int j = 0; j < mLength; j ++) {
+				if (visited[i][j]) System.out.print("* ");
+				else System.out.print("O ");
+			}
+			System.out.println();
+		}
+		
+		
 		visited = new boolean[mLength][mWidth];
 		range.clear();
 	}

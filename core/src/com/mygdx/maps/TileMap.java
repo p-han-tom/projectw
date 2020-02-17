@@ -30,6 +30,7 @@ public class TileMap {
 		//tile keys 
 		tileKey.put(0, new GrassTile(tileDim, offsetX, offsetY));
 		tileKey.put(1, new TreeTile(tileDim, offsetX, offsetY));
+		tileKey.put(2, new MudTile(tileDim, offsetX, offsetY));
 		
 		//loops through each element in int array and creates a tile based off int key value
 		for (int row = 0; row < map.length; row ++) {

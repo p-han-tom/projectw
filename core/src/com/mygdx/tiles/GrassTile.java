@@ -12,6 +12,6 @@ public class GrassTile extends Tile {
 		sprite = new Sprite(new TextureRegion(spritesheet, 6*spritedim+6, 0*spritedim, spritedim, spritedim));
 		sprite.setSize(tileDim, tileDim);
 		passable = true;
-		movement = 0;
+		movement = 1;
 	}
 }
