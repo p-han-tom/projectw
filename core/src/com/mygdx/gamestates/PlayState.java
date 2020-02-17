@@ -67,10 +67,10 @@ public class PlayState extends GameState{
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		heroDbu = new Unit("Dbu", 1, 1, tmap.tileDim, heroDbuSprite, 4);
+		heroDbu = new Unit("Dbu", 1, 1, tmap.tileDim, heroDbuSprite, 2);
 		units.add(heroDbu);
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, 4);
+		heroMee = new Unit("Mee", 3, 2, tmap.tileDim, heroMeeSprite, 2);
 		units.add(heroMee);
 
 		// When the level starts, have each unit roll for initiative

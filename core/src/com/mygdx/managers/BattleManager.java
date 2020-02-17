@@ -45,9 +45,6 @@ public class BattleManager {
 		if (MouseButtons.isLeftPressed()) {
 			if (mRow < map.mapLength && mRow >= 0 && mCol < map.mapWidth && mCol >= 0 && map.getTile(mRow, mCol).passable) {
 				
-				
-				
-				 
 				if (!cUnit.inRange(mRow, mCol)) return;
 				
 				cUnit.move(mRow, mCol);

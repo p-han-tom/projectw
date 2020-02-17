@@ -12,6 +12,6 @@ public class TreeTile extends Tile {
 		sprite = new Sprite(new TextureRegion(spritesheet, 0, 1*spritedim+1, spritedim, spritedim));
 		sprite.setSize(tileDim, tileDim);
 		passable = false;
-		movement = 0;
+		movement = 2;
 	}
 }
