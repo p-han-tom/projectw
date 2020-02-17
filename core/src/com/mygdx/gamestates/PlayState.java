@@ -22,6 +22,7 @@ import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
 import com.mygdx.managers.MouseButtons;
 import com.mygdx.managers.TurnManager;
+import com.mygdx.managers.UIManager;
 import com.mygdx.maps.TileMap;
 import com.mygdx.ui.TextBox;
 
@@ -44,6 +45,7 @@ public class PlayState extends GameState{
 	private static int unitTracker = 0;
 	private static BitmapFont font;
 	private static BattleManager combat;
+	private static UIManager uim;
 	
 	private static boolean statboxOpen = false;
 	private static TextBox statbox;
@@ -87,6 +89,8 @@ public class PlayState extends GameState{
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
 		units = TurnManager.newTurnOrder(units);
+		
+		uim = new UIManager(combat, tmap);
 	}
 
 	public void update(float dt) {
@@ -102,9 +106,7 @@ public class PlayState extends GameState{
 		font.draw(batch, "It is currently "+combat.getCurrentUnit().getName()+"'s turn", 10, Game.HEIGHT-10);
 		batch.end();
 
-		if (statbox!=null) {
-			statbox.draw(batch, font, sr);
-		}
+		UIManager.draw(batch, font, sr);
 	}
 
 	public void handleInput() {
@@ -112,23 +114,7 @@ public class PlayState extends GameState{
 		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		
-		// Move this to UI manager class bruv
-		if (statboxOpen == true) {
-			if (MouseButtons.isLeftPressed() || MouseButtons.isRightPressed()) {
-				statbox = null;
-				statboxOpen = false;
-			}
-		}
-		if (MouseButtons.isRightPressed()) {
-			for (Unit unit:combat.units) {
-				if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
-					String text = unit.getName();
-					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim, text, Color.WHITE, Color.BLACK);
-					statboxOpen = true;
-				}
-			}
-		}
-		// Above goes to UI manager bruv
+		uim.handleInput(mouseCol, mouseRow);
 		
 		combat.handleTurn(mouseRow, mouseCol);
 	}
