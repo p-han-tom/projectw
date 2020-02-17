@@ -3,7 +3,9 @@ package com.mygdx.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -59,23 +61,16 @@ public class Unit extends Entity{
 			}	
 		} else return;
 		
-		findRange(map,row+1,col,moves-map.getTile(row, col).moveValue());
-		findRange(map,row-1,col,moves-map.getTile(row, col).moveValue());
-		findRange(map,row,col+1,moves-map.getTile(row, col).moveValue());
-		findRange(map,row,col-1,moves-map.getTile(row, col).moveValue());
+		if (moves-map.getTile(row, col).moveValue() >= 0) {
+			findRange(map,row+1,col,moves-map.getTile(row, col).moveValue());
+			findRange(map,row-1,col,moves-map.getTile(row, col).moveValue());
+			findRange(map,row,col+1,moves-map.getTile(row, col).moveValue());
+			findRange(map,row,col-1,moves-map.getTile(row, col).moveValue());
+		} else return;
+		
 	}
 	
 	public void clearRange() {
-		
-		for (int i = 0; i < mLength; i ++) {
-			for (int j = 0; j < mLength; j ++) {
-				if (visited[i][j]) System.out.print("* ");
-				else System.out.print("O ");
-			}
-			System.out.println();
-		}
-		
-		
 		visited = new boolean[mLength][mWidth];
 		range.clear();
 	}
@@ -83,6 +78,18 @@ public class Unit extends Entity{
 	public boolean inRange(int row, int col) {
 		for (Pair pair : range) if (pair.x == row && pair.y == col) return true;
 		return false;
+	}
+	
+	public void displayRange(int offx, int offy) {
+		sr.begin(ShapeType.Filled);
+		Gdx.gl.glEnable(GL30.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+		sr.setColor(new Color(0, 1, 0, 0.3f));
+		for (Pair pair : range) {
+			sr.rect(pair.y*this.tileDim+offx, pair.x*this.tileDim+offy, this.tileDim, this.tileDim);
+		}
+		sr.end();
+		Gdx.gl.glDisable(GL30.GL_BLEND);
 	}
 	
 	//getters and setters

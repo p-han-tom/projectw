@@ -6,16 +6,18 @@ import com.mygdx.maps.TileMap;
 
 // An entity is anything that has a position on the map
 public abstract class Entity {
-	private String name;
-	private int col; 
-	private int row;
-	private Sprite sprite;
+	protected String name;
+	protected int col; 
+	protected int row;
+	protected Sprite sprite;
+	protected int tileDim;
 	
 	public Entity(String name, int col, int row, int tileDim, Sprite sprite) {
 		this.setName(name);
 		this.col = col;
 		this.row= row;
 		this.sprite = sprite;
+		this.tileDim = tileDim;
 		sprite.setSize(tileDim, tileDim);
 	}
 
@@ -43,7 +45,7 @@ public abstract class Entity {
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
