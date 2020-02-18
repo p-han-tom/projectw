@@ -63,7 +63,7 @@ public class PlayState extends GameState{
 				{1,0,2,2,0,1,0,1},
 				{1,1,1,1,1,1,1,1}};
 
-		tmap = new TileMap(mapint, 60);
+		tmap = new TileMap(mapint, 80);
 
 		sr = new ShapeRenderer();
 

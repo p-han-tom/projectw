@@ -37,17 +37,22 @@ public class BattleManager {
 	
 	public void draw() {
 		cUnit = units.get(current);
+		
+		//get current unit's range of movement
 		if (cUnit.range.isEmpty()) {
+			//prevent unit collision
 			for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 			map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
-			
 			cUnit.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
 		}
+		
+		//display objects
 		cUnit.displayRange(map.offsetX, map.offsetY);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Trap trap : traps) trap.draw(batcher, map);
 	}
+	
 	
 	public void handleTurn(int mRow, int mCol) {
 		
@@ -55,20 +60,17 @@ public class BattleManager {
 			
 			if (mRow < map.mapLength && mRow >= 0 && mCol < map.mapWidth && mCol >= 0 && map.getTile(mRow, mCol).passable) {
 				if (!cUnit.inRange(mRow, mCol)) return;
-				
 				cUnit.move(mRow, mCol);
 				current++;
 				
+				//if current unit is the last unit in the turn order, make a new turn order
 				if (current == units.size()) {
 					current = 0;
 					units = TurnManager.newTurnOrder(units);
 				}
-				
-				for (Unit unit : units) {
-					map.getTile(unit.getRow(), unit.getCol()).passable = true;
-				}
 				cUnit.clearRange();
 			}
+			
 		}
 		
 	}
