@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.classes.Attributes;
 import com.mygdx.maps.TileMap;
+import com.mygdx.trees.skills.Indomitable;
+import com.mygdx.trees.skills.Skill;
 
 public class Unit extends Entity{
 	
@@ -31,18 +33,30 @@ public class Unit extends Entity{
 	}};
 
 	
+	public List<Skill> skills = new ArrayList<Skill>();
+	
 	public Attributes attribute;
+	private int level;
+	private int xp;
+	
+	
 
 	private int hp;
 	
 	public MovementRange movement;
+	private int unitDim;
 	
 	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
 		super(name, col, row, sprite);
 		this.attribute = attribute;
+		hp = 0;
+		skills.add(new Indomitable(this));
 	}
 	
-	public void createMovementRange(TileMap map) {movement = new MovementRange(map, this.row, this.col);}	
+	public void createMovementRange(TileMap map) {
+		movement = new MovementRange(map, this.row, this.col);
+		setUnitDim(map.tileDim);
+	}	
 	
 	public int rollInitiative() {
 		return (int)(Math.random()*20) + attribute.initiative;
@@ -52,13 +66,17 @@ public class Unit extends Entity{
 		this.setRow(row);
 		this.setCol(col);
 	}
-
 	public int getHp() {
 		return hp;
 	}
-
 	public void setHp(int hp) {
 		this.hp = hp;
+	}
+	public int getUnitDim() {
+		return unitDim;
+	}
+	public void setUnitDim(int unitDim) {
+		this.unitDim = unitDim;
 	}	
 	
 	

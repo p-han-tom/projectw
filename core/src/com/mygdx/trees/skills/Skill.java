@@ -8,7 +8,7 @@ public abstract class Skill {
 		this.unit = unit;
 	}
 	
-	public abstract void activationCondition();
-	public abstract void effect();
+	public abstract void activationCondition() ;
+	public abstract void effect() ;
 	public abstract void reset();
 }

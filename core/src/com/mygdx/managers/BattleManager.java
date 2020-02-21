@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.maps.TileMap;
+import com.mygdx.trees.skills.Skill;
 
 public class BattleManager {
 	
@@ -27,6 +28,9 @@ public class BattleManager {
 	
 	public void draw() {
 		cUnit = units.get(current);
+		for (Skill skill : cUnit.skills) {
+			skill.activationCondition();
+		}
 		
 		//get current unit's range of movement
 		if (cUnit.movement.range.isEmpty()) {
