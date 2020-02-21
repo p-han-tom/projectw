@@ -17,6 +17,8 @@ public class TextBox {
 	private static int x, y;
 	private static String text;
 	private static Color bgColor, fgColor;
+	private static float textBoxWidth;
+	private static float textBoxHeight;
 	public TextBox(int x, int y, String text, Color bgColor, Color fgColor) {
 		this.x = x;
 		this.y = y;
@@ -27,8 +29,8 @@ public class TextBox {
 	public void draw(SpriteBatch batch, BitmapFont font, ShapeRenderer sr) {
 		// GlyphLayout lets us measure the width and height of the text before we draw it
 		GlyphLayout layout = new GlyphLayout(font, text, Color.WHITE, maxLineLength, halign, true);
-		float textBoxWidth = layout.width;
-		float textBoxHeight = -layout.height;
+		textBoxWidth = layout.width;
+		textBoxHeight = -layout.height;
 		
 		// Draw the rectangle
 		sr.begin(ShapeType.Filled);
@@ -51,5 +53,11 @@ public class TextBox {
 	}
 	public void setMaxLineLength(int maxLineLength) {
 		this.maxLineLength = maxLineLength;
+	}
+	public float getTextBoxWidth() {
+		return textBoxWidth;
+	}
+	public float getTextBoxHeight() {
+		return textBoxHeight;
 	}
 }

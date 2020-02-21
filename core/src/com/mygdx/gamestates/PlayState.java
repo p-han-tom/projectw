@@ -66,7 +66,7 @@ public class PlayState extends GameState{
 		// 2 = mud (higher move cost)
 		// 0 = empty
 		
-		tmap = new TileMap(mapint, 80);
+		tmap = new TileMap(mapint, 60);
 
 		sr = new ShapeRenderer();
 
