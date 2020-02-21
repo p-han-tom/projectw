@@ -33,7 +33,7 @@ public class BattleManager {
 			//prevent unit collision
 			for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 			map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
-			cUnit.movement.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
+			cUnit.movement.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
 		}
 		
 		//display objects
