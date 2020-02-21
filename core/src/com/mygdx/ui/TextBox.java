@@ -9,16 +9,16 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class TextBox {
-	private static int paddingX = 20;
-	private static int paddingY = 20;
-	private static int maxLineLength = 200;
-	// IDK what halign does. Neither does google
-	private static int halign = 200;
-	private static int x, y;
-	private static String text;
-	private static Color bgColor, fgColor;
-	private static float textBoxWidth;
-	private static float textBoxHeight;
+	private int paddingX = 20, paddingY = 20;
+	private int maxLineLength = 200;
+	// halign = horizontal align??
+	private int halign = 200;
+	private int x, y;
+	private String text;
+	private Color bgColor, fgColor;
+	private float textWidth, textHeight;
+	private static float totalWidth, totalHeight;
+
 	public TextBox(int x, int y, String text, Color bgColor, Color fgColor) {
 		this.x = x;
 		this.y = y;
@@ -29,15 +29,17 @@ public class TextBox {
 	public void draw(SpriteBatch batch, BitmapFont font, ShapeRenderer sr) {
 		// GlyphLayout lets us measure the width and height of the text before we draw it
 		GlyphLayout layout = new GlyphLayout(font, text, Color.WHITE, maxLineLength, halign, true);
-		textBoxWidth = layout.width;
-		textBoxHeight = -layout.height;
-		
+		textWidth = layout.width;
+		textHeight = -layout.height;
+
+		totalWidth = textWidth+paddingX*2;
+		totalHeight = textHeight-paddingY*2;
 		// Draw the rectangle
 		sr.begin(ShapeType.Filled);
 		sr.setColor(bgColor);
-		sr.rect(x, y, textBoxWidth+paddingX*2, textBoxHeight-paddingY*2);
+		sr.rect(x, y, totalWidth, totalHeight);
 		sr.end();
-		
+
 		// Draw the text
 		batch.begin();
 		font.setColor(fgColor);
@@ -54,10 +56,11 @@ public class TextBox {
 	public void setMaxLineLength(int maxLineLength) {
 		this.maxLineLength = maxLineLength;
 	}
-	public float getTextBoxWidth() {
-		return textBoxWidth;
+	public float getTotalWidth() {
+		return totalWidth;
 	}
-	public float getTextBoxHeight() {
-		return textBoxHeight;
+	public float getTotalHeight() {
+		System.out.println(totalHeight);
+		return totalHeight;
 	}
 }
