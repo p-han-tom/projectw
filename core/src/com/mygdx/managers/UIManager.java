@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.maps.TileMap;
@@ -31,6 +32,13 @@ public class UIManager {
 			for (Unit unit:combat.units) {
 				if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
 					String text = unit.getName();
+					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim, text, Color.WHITE, Color.BLACK);
+					statboxOpen = true;
+				}
+			}
+			for (Trap trap:combat.traps) {
+				if (trap.getCol()==mouseCol && trap.getRow()==mouseRow) {
+					String text = trap.getName();
 					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim, text, Color.WHITE, Color.BLACK);
 					statboxOpen = true;
 				}

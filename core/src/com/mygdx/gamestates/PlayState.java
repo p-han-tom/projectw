@@ -93,7 +93,6 @@ public class PlayState extends GameState{
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
-		
 	}
 
 	public void update(float dt) {
