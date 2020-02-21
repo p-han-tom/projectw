@@ -74,20 +74,23 @@ public class PlayState extends GameState{
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, 2);
+		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, 2) {{
+			createMovementRange(tmap);
+		}};;
 		units.add(heroDbu);
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, 2);
+		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, 2) {{
+			createMovementRange(tmap);
+		}};
 		units.add(heroMee);
 		Sprite trapMagicSprite = new Sprite(new TextureRegion(spritesheet, 31*spritedim+31, 11*spritedim+11, spritedim, spritedim));
-		trapMagic = new Trap("Magic trap", 3, 3, trapMagicSprite);
+		trapMagic = new Trap("Magic trap", 3, 3, trapMagicSprite) ;
 		traps.add(trapMagic);
 
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
-		units = TurnManager.newTurnOrder(units);
-
 		uim = new UIManager(combat, tmap);
+		
 	}
 
 	public void update(float dt) {
@@ -111,10 +114,7 @@ public class PlayState extends GameState{
 		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		
-		if (!uim.isStatBoxOpen()) {
-			combat.handleTurn(mouseRow, mouseCol);
-		}
-		
+		if (!uim.isStatBoxOpen()) combat.handleTurn(mouseRow, mouseCol);
 		uim.handleInput(mouseCol, mouseRow);
 	}
 

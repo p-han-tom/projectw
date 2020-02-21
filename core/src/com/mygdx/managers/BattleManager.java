@@ -1,14 +1,8 @@
 package com.mygdx.managers;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.maps.TileMap;
@@ -20,16 +14,13 @@ public class BattleManager {
 	public List<Trap> traps;
 	
 	private SpriteBatch batcher = new SpriteBatch();
-	private ShapeRenderer sr = new ShapeRenderer();
 	private int current = 0;
 	private Unit cUnit;
 	
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
 		this.units = TurnManager.newTurnOrder(units);
-		this.traps = traps;
-		for (Unit unit : units) unit.createMovementRange(map);
-		
+		this.traps = traps;		
 	}
 	
 	public Unit getCurrentUnit() {return units.get(current);}

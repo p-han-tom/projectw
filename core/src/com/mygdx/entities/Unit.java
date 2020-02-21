@@ -14,11 +14,7 @@ import com.mygdx.maps.TileMap;
 
 public class Unit extends Entity{
 	
-	private int strength;
-	private int arcana;
-	private int constitution;
-	private int finesse;
-	
+
 	private int moves;
 	public MovementRange movement;
 	
@@ -27,9 +23,7 @@ public class Unit extends Entity{
 		this.moves = moves;
 	}
 	
-	public void createMovementRange(TileMap map) {
-		movement = new MovementRange(map, this.row, this.col);
-	}
+	public void createMovementRange(TileMap map) {movement = new MovementRange(map, this.row, this.col);}	
 	
 	public static int rollInitiative() {
 		return (int)(Math.random()*20)+1;

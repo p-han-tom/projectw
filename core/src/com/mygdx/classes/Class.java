@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mygdx.abilities.Ability;
+import com.mygdx.entities.Unit;
 
 public abstract class Class {
 
@@ -13,7 +14,7 @@ public abstract class Class {
 	private int experience;
 	
 	
-	public Class() {
+	public Class(Unit unit) {
 		
 	}
 	
