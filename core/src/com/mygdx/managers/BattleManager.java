@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
-import com.mygdx.entities.Unit.Pair;
 import com.mygdx.maps.TileMap;
 
 public class BattleManager {
@@ -29,7 +28,7 @@ public class BattleManager {
 		this.map = map;
 		this.units = TurnManager.newTurnOrder(units);
 		this.traps = traps;
-		for (Unit unit : units) unit.mapContext(map.mapLength, map.mapWidth);
+		for (Unit unit : units) unit.createMovementRange(map);
 		
 	}
 	
@@ -39,15 +38,15 @@ public class BattleManager {
 		cUnit = units.get(current);
 		
 		//get current unit's range of movement
-		if (cUnit.range.isEmpty()) {
+		if (cUnit.movement.range.isEmpty()) {
 			//prevent unit collision
 			for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 			map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
-			cUnit.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
+			cUnit.movement.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.getMovement());
 		}
 		
 		//display objects
-		cUnit.displayRange(map.offsetX, map.offsetY);
+		cUnit.movement.displayRange(map.offsetX, map.offsetY, map.tileDim);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Trap trap : traps) trap.draw(batcher, map);
@@ -58,8 +57,8 @@ public class BattleManager {
 		
 		if (MouseButtons.isLeftPressed()) {
 			
-			if (mRow < map.mapLength && mRow >= 0 && mCol < map.mapWidth && mCol >= 0 && map.getTile(mRow, mCol).passable) {
-				if (!cUnit.inRange(mRow, mCol)) return;
+			if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
+				if (!cUnit.movement.inRange(mRow, mCol)) return;
 				cUnit.move(mRow, mCol);
 				current++;
 				
@@ -68,7 +67,7 @@ public class BattleManager {
 					current = 0;
 					units = TurnManager.newTurnOrder(units);
 				}
-				cUnit.clearRange();
+				cUnit.movement.clearRange();
 			}
 			
 		}

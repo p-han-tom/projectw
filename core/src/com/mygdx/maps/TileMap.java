@@ -11,7 +11,7 @@ import com.mygdx.game.*;
 public class TileMap {
 	private Tile[][] map;
 	private SpriteBatch batch = new SpriteBatch();
-	public int tileDim, offsetX, offsetY, mapLength, mapWidth;
+	public int tileDim, offsetX, offsetY, length, width;
 
 	public TileMap(int[][] map, int tileDim) {
 		
@@ -19,8 +19,8 @@ public class TileMap {
 		this.map = new Tile[map.length][map[0].length];
 		this.tileDim = tileDim;
 		
-		mapLength = map.length;
-		mapWidth = map[0].length;
+		length = map.length;
+		width = map[0].length;
 		
 		//offsets for centering grid
 		offsetX = (Game.WIDTH-(map.length*tileDim))/2;

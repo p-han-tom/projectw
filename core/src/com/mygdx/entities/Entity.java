@@ -10,18 +10,16 @@ public abstract class Entity {
 	protected int col; 
 	protected int row;
 	protected Sprite sprite;
-	protected int tileDim;
 	
-	public Entity(String name, int col, int row, int tileDim, Sprite sprite) {
+	public Entity(String name, int col, int row, Sprite sprite) {
 		this.setName(name);
 		this.col = col;
 		this.row= row;
 		this.sprite = sprite;
-		this.tileDim = tileDim;
-		sprite.setSize(tileDim, tileDim);
 	}
 
 	public void draw(SpriteBatch batch, TileMap map) {
+		sprite.setSize(map.tileDim, map.tileDim);
 		batch.begin();
 		sprite.setPosition(col*map.tileDim+map.offsetX, row*map.tileDim+map.offsetY);
 		sprite.draw(batch);
