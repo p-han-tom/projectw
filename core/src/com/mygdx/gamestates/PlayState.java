@@ -24,14 +24,16 @@ import com.mygdx.managers.MouseButtons;
 import com.mygdx.managers.TurnManager;
 import com.mygdx.managers.UIManager;
 import com.mygdx.maps.TileMap;
+import com.mygdx.scenes.HUD;
 import com.mygdx.ui.TextBox;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
-
+	private static HUD hud;
+	private static SpriteBatch batch = new SpriteBatch();
+	
 	private static Texture spritesheet;
 	private static int spritedim = 16;
-	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
 
 	private static List<Unit> units = new ArrayList<Unit>();
@@ -93,22 +95,22 @@ public class PlayState extends GameState{
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
+		
+		hud = new HUD(batch, font);
 	}
 
 	public void update(float dt) {
+		hud.setCurrentTurn(combat.getCurrentUnit().getName());
+		hud.update();
 		handleInput();
 	}
 
 	public void draw() {
 		combat.draw();
-
-		// this below is very basic ui but once its fleshed out more it will belong in a ui class. It displays whose turn it is
-		batch.begin();
-		font.setColor(Color.WHITE);
-		font.draw(batch, "It is currently "+combat.getCurrentUnit().getName()+"'s turn", 10, Game.HEIGHT-10);
-		batch.end();
-
+		
 		UIManager.draw(batch, font, sr);
+		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		hud.stage.draw();
 	}
 
 	public void handleInput() {

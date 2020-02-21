@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.managers.GameInputProcessor;
 import com.mygdx.managers.GameKeys;
 import com.mygdx.managers.GameStateManager;
@@ -15,6 +17,8 @@ import com.mygdx.managers.MouseButtons;
 public class Game extends ApplicationAdapter {
 	public static int WIDTH;
 	public static int HEIGHT;
+	
+	private Viewport gamePort;
 	
 	public static OrthographicCamera cam;
 	
@@ -25,6 +29,7 @@ public class Game extends ApplicationAdapter {
 		HEIGHT = Gdx.graphics.getHeight();
 		
 		cam = new OrthographicCamera(WIDTH, HEIGHT);
+		gamePort = new FitViewport(WIDTH, HEIGHT, cam);
 		cam.translate(WIDTH/2, HEIGHT/2);
 		cam.update();
 		
@@ -40,6 +45,8 @@ public class Game extends ApplicationAdapter {
 		
 		gsm.draw();
 		gsm.update(Gdx.graphics.getDeltaTime());
+		
+		
 		
 		GameKeys.update();
 		MouseButtons.update();

@@ -60,7 +60,6 @@ public class TextBox {
 		return totalWidth;
 	}
 	public float getTotalHeight() {
-		System.out.println(totalHeight);
 		return totalHeight;
 	}
 }
