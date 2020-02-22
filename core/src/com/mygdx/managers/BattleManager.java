@@ -1,5 +1,6 @@
 package com.mygdx.managers;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.mygdx.game.Game;
 import com.mygdx.maps.TileMap;
 import com.mygdx.trees.skills.Indomitable;
 import com.mygdx.trees.skills.Skill;
+import com.mygdx.trees.skills.Zeal;
 import com.mygdx.ui.FadingMessage;
 
 public class BattleManager {
@@ -22,23 +24,19 @@ public class BattleManager {
 	private ShapeRenderer sr = new ShapeRenderer();
 	private int current = 0;
 	private Unit cUnit;
-	private FadingMessage message;
+	private LinkedList<FadingMessage> messageQueue = new LinkedList<FadingMessage>();
 	
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
 		this.units = TurnManager.newTurnOrder(units);
 		this.traps = traps;		
 		for (Unit unit : units) unit.skills.add(new Indomitable(unit));
+		cUnit = units.get(current);
 	}
 	
 	public Unit getCurrentUnit() {return units.get(current);}
 	
 	public void draw() {
-		if (message != null) {
-			System.out.println(cUnit.getName());
-			message.draw(batcher, sr);
-		}
-		cUnit = units.get(current);
 		
 		//get current unit's range of movement
 		if (cUnit.movement.range.isEmpty()) {
@@ -53,6 +51,10 @@ public class BattleManager {
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Trap trap : traps) trap.draw(batcher, map);
+		
+		for (FadingMessage message : messageQueue) {
+			message.draw(batcher, sr);
+		}
 	}
 	
 	
@@ -63,12 +65,13 @@ public class BattleManager {
 			if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
 				
 				if (!cUnit.movement.inRange(mRow, mCol)) return;
-				
+				messageQueue.clear();
 				cUnit.move(mRow, mCol);
 				for (Skill skill : cUnit.skills) {
 					if (skill.activationCondition()) {
 						skill.effect();
-						message = new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2, Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), "INDOMITABLE ACTIVATED");
+						messageQueue.add(new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2,
+								Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), skill.getActivation()));
 					}
 				}
 				current++;
@@ -79,6 +82,7 @@ public class BattleManager {
 					units = TurnManager.newTurnOrder(units);
 				}
 				cUnit.movement.clearRange();
+				cUnit = units.get(current);
 			}
 			
 		}

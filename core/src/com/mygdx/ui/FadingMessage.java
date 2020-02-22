@@ -27,10 +27,9 @@ public class FadingMessage {
 			font.setColor(Color.WHITE);
 			
 			batch.begin();
-			font.draw(batch, "INDOMITABLE ACTIVATE!!", x, y);
+			font.draw(batch, text, x, y);
 			batch.end();
 			timer += Gdx.graphics.getDeltaTime();
-			System.out.println(timer);
 		}
 	}
 	

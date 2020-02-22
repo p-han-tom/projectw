@@ -44,7 +44,6 @@ public class PlayState extends GameState{
 
 	private static Trap trapMagic;
 
-	private static int unitTracker = 0;
 	private static BitmapFont font;
 	private static BattleManager combat;
 	private static UIManager uim;

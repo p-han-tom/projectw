@@ -51,7 +51,6 @@ public class Unit extends Entity{
 		super(name, col, row, sprite);
 		this.attribute = attribute;
 		hp = 0;
-		skills.add(new Indomitable(this));
 	}
 	
 	public void createMovementRange(TileMap map) {

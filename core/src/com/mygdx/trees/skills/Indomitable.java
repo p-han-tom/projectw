@@ -9,12 +9,11 @@ import com.mygdx.entities.Unit;
 
 public class Indomitable extends Skill{
 
-	private SpriteBatch batch = new SpriteBatch();
-	private BitmapFont font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
 	private boolean activated = false;
-	
+		
 	public Indomitable(Unit unit) {
 		super(unit);
+		activationMessage = "INDOMITABLE ACTIVATED";
 	}
 	
 	@Override
@@ -23,9 +22,15 @@ public class Indomitable extends Skill{
 		return false;
 	}
 	
+	@Override
 	public void effect() {
 		unit.setHp(1);
 		activated = true;
+	}
+
+	@Override
+	public void reset() {
+		activated = false;
 	}
 
 
