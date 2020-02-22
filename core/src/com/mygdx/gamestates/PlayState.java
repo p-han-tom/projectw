@@ -73,6 +73,7 @@ public class PlayState extends GameState{
 		
 		tmap = new TileMap(mapint, 60);
 		sr = new ShapeRenderer();
+		sr.setAutoShapeType(true);
 
 		// shitty font
 		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
@@ -98,7 +99,7 @@ public class PlayState extends GameState{
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
 		
-		hud = new HUD(batch, font, combat);
+		hud = new HUD(batch, sr, font, combat);
 	}
 
 	public void update(float dt) {
@@ -110,8 +111,7 @@ public class PlayState extends GameState{
 		combat.draw();
 		
 		UIManager.draw(batch, font, sr);
-		batch.setProjectionMatrix(hud.stage.getCamera().combined);
-		hud.stage.draw();
+		hud.draw(batch, sr, font);
 	}
 
 	public void handleInput() {

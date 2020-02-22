@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -28,30 +30,40 @@ public class HUD {
 	private Label lblCurrentTurn;
 	private Label lblUnitInfo;
 	
+	private Table table;
+	
 	private BattleManager combat;
 	
-	public HUD(SpriteBatch batch, BitmapFont font, BattleManager combat) {
+	public HUD(SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
 		viewport = new FitViewport(Game.WIDTH, Game.HEIGHT, new OrthographicCamera());
 		stage = new Stage(viewport, batch);
 		
-		Table table = new Table();
+		table = new Table();
 		
 		table.debug();
 		table.right();
 		table.setPosition(800, Game.HEIGHT-75);
-		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.WHITE));
+		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.BLACK));
 		lblCurrentTurn.setWrap(true);
 		lblCurrentTurn.setWidth(250);
-		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.WHITE));
+		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.BLACK));
 		lblUnitInfo.setWrap(true);
 		lblUnitInfo.setWidth(250);
-		table.add(lblCurrentTurn).width(250).pad(10);
+		table.add(lblCurrentTurn).width(250).padTop(10);
 		table.row();
-		table.add(lblUnitInfo).width(250).pad(10);
+		table.add(lblUnitInfo).width(250).padTop(10);
 		stage.addActor(table);
 	}
-
+	public void draw(SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
+		sr.begin(ShapeType.Filled);
+		sr.setColor(Color.WHITE);
+		sr.rect(Game.WIDTH-260, 0, 260, Game.HEIGHT);
+		sr.end();
+		
+		batch.setProjectionMatrix(stage.getCamera().combined);
+		stage.draw();
+	}
 	public void update(BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
