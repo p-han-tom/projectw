@@ -22,12 +22,9 @@ import com.mygdx.managers.BattleManager;
 import com.mygdx.maps.TileMap;
 
 public class HUD {
-	public static int WIDTH = 100;
-	
+	public static int HUDDisplace = 100;
+	public int width = 250;
 	private int padding = 10;
-	
-	public Stage stage;
-	private Viewport viewport;
 	
 	private Unit cUnit;
 	private Label lblCurrentTurn;
@@ -37,39 +34,39 @@ public class HUD {
 	
 	private BattleManager combat;
 	
-	public HUD(SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
+	public HUD(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
-		viewport = new FitViewport(Game.WIDTH, Game.HEIGHT, new OrthographicCamera());
-		stage = new Stage(viewport, batch);
 		
 		table = new Table();
 		
-//		table.debug();
+		table.debug();
 		table.right();
 		table.setPosition(Game.WIDTH-5, Game.HEIGHT-75);
 		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.BLACK));
 		lblCurrentTurn.setWrap(true);
 		lblCurrentTurn.setAlignment(Align.center);
-		lblCurrentTurn.setWidth(250);
+		lblCurrentTurn.setWidth(width);
 		
 		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.BLACK));
 		lblUnitInfo.setWrap(true);
 		lblUnitInfo.setAlignment(Align.center);
-		lblUnitInfo.setWidth(250);
-		table.add(lblCurrentTurn).width(250).padTop(padding);
+		lblUnitInfo.setWidth(width);
+		
+		table.add(lblCurrentTurn).width(width).padTop(padding);
 		table.row();
-		table.add(lblUnitInfo).width(250).padTop(padding);
+		table.add(lblUnitInfo).width(width).padTop(padding);
 		stage.addActor(table);
+		System.out.println(lblUnitInfo.getWidth());
 	}
-	public void draw(SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
+	public void draw(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
 		sr.begin(ShapeType.Filled);
 		sr.setColor(Color.WHITE);
-		sr.rect(Game.WIDTH-260, 0, 260, Game.HEIGHT);
+		sr.rect(Game.WIDTH-(width+padding), 0, (width+padding), Game.HEIGHT);
 		sr.end();
 		
 		sr.begin();
 		sr.setColor(Color.BLACK);
-		sr.rect(Game.WIDTH-250-padding+padding/2, 0+padding/2, 260-padding, Game.HEIGHT-padding);
+		sr.rect(Game.WIDTH-(width+padding)+padding/2, padding/2, width, Game.HEIGHT-padding);
 		sr.end();
 		
 		batch.setProjectionMatrix(stage.getCamera().combined);
@@ -78,6 +75,6 @@ public class HUD {
 	public void update(BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
-		lblUnitInfo.setText("Position: "+(cUnit.getRow()+1)+", "+(cUnit.getCol()+1));
+		lblUnitInfo.setText("Position: "+(cUnit.getCol()+1)+", "+(cUnit.getRow()+1));
 	}
 }

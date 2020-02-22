@@ -52,15 +52,6 @@ public class UIManager {
 					totalHeight+=statboxTrap.getTotalHeight();
 				}
 			}
-			for (Unit unit:combat.nextUnits) {
-				if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
-					String text = unit.getName();
-					TextBox statboxUnit = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim+(int)totalHeight, text, Color.WHITE, Color.BLACK);
-					statboxes.add(statboxUnit);
-					statboxOpen = true;
-					totalHeight+=statboxUnit.getTotalHeight();
-				}
-			}
 		}
 	}
 	public static void draw(SpriteBatch batch, BitmapFont font, ShapeRenderer sr) {
