@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.classes.Attributes;
+import com.mygdx.entities.Attributes;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;

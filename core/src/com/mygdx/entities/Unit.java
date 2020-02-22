@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.classes.Attributes;
 import com.mygdx.maps.TileMap;
 import com.mygdx.trees.skills.Indomitable;
 import com.mygdx.trees.skills.Skill;
@@ -23,7 +22,7 @@ public class Unit extends Entity{
 		return this.name;
 	}
 	
-	public Map<Integer, Integer> levelUpReq = new HashMap<Integer, Integer>() {{
+	private Map<Integer, Integer> levelUpReq = new HashMap<Integer, Integer>() {{
 		put(1, 20);
 		put(2, 40);
 		put(3, 80);
@@ -44,7 +43,7 @@ public class Unit extends Entity{
 	private int xp;
 	private int hp;
 	
-	public MovementRange rangeFinder;
+	public UnitRangeFinder rangeFinder;
 	private int unitDim, uOffX, uOffY;
 	
 	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
@@ -54,7 +53,7 @@ public class Unit extends Entity{
 	}
 	
 	public void createMovementRange(TileMap map) {
-		rangeFinder = new MovementRange(map, this.row, this.col);
+		rangeFinder = new UnitRangeFinder(map, this.row, this.col);
 		setUnitDim(map.tileDim);
 		setuOffX(map.offsetX);
 		setuOffY(map.offsetY);
@@ -74,27 +73,12 @@ public class Unit extends Entity{
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
-	public int getUnitDim() {
-		return unitDim;
-	}
-	public void setUnitDim(int unitDim) {
-		this.unitDim = unitDim;
-	}
-
-	public int getuOffX() {
-		return uOffX;
-	}
-
-	public void setuOffX(int uOffX) {
-		this.uOffX = uOffX;
-	}
-	public int getuOffY() {
-		return uOffY;
-	}
-	public void setuOffY(int uOffY) {
-		this.uOffY = uOffY;
-	}	
 	
-	
+	public int getUnitDim() {return unitDim;}
+	public void setUnitDim(int unitDim) {this.unitDim = unitDim;}
+	public int getuOffX() {return uOffX;}
+	public void setuOffX(int uOffX) {this.uOffX = uOffX;}
+	public int getuOffY() {return uOffY;}
+	public void setuOffY(int uOffY) {this.uOffY = uOffY;}	
 
 }

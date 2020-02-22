@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.maps.TileMap;
 
-public class MovementRange {
+public class UnitRangeFinder {
 	public static class Pair {
 		public int x;
 		public int y;
@@ -30,7 +30,7 @@ public class MovementRange {
 	
 	public List<Pair> range = new ArrayList<Pair>();
 	
-	public MovementRange(TileMap map, int row, int col) {
+	public UnitRangeFinder(TileMap map, int row, int col) {
 		this.map = map;
 		this.row = row;
 		this.col = col;
