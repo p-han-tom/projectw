@@ -2,6 +2,7 @@ package com.mygdx.gamestates;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.classes.Attributes;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
@@ -24,6 +26,7 @@ import com.mygdx.managers.MouseButtons;
 import com.mygdx.managers.TurnManager;
 import com.mygdx.managers.UIManager;
 import com.mygdx.maps.TileMap;
+import com.mygdx.trees.skills.Skill;
 import com.mygdx.scenes.HUD;
 import com.mygdx.ui.TextBox;
 
@@ -36,7 +39,7 @@ public class PlayState extends GameState{
 	private static int spritedim = 16;
 	private static TileMap tmap;
 
-	private static List<Unit> units = new ArrayList<Unit>();
+	private static List<Unit> units = new LinkedList<Unit>();
 	private static List<Trap> traps = new ArrayList<Trap>();
 
 	private static Unit heroDbu;
@@ -44,7 +47,6 @@ public class PlayState extends GameState{
 
 	private static Trap trapMagic;
 
-	private static int unitTracker = 0;
 	private static BitmapFont font;
 	private static BattleManager combat;
 	private static UIManager uim;
@@ -64,12 +66,12 @@ public class PlayState extends GameState{
 				{1,0,2,2,0,1,0,1},
 				{1,0,2,2,0,1,0,1},
 				{1,1,1,1,1,1,1,1}};
+
 		// 1 = tree (impassable)
 		// 2 = mud (higher move cost)
 		// 0 = empty
 		
 		tmap = new TileMap(mapint, 60);
-
 		sr = new ShapeRenderer();
 
 		// shitty font
@@ -79,12 +81,12 @@ public class PlayState extends GameState{
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
-		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, 2) {{
+		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 1.5, 10, 0.5, 10, 1, 10, 1)) {{
 			createMovementRange(tmap);
 		}};;
 		units.add(heroDbu);
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, 2) {{
+		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 1.5, 10, 0.5, 10, 1, 10, 1)) {{
 			createMovementRange(tmap);
 		}};
 		units.add(heroMee);
