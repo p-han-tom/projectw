@@ -3,15 +3,16 @@ package com.mygdx.trees.skills;
 import java.util.List;
 
 import com.mygdx.entities.Unit;
+import com.mygdx.managers.BattleManager;
 
 public abstract class Skill {
-	protected Unit unit;
+	protected BattleManager combat;
 	protected String activationMessage;
 	protected boolean special;
 	protected String specialName;
 	
-	public Skill(Unit unit) {
-		this.unit = unit;
+	public Skill(BattleManager combat) {
+		this.combat = combat;
 	}
 	
 	public abstract boolean activationCondition();

@@ -6,26 +6,27 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.entities.Unit;
+import com.mygdx.managers.BattleManager;
 
 public class Indomitable extends Skill{
 
 	private boolean activated = false;
 		
-	public Indomitable(Unit unit) {
-		super(unit);
+	public Indomitable(BattleManager combat) {
+		super(combat);
 		activationMessage = "INDOMITABLE ACTIVATED";
 		special = false;
 	}
 	
 	@Override
 	public boolean activationCondition() {
-		if (unit.getHp() <= 0 && !activated) return true;
+		if (combat.getCurrentUnit().getHp() <= 0 && !activated) return true;
 		return false;
 	}
 	
 	@Override
 	public void effect() {
-		unit.setHp(1);
+		combat.getCurrentUnit().setHp(1);
 		activated = true;
 	}
 
