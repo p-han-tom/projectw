@@ -14,7 +14,7 @@ public class TileMap {
 	private SpriteBatch batch = new SpriteBatch();
 	public int tileDim;
 	public static int offsetX;
-	public int offsetY;
+	public static int offsetY;
 	public int length;
 	public int width;
 

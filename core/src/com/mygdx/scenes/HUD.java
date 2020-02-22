@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.entities.Unit;
@@ -22,6 +23,8 @@ import com.mygdx.maps.TileMap;
 
 public class HUD {
 	public static int WIDTH = 100;
+	
+	private int padding = 10;
 	
 	public Stage stage;
 	private Viewport viewport;
@@ -43,16 +46,19 @@ public class HUD {
 		
 //		table.debug();
 		table.right();
-		table.setPosition(800, Game.HEIGHT-75);
+		table.setPosition(Game.WIDTH-5, Game.HEIGHT-75);
 		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.BLACK));
 		lblCurrentTurn.setWrap(true);
+		lblCurrentTurn.setAlignment(Align.center);
 		lblCurrentTurn.setWidth(250);
+		
 		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.BLACK));
 		lblUnitInfo.setWrap(true);
+		lblUnitInfo.setAlignment(Align.center);
 		lblUnitInfo.setWidth(250);
-		table.add(lblCurrentTurn).width(250).padTop(10);
+		table.add(lblCurrentTurn).width(250).padTop(padding);
 		table.row();
-		table.add(lblUnitInfo).width(250).padTop(10);
+		table.add(lblUnitInfo).width(250).padTop(padding);
 		stage.addActor(table);
 	}
 	public void draw(SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
@@ -63,7 +69,7 @@ public class HUD {
 		
 		sr.begin();
 		sr.setColor(Color.BLACK);
-		sr.rect(Game.WIDTH-260+5, 0+5, 260-10, Game.HEIGHT-10);
+		sr.rect(Game.WIDTH-250-padding+padding/2, 0+padding/2, 260-padding, Game.HEIGHT-padding);
 		sr.end();
 		
 		batch.setProjectionMatrix(stage.getCamera().combined);
