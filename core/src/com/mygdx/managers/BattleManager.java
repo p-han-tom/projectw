@@ -63,10 +63,6 @@ public class BattleManager {
 				for (Skill skill : cUnit.skills) {
 					if (skill.activationCondition()) {
 						
-						//if a skill is a special skill, then it will be handled here
-						if (skill.isSpecial()) {
-							skill.effect();
-						}	
 						skill.effect();
 						message += "- " + skill.getActivation() + "\n";
 					}

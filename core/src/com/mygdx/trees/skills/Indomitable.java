@@ -1,11 +1,5 @@
 package com.mygdx.trees.skills;
 
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.entities.Unit;
 import com.mygdx.managers.BattleManager;
 
 public class Indomitable extends Skill{
@@ -15,7 +9,6 @@ public class Indomitable extends Skill{
 	public Indomitable(BattleManager combat) {
 		super(combat);
 		activationMessage = "INDOMITABLE ACTIVATED";
-		special = false;
 	}
 	
 	@Override
