@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new Game(), config);
 		config.height = 600;
-		config.width = 1000;
+		config.width = 800;
 		config.resizable = false;
 		config.fullscreen = false;
 		//test comment bruv

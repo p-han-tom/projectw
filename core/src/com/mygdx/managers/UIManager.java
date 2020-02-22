@@ -1,11 +1,13 @@
 package com.mygdx.managers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.maps.TileMap;
@@ -13,7 +15,9 @@ import com.mygdx.ui.TextBox;
 
 public class UIManager {
 	private static boolean statboxOpen = false;
-	private static TextBox statbox;
+	
+	private static ArrayList<TextBox> statboxes;
+	
 	private BattleManager combat;
 	private TileMap tmap;
 	public UIManager(BattleManager combat, TileMap tmap) {
@@ -23,16 +27,29 @@ public class UIManager {
 	public void handleInput(int mouseCol, int mouseRow) {
 		if (statboxOpen == true) {
 			if (MouseButtons.isLeftPressed() || MouseButtons.isRightPressed()) {
-				statbox = null;
 				statboxOpen = false;
 			}
 		}
 		if (MouseButtons.isRightPressed()) {
+			statboxes = new ArrayList<TextBox>();
+			float totalHeight = 0;
+			float maxWidth = 0;
 			for (Unit unit:combat.units) {
 				if (unit.getCol()==mouseCol && unit.getRow()==mouseRow) {
 					String text = unit.getName();
-					statbox = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim, text, Color.WHITE, Color.BLACK);
+					TextBox statboxUnit = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim+(int)totalHeight, text, Color.WHITE, Color.BLACK);
+					statboxes.add(statboxUnit);
 					statboxOpen = true;
+					totalHeight+=statboxUnit.getTotalHeight();
+				}
+			}
+			for (Trap trap:combat.traps) {
+				if (trap.getCol()==mouseCol && trap.getRow()==mouseRow) {
+					String text = trap.getName();
+					TextBox statboxTrap = new TextBox(MouseButtons.getX()+tmap.tileDim/2, Game.HEIGHT-MouseButtons.getY()+tmap.tileDim+(int)totalHeight, text, Color.WHITE, Color.BLACK);
+					statboxes.add(statboxTrap);
+					statboxOpen = true;
+					totalHeight+=statboxTrap.getTotalHeight();
 				}
 			}
 			for (Unit unit:combat.nextUnits) {
@@ -45,8 +62,10 @@ public class UIManager {
 		}
 	}
 	public static void draw(SpriteBatch batch, BitmapFont font, ShapeRenderer sr) {
-		if (statbox!=null) {
-			statbox.draw(batch, font, sr);
+		if (statboxOpen==true) {
+			for (TextBox statbox:statboxes) {
+				statbox.draw(batch, font, sr);
+			}
 		}
 	}
 	public static boolean isStatBoxOpen() {

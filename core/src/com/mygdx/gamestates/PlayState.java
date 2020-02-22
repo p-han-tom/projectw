@@ -27,14 +27,16 @@ import com.mygdx.managers.TurnManager;
 import com.mygdx.managers.UIManager;
 import com.mygdx.maps.TileMap;
 import com.mygdx.trees.skills.Skill;
+import com.mygdx.scenes.HUD;
 import com.mygdx.ui.TextBox;
 
 public class PlayState extends GameState{
 	private static ShapeRenderer sr;
-
+	private static HUD hud;
+	private static SpriteBatch batch = new SpriteBatch();
+	
 	private static Texture spritesheet;
 	private static int spritedim = 16;
-	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
 
 	private static List<Unit> units = new LinkedList<Unit>();
@@ -65,8 +67,11 @@ public class PlayState extends GameState{
 				{1,0,2,2,0,1,0,1},
 				{1,1,1,1,1,1,1,1}};
 
-		tmap = new TileMap(mapint, Game.HEIGHT/10);
-
+		// 1 = tree (impassable)
+		// 2 = mud (higher move cost)
+		// 0 = empty
+		
+		tmap = new TileMap(mapint, 60);
 		sr = new ShapeRenderer();
 
 		// shitty font
@@ -93,22 +98,21 @@ public class PlayState extends GameState{
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
 		
+		hud = new HUD(batch, font);
 	}
 
 	public void update(float dt) {
+		hud.setCurrentTurn(combat.getCurrentUnit().getName());
+		hud.update();
 		handleInput();
 	}
 
 	public void draw() {
 		combat.draw();
-
-		// this below is very basic ui but once its fleshed out more it will belong in a ui class. It displays whose turn it is
-		batch.begin();
-		font.setColor(Color.WHITE);
-		font.draw(batch, "It is currently "+combat.getCurrentUnit().getName()+"'s turn", 10, Game.HEIGHT-10);
-		batch.end();
-
+		
 		UIManager.draw(batch, font, sr);
+		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		hud.stage.draw();
 	}
 
 	public void handleInput() {
