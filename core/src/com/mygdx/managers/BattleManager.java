@@ -25,12 +25,16 @@ public class BattleManager {
 	private int current = 0;
 	private Unit cUnit;
 	private LinkedList<FadingMessage> messageQueue = new LinkedList<FadingMessage>();
+	private String message;
 	
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
 		this.units = TurnManager.newTurnOrder(units);
 		this.traps = traps;		
-		for (Unit unit : units) unit.skills.add(new Indomitable(unit));
+		for (Unit unit : units) {
+			unit.skills.add(new Indomitable(unit));
+			unit.skills.add(new Zeal(unit, 0));
+		}
 		cUnit = units.get(current);
 	}
 	
@@ -40,7 +44,6 @@ public class BattleManager {
 		
 		//get current unit's range of movement
 		if (cUnit.movement.range.isEmpty()) {
-			//prevent unit collision
 			for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 			map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
 			cUnit.movement.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
@@ -70,10 +73,11 @@ public class BattleManager {
 				for (Skill skill : cUnit.skills) {
 					if (skill.activationCondition()) {
 						skill.effect();
-						messageQueue.add(new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2,
-								Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), skill.getActivation()));
+						message += skill.getActivation() + "\n";
 					}
 				}
+				messageQueue.add(new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2,
+						Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message));
 				current++;
 				
 				//if current unit is the last unit in the turn order, make a new turn order
@@ -81,7 +85,10 @@ public class BattleManager {
 					current = 0;
 					units = TurnManager.newTurnOrder(units);
 				}
+				
 				cUnit.movement.clearRange();
+				message = "";
+				
 				cUnit = units.get(current);
 			}
 			
