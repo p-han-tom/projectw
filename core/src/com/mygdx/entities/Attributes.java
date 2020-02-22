@@ -1,10 +1,9 @@
-package com.mygdx.classes;
-
+package com.mygdx.entities;
 
 public class Attributes {
 		
 	//base stats
-	private int strength, arcana, constitution, finesse;
+	protected int strength, arcana, constitution, finesse;
 	
 	//strength, arcana, constitution, and finesse modifiers are based of the class
 	protected double strengthMod = 1, arcanaMod = 1, constitutionMod = 1, finesseMod = 1;

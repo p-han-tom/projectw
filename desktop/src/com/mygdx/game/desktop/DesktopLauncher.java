@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		
 		config.height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-        config.width =(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    config.width =(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		
 		config.resizable = false;
 		config.fullscreen = true;
@@ -21,5 +21,6 @@ public class DesktopLauncher {
 		
 		// Windowed Borderless
 //		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+
 	}
 }

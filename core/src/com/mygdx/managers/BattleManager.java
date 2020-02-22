@@ -35,8 +35,8 @@ public class BattleManager {
 		this.traps = traps;		
 		for (Unit unit : units) {
 			nextUnits.add(unit);
-			unit.skills.add(new Indomitable(unit));
-			unit.skills.add(new Zeal(unit));
+			unit.skills.add(new Indomitable(this));
+			unit.skills.add(new Zeal(this));
 		}
 		cUnit = ((LinkedList<Unit>) units).poll();
 		getNextRange();
@@ -63,15 +63,6 @@ public class BattleManager {
 				for (Skill skill : cUnit.skills) {
 					if (skill.activationCondition()) {
 						
-						//if a skill is a special skill, then it will be handled here
-						if (skill.isSpecial()) {
-
-							//ZEAL EFFECT
-							if (skill.getSpecialName().equals("ZEAL")) units.addFirst(cUnit);
-							
-						} else {
-							skill.effect();
-						}
 						skill.effect();
 						message += "- " + skill.getActivation() + "\n";
 					}
