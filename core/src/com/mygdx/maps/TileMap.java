@@ -14,7 +14,7 @@ public class TileMap {
 	private SpriteBatch batch = new SpriteBatch();
 	public int tileDim;
 	public static int offsetX;
-	public int offsetY;
+	public static int offsetY;
 	public int length;
 	public int width;
 
@@ -28,7 +28,7 @@ public class TileMap {
 		width = map[0].length;
 		
 		//offsets for centering grid
-		offsetX = (Game.WIDTH-(map.length*tileDim))/2-HUD.WIDTH;
+		offsetX = (Game.WIDTH-(map.length*tileDim))/2-HUD.HUDDisplace;
 		offsetY = (Game.HEIGHT-(map.length*tileDim))/2;
 		
 		//loops through each element in int array and creates a tile based off int key value
