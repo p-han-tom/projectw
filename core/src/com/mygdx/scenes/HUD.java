@@ -61,6 +61,11 @@ public class HUD {
 		sr.rect(Game.WIDTH-260, 0, 260, Game.HEIGHT);
 		sr.end();
 		
+		sr.begin();
+		sr.setColor(Color.BLACK);
+		sr.rect(Game.WIDTH-260+5, 0+5, 260-10, Game.HEIGHT-10);
+		sr.end();
+		
 		batch.setProjectionMatrix(stage.getCamera().combined);
 		stage.draw();
 	}
