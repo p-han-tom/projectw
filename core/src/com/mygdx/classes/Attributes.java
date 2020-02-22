@@ -1,11 +1,5 @@
 package com.mygdx.classes;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.mygdx.abilities.Ability;
 
 public class Attributes {
 		

@@ -1,5 +1,6 @@
 package com.mygdx.trees.skills;
 
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,7 +11,6 @@ public class Indomitable extends Skill{
 
 	private SpriteBatch batch = new SpriteBatch();
 	private BitmapFont font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
-	
 	private boolean activated = false;
 	
 	public Indomitable(Unit unit) {
@@ -18,29 +18,16 @@ public class Indomitable extends Skill{
 	}
 	
 	@Override
-	public void activationCondition() {
-		if (unit.getHp() <= 0 && !activated) {
-			System.out.println("Here");
-			effect();
-		}
+	public boolean activationCondition() {
+		if (unit.getHp() <= 0 && !activated) return true;
+		return false;
 	}
-
-	@Override
+	
 	public void effect() {
-		
-		font.getData().setScale(0.5f, 0.5f);
-		batch.begin();
-		font.setColor(Color.WHITE);
-		font.draw(batch, "INDOMITABLE ACTIVATE!!", unit.getRow()*unit.getUnitDim(), unit.getCol()*unit.getUnitDim());
-		batch.end();
-		
 		unit.setHp(1);
-//		activated = true;
+		activated = true;
 	}
 
-	@Override
-	public void reset() {
-		activated = false;
-	}
+
 
 }

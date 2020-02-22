@@ -19,6 +19,10 @@ import com.mygdx.trees.skills.Skill;
 
 public class Unit extends Entity{
 	
+	public String toString() {
+		return this.name;
+	}
+	
 	public Map<Integer, Integer> levelUpReq = new HashMap<Integer, Integer>() {{
 		put(1, 20);
 		put(2, 40);
@@ -38,13 +42,10 @@ public class Unit extends Entity{
 	public Attributes attribute;
 	private int level;
 	private int xp;
-	
-	
-
 	private int hp;
 	
 	public MovementRange movement;
-	private int unitDim;
+	private int unitDim, uOffX, uOffY;
 	
 	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
 		super(name, col, row, sprite);
@@ -56,6 +57,8 @@ public class Unit extends Entity{
 	public void createMovementRange(TileMap map) {
 		movement = new MovementRange(map, this.row, this.col);
 		setUnitDim(map.tileDim);
+		setuOffX(map.offsetX);
+		setuOffY(map.offsetY);
 	}	
 	
 	public int rollInitiative() {
@@ -77,6 +80,20 @@ public class Unit extends Entity{
 	}
 	public void setUnitDim(int unitDim) {
 		this.unitDim = unitDim;
+	}
+
+	public int getuOffX() {
+		return uOffX;
+	}
+
+	public void setuOffX(int uOffX) {
+		this.uOffX = uOffX;
+	}
+	public int getuOffY() {
+		return uOffY;
+	}
+	public void setuOffY(int uOffY) {
+		this.uOffY = uOffY;
 	}	
 	
 	

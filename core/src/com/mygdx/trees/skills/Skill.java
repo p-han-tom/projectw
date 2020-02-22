@@ -1,14 +1,17 @@
 package com.mygdx.trees.skills;
 
+import java.util.List;
+
 import com.mygdx.entities.Unit;
 
-public abstract class Skill {
+public abstract class Skill<T> {
 	protected Unit unit;
 	public Skill(Unit unit) {
 		this.unit = unit;
 	}
 	
-	public abstract void activationCondition() ;
-	public abstract void effect() ;
-	public abstract void reset();
+	public abstract boolean activationCondition();
+	public abstract void effect();
+
+	
 }
