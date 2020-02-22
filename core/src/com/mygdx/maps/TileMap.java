@@ -7,11 +7,16 @@ import java.util.Map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.*;
+import com.mygdx.scenes.HUD;
 
 public class TileMap {
 	private Tile[][] map;
 	private SpriteBatch batch = new SpriteBatch();
-	public int tileDim, offsetX, offsetY, length, width;
+	public int tileDim;
+	public static int offsetX;
+	public int offsetY;
+	public int length;
+	public int width;
 
 	public TileMap(int[][] map, int tileDim) {
 		
@@ -23,7 +28,7 @@ public class TileMap {
 		width = map[0].length;
 		
 		//offsets for centering grid
-		offsetX = (Game.WIDTH-(map.length*tileDim))/2;
+		offsetX = (Game.WIDTH-(map.length*tileDim))/2-HUD.WIDTH;
 		offsetY = (Game.HEIGHT-(map.length*tileDim))/2;
 		
 		//loops through each element in int array and creates a tile based off int key value

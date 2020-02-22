@@ -84,8 +84,8 @@ public class PlayState extends GameState{
 		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 1.5, 10, 0.5, 10, 1, 10, 1)) {{
 			createMovementRange(tmap);
 		}};;
-		units.add(heroDbu);
-		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
+		units.add(heroDbu);Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
+		
 		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 1.5, 10, 0.5, 10, 1, 10, 1)) {{
 			createMovementRange(tmap);
 		}};
@@ -98,12 +98,11 @@ public class PlayState extends GameState{
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
 		
-		hud = new HUD(batch, font);
+		hud = new HUD(batch, font, combat);
 	}
 
 	public void update(float dt) {
-		hud.setCurrentTurn(combat.getCurrentUnit().getName());
-		hud.update();
+		hud.update(combat);
 		handleInput();
 	}
 
