@@ -1,5 +1,6 @@
 package com.mygdx.trees.skills;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.mygdx.entities.Unit;
@@ -24,7 +25,6 @@ public class Zeal extends Skill{
 
 	@Override
 	public void effect() {
-		
 	}
 
 	@Override

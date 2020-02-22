@@ -25,7 +25,6 @@ public class BattleManager {
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer();
 	
-	private int current = 0;
 	private Unit cUnit;
 	private FadingMessage fadeTextBox;
 	private String message = "";
@@ -44,7 +43,7 @@ public class BattleManager {
 	}
 	
 	public void draw() {
-		cUnit.movement.displayRange(map.offsetX, map.offsetY, map.tileDim);
+		cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
@@ -57,26 +56,29 @@ public class BattleManager {
 			
 			if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
 				
-				if (!cUnit.movement.inRange(mRow, mCol)) return;
+				if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
 				
 				cUnit.move(mRow, mCol);
+				
 				for (Skill skill : cUnit.skills) {
 					if (skill.activationCondition()) {
 						
 						//if a skill is a special skill, then it will be handled here
 						if (skill.isSpecial()) {
-							if (skill.getSpecialName().equals("ZEAL")) {
-								units.addFirst(cUnit);
-							}
+
+							//ZEAL EFFECT
+							if (skill.getSpecialName().equals("ZEAL")) units.addFirst(cUnit);
+							
 						} else {
 							skill.effect();
 						}
-						message += skill.getActivation() + "\n";
+						skill.effect();
+						message += "- " + skill.getActivation() + "\n";
 					}
 				}
 				fadeTextBox = new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2,
 						Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);				
-				cUnit.movement.clearRange();
+				cUnit.rangeFinder.clearRange();
 				message = "";
 				
 				cUnit = ((LinkedList<Unit>) units).poll();
@@ -92,7 +94,7 @@ public class BattleManager {
 		//exclude occupied tiles from the current unit's movement range and find the new range
 		for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 		map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
-		cUnit.movement.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
+		cUnit.rangeFinder.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
 	}
 	
 	public Unit getCurrentUnit() {return cUnit;}

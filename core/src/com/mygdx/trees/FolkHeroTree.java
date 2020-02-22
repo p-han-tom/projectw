@@ -4,7 +4,6 @@ public class FolkHeroTree extends SkillTree{
 
 	public FolkHeroTree(int level) {
 		super(level);
-	
 	}
 
 }

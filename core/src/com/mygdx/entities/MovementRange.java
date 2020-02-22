@@ -66,7 +66,7 @@ public class MovementRange {
 		sr.begin(ShapeType.Filled);
 		Gdx.gl.glEnable(GL30.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
-		sr.setColor(new Color(0, 1, 0, 0.15f));
+		sr.setColor(new Color(0, 1, 0, 0.3f));
 		for (Pair pair : range) {
 			sr.rect(pair.y*tileDim+offx, pair.x*tileDim+offy, tileDim, tileDim);
 		}

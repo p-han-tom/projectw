@@ -44,7 +44,7 @@ public class Unit extends Entity{
 	private int xp;
 	private int hp;
 	
-	public MovementRange movement;
+	public MovementRange rangeFinder;
 	private int unitDim, uOffX, uOffY;
 	
 	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
@@ -54,7 +54,7 @@ public class Unit extends Entity{
 	}
 	
 	public void createMovementRange(TileMap map) {
-		movement = new MovementRange(map, this.row, this.col);
+		rangeFinder = new MovementRange(map, this.row, this.col);
 		setUnitDim(map.tileDim);
 		setuOffX(map.offsetX);
 		setuOffY(map.offsetY);
