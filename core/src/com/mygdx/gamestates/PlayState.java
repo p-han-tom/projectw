@@ -2,6 +2,7 @@ package com.mygdx.gamestates;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -36,7 +37,7 @@ public class PlayState extends GameState{
 	private static SpriteBatch batch = new SpriteBatch();
 	private static TileMap tmap;
 
-	private static List<Unit> units = new ArrayList<Unit>();
+	private static List<Unit> units = new LinkedList<Unit>();
 	private static List<Trap> traps = new ArrayList<Trap>();
 
 	private static Unit heroDbu;

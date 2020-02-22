@@ -14,6 +14,7 @@ public class Indomitable extends Skill{
 	public Indomitable(Unit unit) {
 		super(unit);
 		activationMessage = "INDOMITABLE ACTIVATED";
+		special = false;
 	}
 	
 	@Override

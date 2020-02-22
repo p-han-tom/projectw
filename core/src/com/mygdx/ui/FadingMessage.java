@@ -22,7 +22,7 @@ public class FadingMessage {
 	}
 	
 	public void draw(SpriteBatch batch, ShapeRenderer sr) {
-		if (timer < .7) {
+		if (timer < 1.5) {
 			font.getData().setScale(0.5f, 0.5f);
 			font.setColor(Color.WHITE);
 			

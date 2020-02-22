@@ -5,21 +5,20 @@ import java.util.List;
 import com.mygdx.entities.Unit;
 
 public class Zeal extends Skill{
-
 	
 	private int activation;
-	private int current;
 	
-	public Zeal(Unit unit, int current) {
+	public Zeal(Unit unit) {
 		super(unit);
-		this.current = current;
 		activationMessage = "ZEAL: EXTRA TURN!";
+		special = true;
+		specialName = "ZEAL";
 	}
 
 	@Override
 	public boolean activationCondition() {
 		activation = (int) (Math.random()*100+1);
-		if (activation <= 100) return true;
+		if (activation <= 10) return true;
 		return false;
 	}
 
