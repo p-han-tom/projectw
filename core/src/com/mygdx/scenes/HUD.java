@@ -41,7 +41,7 @@ public class HUD {
 		
 		table = new Table();
 		
-		table.debug();
+//		table.debug();
 		table.right();
 		table.setPosition(800, Game.HEIGHT-75);
 		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.BLACK));
@@ -67,6 +67,6 @@ public class HUD {
 	public void update(BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
-		lblUnitInfo.setText("Position: "+cUnit.getRow()+", "+cUnit.getCol());
+		lblUnitInfo.setText("Position: "+(cUnit.getRow()+1)+", "+(cUnit.getCol()+1));
 	}
 }
