@@ -8,6 +8,7 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,7 +16,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.mygdx.entities.Attributes;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.classes.Attributes;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
@@ -50,6 +55,8 @@ public class PlayState extends GameState{
 	private static BitmapFont font;
 	private static BattleManager combat;
 	private static UIManager uim;
+	public Stage stage;
+	private Viewport viewport;
 
 	public PlayState (GameStateManager gsm) {
 		super(gsm);
@@ -73,6 +80,7 @@ public class PlayState extends GameState{
 		
 		tmap = new TileMap(mapint, 60);
 		sr = new ShapeRenderer();
+		sr.setAutoShapeType(true);
 
 		// shitty font
 		font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
@@ -98,7 +106,9 @@ public class PlayState extends GameState{
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
 		
-		hud = new HUD(batch, font, combat);
+		viewport = new FitViewport(Game.WIDTH, Game.HEIGHT, new OrthographicCamera());
+		stage = new Stage(viewport, batch);
+		hud = new HUD(stage, batch, sr, font, combat);
 	}
 
 	public void update(float dt) {
@@ -110,8 +120,7 @@ public class PlayState extends GameState{
 		combat.draw();
 		
 		UIManager.draw(batch, font, sr);
-		batch.setProjectionMatrix(hud.stage.getCamera().combined);
-		hud.stage.draw();
+		hud.draw(stage, batch, sr, font);
 	}
 
 	public void handleInput() {

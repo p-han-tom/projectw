@@ -10,12 +10,17 @@ import com.mygdx.game.Game;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-//		config.height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight()-50;
-//		config.width =(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		config.height = 600;
-		config.width = 800;
+		
+		config.height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    config.width =(int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+		
 		config.resizable = false;
 		config.fullscreen = true;
-		new LwjglApplication(new Game(), config);		
+		
+		new LwjglApplication(new Game(), config);
+		
+		// Windowed Borderless
+//		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+
 	}
 }
