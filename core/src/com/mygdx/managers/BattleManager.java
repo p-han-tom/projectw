@@ -18,8 +18,8 @@ import com.mygdx.ui.FadingMessage;
 public class BattleManager {
 	
 	public TileMap map;
-	public LinkedList<Unit> units;
-	public List<Unit> nextUnits = new LinkedList<Unit>();
+	public LinkedList<Unit> units = new LinkedList<Unit>();
+	public LinkedList<Unit> nextUnits = new LinkedList<Unit>();
 	public List<Trap> traps;
 	
 	private SpriteBatch batcher = new SpriteBatch();
@@ -28,17 +28,20 @@ public class BattleManager {
 	private Unit cUnit;
 	private FadingMessage fadeTextBox;
 	private String message = "";
+	private int round = 1;
 	
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
-		this.units = TurnManager.newTurnOrder(units);
 		this.traps = traps;		
+		
 		for (Unit unit : units) {
 			nextUnits.add(unit);
 			unit.skills.add(new Indomitable(this));
 			unit.skills.add(new Zeal(this));
 		}
-		cUnit = ((LinkedList<Unit>) units).poll();
+		
+		this.units = TurnManager.newTurnOrder(nextUnits);
+		cUnit = this.units.poll();
 		getNextRange();
 	}
 	
@@ -55,26 +58,29 @@ public class BattleManager {
 		if (MouseButtons.isLeftPressed()) {
 			
 			if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
-				
 				if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
 				
 				cUnit.move(mRow, mCol);
 				
 				for (Skill skill : cUnit.skills) {
 					if (skill.activationCondition()) {
-						
 						skill.effect();
 						message += "- " + skill.getActivation() + "\n";
 					}
 				}
+				
 				fadeTextBox = new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2,
-						Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);				
+						Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);			
+				
 				cUnit.rangeFinder.clearRange();
 				message = "";
 				
-				cUnit = ((LinkedList<Unit>) units).poll();
+				if (units.isEmpty()) {
+					units = TurnManager.newTurnOrder(nextUnits);
+					round ++;
+				}
 				
-				if (units.size() == 0) units = TurnManager.newTurnOrder(nextUnits);
+				cUnit = ((LinkedList<Unit>) units).poll();
 				getNextRange();
 			}
 		}
@@ -83,10 +89,11 @@ public class BattleManager {
 	//getters
 	public void getNextRange() {
 		//exclude occupied tiles from the current unit's movement range and find the new range
-		for (Unit unit : units) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
+		for (Unit unit : nextUnits) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 		map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
 		cUnit.rangeFinder.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
 	}
 	
 	public Unit getCurrentUnit() {return cUnit;}
+	public int getRound() {return round;}
 }

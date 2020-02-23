@@ -20,7 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.classes.Attributes;
+import com.mygdx.entities.Attributes;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
@@ -105,7 +105,7 @@ public class PlayState extends GameState{
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
-		
+		System.out.println(combat.units.size());
 		viewport = new FitViewport(Game.WIDTH, Game.HEIGHT, new OrthographicCamera());
 		stage = new Stage(viewport, batch);
 		hud = new HUD(stage, batch, sr, font, combat);

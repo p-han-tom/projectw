@@ -31,6 +31,7 @@ public abstract class TurnManager {
 		for (Integer roll:initiativeRolls) {
 			turnOrder.add(initiativeAndUnitMap.get(roll));
 		}
+		
 		return turnOrder;
 	}
 }

@@ -27,8 +27,7 @@ public class HUD {
 	private int padding = 10;
 	
 	private Unit cUnit;
-	private Label lblCurrentTurn;
-	private Label lblUnitInfo;
+	private Label lblCurrentTurn, lblUnitInfo, lblRound;
 	
 	private Table table;
 	
@@ -52,11 +51,17 @@ public class HUD {
 		lblUnitInfo.setAlignment(Align.center);
 		lblUnitInfo.setWidth(width);
 		
+		lblRound = new Label("Combat round: " + combat.getRound(), new Label.LabelStyle(font, Color.BLACK));
+		lblRound.setWrap(true);
+		lblRound.setAlignment(Align.center);
+		lblRound.setWidth(width);
+		
 		table.add(lblCurrentTurn).width(width).padTop(padding);
 		table.row();
 		table.add(lblUnitInfo).width(width).padTop(padding);
+		table.row();
+		table.add(lblRound).width(width).padTop(padding);
 		stage.addActor(table);
-		System.out.println(lblUnitInfo.getWidth());
 	}
 	public void draw(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
 		sr.begin(ShapeType.Filled);
@@ -76,5 +81,6 @@ public class HUD {
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
 		lblUnitInfo.setText("Position: "+(cUnit.getCol()+1)+", "+(cUnit.getRow()+1));
+		lblRound.setText("Combat round: " + combat.getRound());
 	}
 }
