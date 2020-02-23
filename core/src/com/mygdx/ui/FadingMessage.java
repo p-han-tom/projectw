@@ -11,6 +11,7 @@ public class FadingMessage {
 	private int x;
 	private int y;
 	private double timer = 0;
+	private float opacity = 1;
 	private String text;
 	private BitmapFont font = new BitmapFont(Gdx.files.internal("font/origa.fnt"), false);
 	
@@ -24,7 +25,8 @@ public class FadingMessage {
 	public void draw(SpriteBatch batch, ShapeRenderer sr) {
 		if (timer < 1.5) {
 			font.getData().setScale(0.5f, 0.5f);
-			font.setColor(Color.WHITE);
+			font.setColor(new Color(1,1,1,opacity));
+			opacity-=.01;
 			
 			batch.begin();
 			font.draw(batch, text, x, y);

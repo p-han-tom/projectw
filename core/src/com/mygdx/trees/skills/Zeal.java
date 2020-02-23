@@ -21,7 +21,6 @@ public class Zeal extends Skill{
 	@Override
 	public void effect() {
 		combat.units.addFirst(combat.getCurrentUnit());
-		System.out.println("ZEAL");
 	}
 
 	@Override

@@ -38,20 +38,20 @@ public class HUD {
 		
 		table = new Table();
 		
-		table.debug();
+//		table.debug();
 		table.right();
 		table.setPosition(Game.WIDTH-5, Game.HEIGHT-75);
-		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.BLACK));
+		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.WHITE));
 		lblCurrentTurn.setWrap(true);
 		lblCurrentTurn.setAlignment(Align.center);
 		lblCurrentTurn.setWidth(width);
 		
-		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.BLACK));
+		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.WHITE));
 		lblUnitInfo.setWrap(true);
 		lblUnitInfo.setAlignment(Align.center);
 		lblUnitInfo.setWidth(width);
 		
-		lblRound = new Label("Combat round: " + combat.getRound(), new Label.LabelStyle(font, Color.BLACK));
+		lblRound = new Label("Combat round: " + combat.getRound(), new Label.LabelStyle(font, Color.WHITE));
 		lblRound.setWrap(true);
 		lblRound.setAlignment(Align.center);
 		lblRound.setWidth(width);
@@ -62,10 +62,11 @@ public class HUD {
 		table.row();
 		table.add(lblRound).width(width).padTop(padding);
 		stage.addActor(table);
+		
 	}
 	public void draw(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
 		sr.begin(ShapeType.Filled);
-		sr.setColor(Color.WHITE);
+		sr.setColor(Color.DARK_GRAY);
 		sr.rect(Game.WIDTH-(width+padding), 0, (width+padding), Game.HEIGHT);
 		sr.end();
 		

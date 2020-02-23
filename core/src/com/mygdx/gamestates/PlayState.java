@@ -105,7 +105,7 @@ public class PlayState extends GameState{
 		// When the level starts, have each unit roll for initiative
 		combat = new BattleManager(tmap, units, traps);
 		uim = new UIManager(combat, tmap);
-		System.out.println(combat.units.size());
+		
 		viewport = new FitViewport(Game.WIDTH, Game.HEIGHT, new OrthographicCamera());
 		stage = new Stage(viewport, batch);
 		hud = new HUD(stage, batch, sr, font, combat);

@@ -69,7 +69,7 @@ public class BattleManager {
 					}
 				}
 				
-				fadeTextBox = new FadingMessage(MouseButtons.getX()+cUnit.getUnitDim()/2,
+				fadeTextBox = new FadingMessage(MouseButtons.getX()-cUnit.getUnitDim(),
 						Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);			
 				
 				cUnit.rangeFinder.clearRange();
