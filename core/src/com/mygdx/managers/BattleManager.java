@@ -19,7 +19,7 @@ public class BattleManager {
 	
 	public TileMap map;
 	public LinkedList<Unit> units = new LinkedList<Unit>();
-	private LinkedList<Unit> nextUnits = new LinkedList<Unit>();
+	public  LinkedList<Unit> nextUnits = new LinkedList<Unit>();
 	public List<Trap> traps;
 	
 	private SpriteBatch batcher = new SpriteBatch();
