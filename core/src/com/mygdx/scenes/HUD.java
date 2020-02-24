@@ -46,7 +46,7 @@ public class HUD {
 		lblCurrentTurn.setAlignment(Align.center);
 		lblCurrentTurn.setWidth(width);
 		
-		lblUnitInfo = new Label("Position: "+cUnit.getCol()+", "+cUnit.getRow(), new Label.LabelStyle(font,Color.WHITE));
+		lblUnitInfo = new Label("HP: "+cUnit.attribute.maxHP+"/"+cUnit.attribute.maxHP, new Label.LabelStyle(font,Color.WHITE));
 		lblUnitInfo.setWrap(true);
 		lblUnitInfo.setAlignment(Align.center);
 		lblUnitInfo.setWidth(width);
@@ -81,7 +81,7 @@ public class HUD {
 	public void update(BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
-		lblUnitInfo.setText("Position: "+(cUnit.getCol()+1)+", "+(cUnit.getRow()+1));
+		lblUnitInfo.setText("HP: "+cUnit.attribute.maxHP+"/"+cUnit.attribute.maxHP);
 		lblRound.setText("Combat round: " + combat.getRound());
 	}
 }
