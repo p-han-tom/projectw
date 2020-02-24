@@ -23,10 +23,10 @@ public class FadingMessage {
 	}
 	
 	public void draw(SpriteBatch batch, ShapeRenderer sr) {
-		if (timer < 1.5) {
+		if (timer < 2.3) {
 			font.getData().setScale(0.5f, 0.5f);
 			font.setColor(new Color(1,1,1,opacity));
-			opacity-=.01;
+			opacity-=.0075;
 			
 			batch.begin();
 			font.draw(batch, text, x, y);

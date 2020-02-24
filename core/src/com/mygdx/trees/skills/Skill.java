@@ -8,6 +8,7 @@ import com.mygdx.managers.BattleManager;
 public abstract class Skill {
 	protected BattleManager combat;
 	protected String activationMessage;
+	protected boolean beforeTurn;
 	
 	public Skill(BattleManager combat) {
 		this.combat = combat;
@@ -18,4 +19,5 @@ public abstract class Skill {
 	public abstract void reset();
 	
 	public String getActivation() {return activationMessage;}
+	public boolean atTurnStart() {return beforeTurn;}
 }

@@ -9,6 +9,7 @@ public class Indomitable extends Skill{
 	public Indomitable(BattleManager combat) {
 		super(combat);
 		activationMessage = "INDOMITABLE ACTIVATED";
+		beforeTurn = true;
 	}
 	
 	@Override

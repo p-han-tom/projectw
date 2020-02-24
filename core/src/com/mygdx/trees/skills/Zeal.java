@@ -9,6 +9,7 @@ public class Zeal extends Skill{
 	public Zeal(BattleManager combat) {
 		super(combat);
 		activationMessage = "ZEAL: EXTRA TURN!";
+		beforeTurn = false;
 	}
 
 	@Override
