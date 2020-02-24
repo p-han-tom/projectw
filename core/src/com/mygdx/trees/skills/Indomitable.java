@@ -8,7 +8,7 @@ public class Indomitable extends Skill{
 		
 	public Indomitable(BattleManager combat) {
 		super(combat);
-		activationMessage = "INDOMITABLE ACTIVATED";
+		activationMessage = "INDOMITABLE: LIVE ANOTHER DAY!";
 		beforeTurn = true;
 	}
 	
