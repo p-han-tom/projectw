@@ -52,13 +52,11 @@ public class BattleManager {
 		cUnit = this.units.poll();
 		getNextRange();
 
-		abilityHUD = new AbilityHUD(cUnit);
+		abilityHUD = new AbilityHUD(this);
 	}
 
 	public void draw() {
-		castingAbility = abilityHUD.castingAbility;
-		if (castingAbility == null) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
-		else abilityHUD.displayRange(cUnit, map, sr);
+		cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
@@ -67,7 +65,6 @@ public class BattleManager {
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
 		abilityHUD.draw();
 		
-
 	}
 
 	public void handleTurn(int mRow, int mCol) {
@@ -137,6 +134,7 @@ public class BattleManager {
 		}
 
 		cUnit = ((LinkedList<Unit>) units).poll();
+		abilityHUD.update(cUnit);
 		getNextRange();
 		currentTurnStarted = false;
 	}
