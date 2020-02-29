@@ -36,11 +36,17 @@ public class AbilityHUD {
 	private SpriteBatch batcher = new SpriteBatch();
 	private FitViewport viewport = new FitViewport(Game.WIDTH, Game.HEIGHT, new OrthographicCamera());
 	private Stage stage = new Stage(viewport, batcher);
+
 	
 	private Ability test1 = new Slash();
-	private Button atest1;
 	private boolean activated = false;
-	
+
+	public Ability castingAbility = null;
+
+	public ArrayList<Pair> canTargetAdj;
+
+	private Button atest1;
+
 	private ShapeRenderer sr = new ShapeRenderer();
 	
 	public AbilityHUD(BattleManager combat) {
@@ -52,6 +58,7 @@ public class AbilityHUD {
 		test1.range.buildRange(combat.getCurrentUnit().getRow(), combat.getCurrentUnit().getCol(), test1.getAbilityRange());
 		System.out.println(test1.range.canTarget);
 		
+
 		atest1 = new Button(drawable1) {
 			{
 				setSize(100, 100);
@@ -59,11 +66,12 @@ public class AbilityHUD {
 				addListener(new ClickListener() {
 					public void clicked(InputEvent event, float x, float y) {
 						activated = !activated;
+
 					}
 				});
 			}
 		};
-		
+
 		stage.addActor(atest1);
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -75,7 +83,7 @@ public class AbilityHUD {
 
 	public void draw() {
 		stage.draw();
-		if (activated) {
+		if (castingAbility!=null) {
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -87,7 +95,6 @@ public class AbilityHUD {
 		}
 		
 	}
-	
 
 
 }

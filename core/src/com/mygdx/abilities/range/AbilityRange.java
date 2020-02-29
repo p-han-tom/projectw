@@ -70,7 +70,6 @@ public class AbilityRange {
 		Gdx.gl.glEnable(GL30.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
 		sr.setColor(color);
-		System.out.println(canTarget);
 		for (Pair pair : canTarget) {
 			sr.rect(pair.y * map.tileDim+map.offsetX, pair.x * map.tileDim + map.offsetY, map.tileDim,map.tileDim);
 		}
