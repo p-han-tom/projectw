@@ -3,6 +3,7 @@ package com.mygdx.abilities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.abilities.range.Range;
 import com.mygdx.managers.BattleManager;
 import com.mygdx.maps.TileMap;
 
@@ -12,7 +13,7 @@ public abstract class Ability {
 	protected Texture spritesheet = new Texture("placeholder/sheet.png");
 	protected int spritedim = 16;
 	protected BattleManager combat;
-	protected int range;
+	public Range range;
 	protected Sprite icon;
 	/*
 	 * HOW ABILITIES WILL WORK
@@ -31,8 +32,9 @@ public abstract class Ability {
 	 * 
 	 */
 	
-	public Ability() {
+	public Ability(Range range) {
 //		this.combat = combat;
+		this.range = range;
 		
 	}
 	
