@@ -89,11 +89,13 @@ public class PlayState extends GameState{
 		//These sprites are placeholders until we code all the basics and decide to draw them i guess
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
+		
 		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 10, 15, 10)) {{
 			createMovementRange(tmap);
 		}};;
-		units.add(heroDbu);Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
+		units.add(heroDbu);
 		
+		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
 		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 10, 10, 10)) {{
 			createMovementRange(tmap);
 		}};
@@ -117,10 +119,12 @@ public class PlayState extends GameState{
 	}
 
 	public void draw() {
+		
+		hud.draw(stage, batch, sr, font);
+		UIManager.draw(batch, font, sr);
 		combat.draw();
 		
-		UIManager.draw(batch, font, sr);
-		hud.draw(stage, batch, sr, font);
+		
 	}
 
 	public void handleInput() {

@@ -10,6 +10,7 @@ import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.maps.TileMap;
+import com.mygdx.scenes.AbilityHUD;
 import com.mygdx.trees.skills.Indomitable;
 import com.mygdx.trees.skills.Skill;
 import com.mygdx.trees.skills.Zeal;
@@ -32,6 +33,8 @@ public class BattleManager {
 	private int round = 1;
 	private boolean currentTurnStarted = false;
 	
+	private AbilityHUD abilityHUD;
+	
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
 		this.traps = traps;		
@@ -42,9 +45,12 @@ public class BattleManager {
 			unit.skills.add(new Zeal(this));
 		}
 		
+		
 		this.units = TurnManager.newTurnOrder(nextUnits);
 		cUnit = this.units.poll();
 		getNextRange();
+		
+		abilityHUD = new AbilityHUD(cUnit);
 	}
 	
 	public void draw() {
@@ -55,6 +61,8 @@ public class BattleManager {
 		for (Trap trap : traps) trap.draw(batcher, map);
 		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
+		abilityHUD.draw();
+		
 	}
 	
 	public void handleTurn(int mRow, int mCol) {
@@ -100,7 +108,7 @@ public class BattleManager {
 				}
 			}
 			
-			beforeActivation = new FadingMessage(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim, message);
+			beforeActivation = new FadingMessage(cUnit.getCol()*map.tileDim+map.offsetX,(int) (cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim*1.2), message);
 			message = "";
 			
 			currentTurnStarted = true;

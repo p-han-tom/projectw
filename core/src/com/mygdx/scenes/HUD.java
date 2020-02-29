@@ -81,7 +81,7 @@ public class HUD {
 	public void update(BattleManager combat) {
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
-		lblUnitInfo.setText("HP: "+cUnit.attribute.maxHP+"/"+cUnit.attribute.maxHP);
+		lblUnitInfo.setText("HP: "+cUnit.getHp()+"/"+cUnit.attribute.maxHP);
 		lblRound.setText("Combat round: " + combat.getRound());
 	}
 }

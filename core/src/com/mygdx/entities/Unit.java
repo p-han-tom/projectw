@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.mygdx.abilities.Ability;
 import com.mygdx.maps.TileMap;
 import com.mygdx.trees.skills.Indomitable;
 import com.mygdx.trees.skills.Skill;
@@ -37,6 +38,7 @@ public class Unit extends Entity{
 
 	
 	public List<Skill> skills = new ArrayList<Skill>();
+	public List<Ability> abilities = new ArrayList<Ability>();
 	
 	public Attributes attribute;
 	private int level;
@@ -67,13 +69,9 @@ public class Unit extends Entity{
 		this.setRow(row);
 		this.setCol(col);
 	}
-	public int getHp() {
-		return hp;
-	}
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
 	
+	public int getHp() {return hp;}
+	public void setHp(int hp) {this.hp = hp;}
 	public int getUnitDim() {return unitDim;}
 	public void setUnitDim(int unitDim) {this.unitDim = unitDim;}
 	public int getuOffX() {return uOffX;}

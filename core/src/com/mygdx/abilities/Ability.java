@@ -1,12 +1,19 @@
 package com.mygdx.abilities;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.managers.BattleManager;
+import com.mygdx.maps.TileMap;
 
 public abstract class Ability {
 	public String id;
 	
-	private BattleManager combat;
-	private int range;
+	protected Texture spritesheet = new Texture("placeholder/sheet.png");
+	protected int spritedim = 16;
+	protected BattleManager combat;
+	protected int range;
+	protected Sprite icon;
 	/*
 	 * HOW ABILITIES WILL WORK
 	 * 
@@ -24,9 +31,12 @@ public abstract class Ability {
 	 * 
 	 */
 	
-	public Ability(BattleManager combat) {
-		this.combat = combat;
+	public Ability() {
+//		this.combat = combat;
+		
 	}
 	
 	public abstract void effect();
+	public Sprite getIcon() {return icon;}
+	
 }
