@@ -58,7 +58,7 @@ public class BattleManager {
 	public void draw() {
 		castingAbility = abilityHUD.castingAbility;
 		if (castingAbility == null) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
-		else abilityHUD.displayRange(cUnit, map, sr);
+		abilityHUD.displayRange(cUnit, map, sr);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
@@ -66,8 +66,6 @@ public class BattleManager {
 		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
 		abilityHUD.draw();
-		
-
 	}
 
 	public void handleTurn(int mRow, int mCol) {

@@ -39,23 +39,22 @@ public class AbilityHUD {
 	public Ability castingAbility = null;
 
 	public ArrayList<Pair> canTargetAdj;
-	
-	private Ability test1 = new Fireball();
-	private Ability test2 = new Slash();
+
+	private Ability test1 = new Fireball(new RangeMeleeAdjacent());
+	private Ability test2 = new Slash(new RangeMeleeAdjacent());
 	private Button atest1;
-	private boolean activated = false;
-	
+
 	private ShapeRenderer sr = new ShapeRenderer();
-	
+
 	public AbilityHUD(Unit unit) {
 		this.unit = unit;
 		Drawable drawable1 = new TextureRegionDrawable(test1.getIcon());
-		
+
 		final ButtonStyle style = new ButtonStyle();
 		style.up = drawable1;
-		
+
 		sr.setAutoShapeType(true);
-		
+
 		atest1 = new Button(drawable1) {
 			{
 				setSize(100, 100);
@@ -66,23 +65,18 @@ public class AbilityHUD {
 						if (castingAbility == null) {
 							castingAbility = test1;
 							canTargetAdj = new ArrayList<Pair>();
+							System.out.println("Range selection activated");
 						}
 						else {
 							castingAbility = null;
 							canTargetAdj = null;
-						}
-						System.out.println(castingAbility);
-						if (activated) {
 							System.out.println("Range selection cancelled");
-						} else {
-							System.out.println("Range selection activated");
 						}
-						activated = !activated;
 					}
 				});
 			}
 		};
-		
+
 
 		stage.addActor(atest1);
 		Gdx.input.setInputProcessor(stage);
@@ -92,7 +86,7 @@ public class AbilityHUD {
 	public void draw() {
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
-		if (activated) {
+		if (castingAbility!=null) {
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -102,18 +96,20 @@ public class AbilityHUD {
 			Gdx.gl.glDisable(GL30.GL_BLEND);
 		}
 	}
-	
+
 	public void displayRange(Unit cUnit, TileMap map, ShapeRenderer sr) {
-		sr.begin(ShapeType.Filled);
-		Gdx.gl.glEnable(GL30.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
-		sr.setColor(new Color(1, 0, 0, 0.3f));
-		for (Pair pair : castingAbility.range.canTarget) {
-			canTargetAdj.add(new Pair(pair.y + cUnit.getCol(), pair.x+cUnit.getRow()));
-			sr.rect((pair.y + cUnit.getCol())*map.tileDim+map.offsetX, (pair.x+cUnit.getRow())*map.tileDim+map.offsetY, map.tileDim, map.tileDim);
+		if (castingAbility != null) {
+			sr.begin(ShapeType.Filled);
+			Gdx.gl.glEnable(GL30.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+			sr.setColor(new Color(1, 0, 0, 0.3f));
+			for (Pair pair : castingAbility.range.canTarget) {
+				canTargetAdj.add(new Pair(pair.y + cUnit.getCol(), pair.x+cUnit.getRow()));
+				sr.rect((pair.y + cUnit.getCol())*map.tileDim+map.offsetX, (pair.x+cUnit.getRow())*map.tileDim+map.offsetY, map.tileDim, map.tileDim);
+			}
+			sr.end();
+			Gdx.gl.glDisable(GL30.GL_BLEND);
 		}
-		sr.end();
-		Gdx.gl.glDisable(GL30.GL_BLEND);
 	}
 
 }
