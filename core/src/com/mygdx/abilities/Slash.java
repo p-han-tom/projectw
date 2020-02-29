@@ -10,7 +10,7 @@ public class Slash extends Ability {
 
 	public Slash() {
 //		super(combat);
-		icon = new Sprite(new TextureRegion(spritesheet, spritedim*31+31,spritedim*0,spritedim,spritedim));
+		icon = new Sprite(new TextureRegion(spritesheet, spritedim*0,spritedim*31+31,spritedim,spritedim));
 	}
 
 	@Override
