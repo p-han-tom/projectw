@@ -83,7 +83,7 @@ public class AbilityHUD {
 
 	public void draw() {
 		stage.draw();
-		if (castingAbility!=null) {
+		if (activated) {
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -93,7 +93,6 @@ public class AbilityHUD {
 			Gdx.gl.glDisable(GL30.GL_BLEND);
 			test1.range.draw();
 		}
-		
 	}
 
 
