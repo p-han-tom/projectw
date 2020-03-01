@@ -43,8 +43,6 @@ public class AbilityHUD {
 
 	public Ability castingAbility = null;
 
-	public ArrayList<Pair> canTargetAdj;
-
 	private Button atest1;
 
 	private ShapeRenderer sr = new ShapeRenderer();
