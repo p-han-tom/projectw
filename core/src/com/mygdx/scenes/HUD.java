@@ -38,23 +38,27 @@ public class HUD {
 		
 		table = new Table();
 		
-//		table.debug();
 		table.right();
 		table.setPosition(Game.WIDTH-5, Game.HEIGHT-75);
-		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.WHITE));
-		lblCurrentTurn.setWrap(true);
-		lblCurrentTurn.setAlignment(Align.center);
-		lblCurrentTurn.setWidth(width);
 		
-		lblUnitInfo = new Label("HP: "+cUnit.attribute.maxHP+"/"+cUnit.attribute.maxHP, new Label.LabelStyle(font,Color.WHITE));
-		lblUnitInfo.setWrap(true);
-		lblUnitInfo.setAlignment(Align.center);
-		lblUnitInfo.setWidth(width);
+		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.WHITE)) {{
+			setWrap(true);
+			setAlignment(Align.center);
+			setWidth(width);
+		}};
 		
-		lblRound = new Label("Combat round: " + combat.getRound(), new Label.LabelStyle(font, Color.WHITE));
-		lblRound.setWrap(true);
-		lblRound.setAlignment(Align.center);
-		lblRound.setWidth(width);
+		lblUnitInfo = new Label("HP: "+cUnit.attribute.maxHP+"/"+cUnit.attribute.maxHP, new Label.LabelStyle(font,Color.WHITE)) {{
+			setWrap(true);
+			setAlignment(Align.center);
+			setWidth(width);
+		}};
+		
+		
+		lblRound = new Label("Combat round: " + combat.getRound(), new Label.LabelStyle(font, Color.WHITE)) {{
+			setWrap(true);
+			setAlignment(Align.center);
+			setWidth(width);
+		}};
 		
 		table.add(lblCurrentTurn).width(width).padTop(padding);
 		table.row();

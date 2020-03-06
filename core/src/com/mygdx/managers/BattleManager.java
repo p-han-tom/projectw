@@ -23,7 +23,7 @@ public class BattleManager {
 	public LinkedList<Unit> units = new LinkedList<Unit>();
 	public  LinkedList<Unit> nextUnits = new LinkedList<Unit>();
 	public List<Trap> traps;
-	public Ability castingAbility = null;
+	public boolean hudIsOpen = false;
 
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer();
@@ -56,7 +56,7 @@ public class BattleManager {
 	}
 
 	public void draw() {
-		cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
+		if (!hudIsOpen) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
@@ -64,12 +64,15 @@ public class BattleManager {
 		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
 		abilityHUD.draw();
-		
+	}
+	
+	public void update() {
+		abilityHUD.update();
 	}
 
 	public void handleTurn(int mRow, int mCol) {
 		beforeTurnSkills();
-		if (castingAbility == null) {
+		if (!hudIsOpen) {
 			//If a left click is received, the unit is moving
 			if (MouseButtons.isLeftPressed()) {
 
@@ -88,9 +91,12 @@ public class BattleManager {
 					getNextTurn();
 				}
 			}
-		}
-		else if (castingAbility != null) {
-			
+		} else {
+			if (MouseButtons.isLeftPressed()) {
+				
+				
+				
+			}
 		}
 	}
 
@@ -134,11 +140,12 @@ public class BattleManager {
 		}
 
 		cUnit = ((LinkedList<Unit>) units).poll();
-		abilityHUD.update(cUnit);
+		abilityHUD.showNextUnit(cUnit);
 		getNextRange();
 		currentTurnStarted = false;
 	}
 
 	public Unit getCurrentUnit() {return cUnit;}
 	public int getRound() {return round;}
+	public void flickHud(boolean activation) {hudIsOpen = activation;}
 }

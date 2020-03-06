@@ -20,6 +20,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.abilities.Fireball;
+import com.mygdx.abilities.Slash;
 import com.mygdx.entities.Attributes;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
@@ -92,12 +94,16 @@ public class PlayState extends GameState{
 		
 		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 10, 15, 10)) {{
 			createMovementRange(tmap);
+			abilities.add(new Fireball());
+			abilities.add(new Slash());
 		}};;
 		units.add(heroDbu);
 		
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
 		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 10, 10, 10)) {{
 			createMovementRange(tmap);
+			abilities.add(new Fireball());
+			abilities.add(new Slash());
 		}};
 		units.add(heroMee);
 		Sprite trapMagicSprite = new Sprite(new TextureRegion(spritesheet, 31*spritedim+31, 11*spritedim+11, spritedim, spritedim));
@@ -115,6 +121,7 @@ public class PlayState extends GameState{
 
 	public void update(float dt) {
 		hud.update(combat);
+		combat.update();
 		handleInput();
 	}
 

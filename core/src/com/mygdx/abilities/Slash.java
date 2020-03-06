@@ -14,7 +14,6 @@ public class Slash extends Ability {
 	public Slash() {
 		abilityRange = 1;
 		range = new AbilityRange(abilityRange, new Color(255,0,0,0.3f));
-
 		icon = new Sprite(new TextureRegion(spritesheet, spritedim*0,spritedim*31+31,spritedim,spritedim));
 	}
 
