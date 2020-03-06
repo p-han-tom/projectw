@@ -136,6 +136,7 @@ public class HUD {
 		btnEndTurn.setPosition(0, 0);
 		btnEndTurn.addListener(new ClickListener() {
 			public void clicked(InputEvent event, float x, float y) {
+				abilityActivated = false;
 				endTurnPressed = true;
 			}
 		});
