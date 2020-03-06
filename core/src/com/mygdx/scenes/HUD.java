@@ -169,6 +169,7 @@ public class HUD {
 		stage.draw();
 	}
 	public void update(BattleManager combat) {
+		if (!combat.canMove) showNextUnit(combat.getCurrentUnit());
 		if (endTurnPressed) {
 			endTurnPressed = false;
 			combat.getNextTurn();
