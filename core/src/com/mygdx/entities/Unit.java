@@ -51,7 +51,7 @@ public class Unit extends Entity{
 	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
 		super(name, col, row, sprite);
 		this.attribute = attribute;
-		hp = 0;
+		hp = attribute.maxHP;
 	}
 	
 	public void createMovementRange(TileMap map) {
@@ -72,6 +72,7 @@ public class Unit extends Entity{
 	
 	public int getHp() {return hp;}
 	public void setHp(int hp) {this.hp = hp;}
+	public void damage(int dmg) {this.hp-=dmg;}
 	public int getUnitDim() {return unitDim;}
 	public void setUnitDim(int unitDim) {this.unitDim = unitDim;}
 	public int getuOffX() {return uOffX;}

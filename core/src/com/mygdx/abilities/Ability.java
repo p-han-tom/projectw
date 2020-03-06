@@ -21,7 +21,7 @@ public abstract class Ability {
 		
 	}
 	
-	public abstract void effect(int row, int col);
+	public abstract void effect(int row, int col, BattleManager combat);
 	public Sprite getIcon() {return icon;}
 	public int getAbilityRange() {return abilityRange;}
 }

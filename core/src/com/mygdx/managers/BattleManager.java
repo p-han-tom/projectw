@@ -99,7 +99,7 @@ public class BattleManager {
 				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
 					if (!abilityHUD.getCurrentAbility().range.inRange(mRow, mCol)) return;
 					
-					abilityHUD.getCurrentAbility().effect(mRow, mCol);
+					abilityHUD.getCurrentAbility().effect(mRow, mCol, this);
 					abilityHUD.dispose();
 				}
 				

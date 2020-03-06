@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import com.mygdx.abilities.range.AbilityRange;
+import com.mygdx.entities.Unit;
 import com.mygdx.managers.BattleManager;
+import com.mygdx.maps.TileMap;
 
 //Test ability for ranged classes
 
@@ -25,10 +27,24 @@ public class Fireball extends Ability{
 	}
 
 	@Override
-	public void effect(int row, int col) {
-		// TODO Auto-generated method stub
-		
-		
+	public void effect(int row, int col, BattleManager combat) {
+		for (Unit unit:combat.nextUnits) {
+			if (unit.getRow()==row && unit.getCol()==col) {
+				unit.damage(8);
+			}
+			if (unit.getRow()==row-1 && unit.getCol()==col) {
+				unit.damage(8);
+			}
+			if (unit.getRow()==row+1 && unit.getCol()==col) {
+				unit.damage(8);
+			}
+			if (unit.getRow()==row && unit.getCol()==col-1) {
+				unit.damage(8);
+			}
+			if (unit.getRow()==row && unit.getCol()==col+1) {
+				unit.damage(8);
+			}
+		}
 	}
 
 }
