@@ -18,7 +18,7 @@ public class Slash extends Ability {
 	}
 
 	@Override
-	public void effect() {
+	public void effect(int row, int col) {
 		// TODO Auto-generated method stub
 		
 	}

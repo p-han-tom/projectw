@@ -27,7 +27,7 @@ public class AbilityHUD {
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer() {
 		{
-		setAutoShapeType(true);
+			setAutoShapeType(true);
 		}
 	};
 	
@@ -74,6 +74,14 @@ public class AbilityHUD {
 	
 	public void update() {
 		combat.flickHud(activated);
+	}
+	
+	public void dispose() {
+		activated = false;
+	}
+	
+	public Ability getCurrentAbility() {
+		return abilityList.get(buttonIndex);
 	}
 
 	public void draw() {

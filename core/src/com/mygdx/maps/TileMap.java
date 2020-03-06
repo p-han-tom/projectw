@@ -57,7 +57,6 @@ public class TileMap {
 		for (int row = 0; row < map.length; row ++) {
 			for (int col = 0; col < map[0].length; col ++) {
 				map[row][col].render(batch, row, col);
-				
 			}
 		}
 	}

@@ -21,7 +21,7 @@ public class BattleManager {
 
 	public TileMap map;
 	public LinkedList<Unit> units = new LinkedList<Unit>();
-	public  LinkedList<Unit> nextUnits = new LinkedList<Unit>();
+	public LinkedList<Unit> nextUnits = new LinkedList<Unit>();
 	public List<Trap> traps;
 	public boolean hudIsOpen = false;
 
@@ -46,7 +46,6 @@ public class BattleManager {
 			unit.skills.add(new Indomitable(this));
 			unit.skills.add(new Zeal(this));
 		}
-
 
 		this.units = TurnManager.newTurnOrder(nextUnits);
 		cUnit = this.units.poll();
@@ -87,14 +86,22 @@ public class BattleManager {
 							message += "- " + skill.getActivation() + "\n";
 						}
 					}
+					
+					afterActivation = new FadingMessage(MouseButtons.getX()-cUnit.getUnitDim(),
+							Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);
 
 					getNextTurn();
 				}
 			}
 		} else {
 			if (MouseButtons.isLeftPressed()) {
-				
-				
+				//adding ability effect
+				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
+					if (!abilityHUD.getCurrentAbility().range.inRange(mRow, mCol)) return;
+					
+					abilityHUD.getCurrentAbility().effect(mRow, mCol);
+					abilityHUD.dispose();
+				}
 				
 			}
 		}
@@ -128,9 +135,6 @@ public class BattleManager {
 	}
 	//clears the current unit and finds the next unit/next turn order
 	private void getNextTurn() {
-		afterActivation = new FadingMessage(MouseButtons.getX()-cUnit.getUnitDim(),
-				Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);			
-
 		cUnit.rangeFinder.clearRange();
 		message = "";
 

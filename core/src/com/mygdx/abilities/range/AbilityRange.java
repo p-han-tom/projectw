@@ -40,6 +40,11 @@ public class AbilityRange {
 		this.color.a = fade;
 	}
 	
+	public boolean inRange(int row, int col) {
+		for (Pair pair : canTarget) if (pair.x == row && pair.y == col) return true;
+		return false;
+	}
+	
 	public void createMapContext(TileMap map) {
 		this.map = map;
 		visited = new boolean[map.length][map.width];

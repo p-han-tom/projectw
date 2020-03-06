@@ -21,7 +21,7 @@ public abstract class Ability {
 		
 	}
 	
-	public abstract void effect();
+	public abstract void effect(int row, int col);
 	public Sprite getIcon() {return icon;}
 	public int getAbilityRange() {return abilityRange;}
 }
