@@ -102,9 +102,9 @@ public class HUD {
 			setWidth(width);
 		}};
 		
-		tableMain.debug();
-		tableAbilities.debug();
-		tableBottom.debug();
+//		tableMain.debug();
+//		tableAbilities.debug();
+//		tableBottom.debug();
 		
 		tableMain.add(lblCurrentTurn).width(width).padTop(padding);
 		tableMain.row();
