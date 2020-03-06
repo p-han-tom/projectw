@@ -53,6 +53,8 @@ public class HUD {
 	private boolean endTurnPressed = false;
 	private int buttonIndex;
 	
+	public boolean abilityUsed = false;
+	
 	public HUD(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
 		abilityList = combat.getCurrentUnit().abilities;		
 		for (int i = 0; i < abilityList.size(); i ++) {
@@ -115,8 +117,9 @@ public class HUD {
 		tableMain.add(lblRound).width(width).padTop(padding);
 		tableMain.row();
 		
-		tableAbilities.add(abilityButtonList.get(0)).width(60).height(60).pad(25);
-		tableAbilities.add(abilityButtonList.get(1)).width(60).height(60).pad(25);
+		for (Button button : abilityButtonList) {
+			tableAbilities.add(button).width(60).height(60).pad(25);
+		}
 		
 		tableMain.add(tableAbilities);
 		
@@ -153,7 +156,8 @@ public class HUD {
 		sr.rect(Game.WIDTH-(width+padding)+padding/2, padding/2, width, Game.HEIGHT-padding);
 		sr.end();
 		
-		if (abilityActivated) {
+		if (abilityActivated && !abilityUsed) {
+			System.out.println(abilityUsed);
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -168,19 +172,23 @@ public class HUD {
 		batch.setProjectionMatrix(stage.getCamera().combined);
 		stage.draw();
 	}
+	
 	public void update(BattleManager combat) {
 		if (!combat.canMove) showNextUnit(combat.getCurrentUnit());
 		if (endTurnPressed) {
 			endTurnPressed = false;
+			abilityUsed = false;
 			combat.getNextTurn();
 			showNextUnit(combat.getCurrentUnit());
 		}
+		
 		combat.flickHud(abilityActivated);
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
 		lblUnitInfo.setText("HP: "+cUnit.getHp()+"/"+cUnit.attribute.maxHP);
 		lblRound.setText("Combat round: " + combat.getRound());
 	}
+	
 	public void showNextUnit(Unit unit) {
 		for (Ability ability : abilityList) {
 			ability.range.reset();

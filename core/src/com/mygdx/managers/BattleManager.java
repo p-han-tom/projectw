@@ -61,10 +61,6 @@ public class BattleManager {
 		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
 	}
-	
-	public void update() {
-
-	}
 
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
@@ -77,16 +73,6 @@ public class BattleManager {
 
 					cUnit.move(mRow, mCol);
 					canMove = false;
-					
-					for (Skill skill : cUnit.skills) {
-						if (skill.activationCondition()) {
-							skill.effect();
-							message += "- " + skill.getActivation() + "\n";
-						}
-					}
-					
-					afterActivation = new FadingMessage(MouseButtons.getX()-cUnit.getUnitDim(),
-							Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);
 				}
 			}
 		} else if (hudIsOpen && canCast){
@@ -98,8 +84,8 @@ public class BattleManager {
 					hud.getCurrentAbility().effect(mRow, mCol, this);
 					hud.dispose();
 					canCast = false;
+					hud.abilityUsed = true;
 				}
-				
 			}
 		}
 	}
@@ -135,6 +121,16 @@ public class BattleManager {
 		canMove = true;
 		canCast = true;
 		cUnit.rangeFinder.clearRange();
+		for (Skill skill : cUnit.skills) {
+			if (skill.activationCondition()) {
+				skill.effect();
+				message += "- " + skill.getActivation() + "\n";
+			}
+		}
+		
+		afterActivation = new FadingMessage(cUnit.getCol()*cUnit.getUnitDim()+map.offsetX,
+				(int) (cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim*1.2), message);
+		
 		message = "";
 
 		if (units.isEmpty()) {
@@ -146,7 +142,6 @@ public class BattleManager {
 		getNextRange();
 		currentTurnStarted = false;
 	}
-
 	public Unit getCurrentUnit() {return cUnit;}
 	public int getRound() {return round;}
 	public void flickHud(boolean activation) {hudIsOpen = activation;}

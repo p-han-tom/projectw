@@ -121,7 +121,6 @@ public class PlayState extends GameState{
 
 	public void update(float dt) {
 		hud.update(combat);
-		combat.update();
 		handleInput();
 	}
 
