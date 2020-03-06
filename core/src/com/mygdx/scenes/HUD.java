@@ -157,7 +157,6 @@ public class HUD {
 		sr.end();
 		
 		if (abilityActivated && !abilityUsed) {
-			System.out.println(abilityUsed);
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -182,7 +181,8 @@ public class HUD {
 			showNextUnit(combat.getCurrentUnit());
 		}
 		
-		combat.flickHud(abilityActivated);
+		if (!abilityUsed) combat.flickHud(abilityActivated);
+		else combat.flickHud(false);
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
 		lblUnitInfo.setText("HP: "+cUnit.getHp()+"/"+cUnit.attribute.maxHP);
