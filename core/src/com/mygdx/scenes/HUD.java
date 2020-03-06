@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -40,13 +41,16 @@ public class HUD {
 	private Unit cUnit;
 	private Label lblCurrentTurn, lblUnitInfo, lblRound;
 	
-	private Table tableMain, tableAbilities;
+	private Table tableMain, tableAbilities, tableBottom;
 	
 	private BattleManager combat;
 	
+	private TextButton btnEndTurn;
+	
 	private List<Ability> abilityList;
 	private List<Button> abilityButtonList = new ArrayList<Button>();
-	private boolean activated = false;
+	private boolean abilityActivated = false;
+	private boolean endTurnPressed = false;
 	private int buttonIndex;
 	
 	public HUD(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
@@ -60,7 +64,7 @@ public class HUD {
 					setSize(60,60);
 					addListener(new ClickListener() {
 						public void clicked(InputEvent event, float x, float y) {
-							activated = !activated;
+							abilityActivated = !abilityActivated;
 							buttonIndex = index;
 						}
 					});
@@ -75,6 +79,9 @@ public class HUD {
 		tableMain = new Table();
 		tableMain.right();
 		tableAbilities = new Table();
+		
+		tableBottom = new Table();
+		tableBottom.right();
 		
 		lblCurrentTurn = new Label("It is currently "+cUnit.getName()+"'s turn.", new Label.LabelStyle(font,Color.WHITE)) {{
 			setWrap(true);
@@ -97,6 +104,7 @@ public class HUD {
 		
 		tableMain.debug();
 		tableAbilities.debug();
+		tableBottom.debug();
 		
 		tableMain.add(lblCurrentTurn).width(width).padTop(padding);
 		tableMain.row();
@@ -112,8 +120,27 @@ public class HUD {
 		
 		tableMain.add(tableAbilities);
 		
-		tableMain.setPosition(Game.WIDTH-tableMain.getWidth()-padding/2, Game.HEIGHT-125);
+		tableMain.setPosition(Game.WIDTH-padding/2, Game.HEIGHT-125);
+		
 		stage.addActor(tableMain);
+		
+		TextButtonStyle styleEndTurn = new TextButtonStyle();
+		styleEndTurn.font = font;
+		styleEndTurn.fontColor = Color.YELLOW;
+
+		btnEndTurn = new TextButton("End Turn", styleEndTurn);
+		btnEndTurn.right();
+		btnEndTurn.setPosition(0, 0);
+		btnEndTurn.addListener(new ClickListener() {
+			public void clicked(InputEvent event, float x, float y) {
+				endTurnPressed = true;
+			}
+		});
+		tableBottom.add(btnEndTurn).width(width);
+		
+		tableBottom.setPosition(Game.WIDTH-padding/2, 125);
+		
+		stage.addActor(tableBottom);
 	}
 	public void draw(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
 		sr.begin(ShapeType.Filled);
@@ -126,7 +153,7 @@ public class HUD {
 		sr.rect(Game.WIDTH-(width+padding)+padding/2, padding/2, width, Game.HEIGHT-padding);
 		sr.end();
 		
-		if (activated) {
+		if (abilityActivated) {
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -142,7 +169,12 @@ public class HUD {
 		stage.draw();
 	}
 	public void update(BattleManager combat) {
-		combat.flickHud(activated);
+		if (endTurnPressed) {
+			endTurnPressed = false;
+			combat.getNextTurn();
+			showNextUnit(combat.getCurrentUnit());
+		}
+		combat.flickHud(abilityActivated);
 		cUnit = combat.getCurrentUnit();
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
 		lblUnitInfo.setText("HP: "+cUnit.getHp()+"/"+cUnit.attribute.maxHP);
@@ -155,7 +187,7 @@ public class HUD {
 		}
 	}
 	public void dispose() {
-		activated = false;
+		abilityActivated = false;
 	}
 	public Ability getCurrentAbility() {
 		return abilityList.get(buttonIndex);

@@ -34,6 +34,8 @@ public class BattleManager {
 	private String message = "";
 	private int round = 1;
 	private boolean currentTurnStarted = false;
+	
+	public boolean canMove = true, canCast = true;
 
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
@@ -51,7 +53,7 @@ public class BattleManager {
 	}
 
 	public void draw() {
-		if (!hudIsOpen) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
+		if (!hudIsOpen && canMove) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
@@ -66,7 +68,7 @@ public class BattleManager {
 
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
-		if (!hudIsOpen) {
+		if (!hudIsOpen && canMove) {
 			//If a left click is received, the unit is moving
 			if (MouseButtons.isLeftPressed()) {
 
@@ -74,7 +76,8 @@ public class BattleManager {
 					if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
 
 					cUnit.move(mRow, mCol);
-
+					canMove = false;
+					
 					for (Skill skill : cUnit.skills) {
 						if (skill.activationCondition()) {
 							skill.effect();
@@ -84,11 +87,9 @@ public class BattleManager {
 					
 					afterActivation = new FadingMessage(MouseButtons.getX()-cUnit.getUnitDim(),
 							Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);
-
-					getNextTurn(hud);
 				}
 			}
-		} else {
+		} else if (hudIsOpen && canCast){
 			if (MouseButtons.isLeftPressed()) {
 				//adding ability effect
 				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
@@ -96,6 +97,7 @@ public class BattleManager {
 					
 					hud.getCurrentAbility().effect(mRow, mCol, this);
 					hud.dispose();
+					canCast = false;
 				}
 				
 			}
@@ -129,7 +131,9 @@ public class BattleManager {
 		}
 	}
 	//clears the current unit and finds the next unit/next turn order
-	private void getNextTurn(HUD hud) {
+	public void getNextTurn() {
+		canMove = true;
+		canCast = true;
 		cUnit.rangeFinder.clearRange();
 		message = "";
 
@@ -139,7 +143,6 @@ public class BattleManager {
 		}
 
 		cUnit = ((LinkedList<Unit>) units).poll();
-		hud.showNextUnit(cUnit);
 		getNextRange();
 		currentTurnStarted = false;
 	}
