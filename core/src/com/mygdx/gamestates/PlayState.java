@@ -139,7 +139,7 @@ public class PlayState extends GameState{
 		int mouseCol = (MouseButtons.getX()-tmap.offsetX)/tmap.tileDim;
 		int mouseRow = (Game.HEIGHT-(MouseButtons.getY()+tmap.offsetY))/tmap.tileDim;
 		
-		if (!uim.isStatBoxOpen()) combat.handleTurn(mouseRow, mouseCol);
+		if (!uim.isStatBoxOpen()) combat.handleTurn(mouseRow, mouseCol, hud);
 		uim.handleInput(mouseCol, mouseRow);
 	}
 

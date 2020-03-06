@@ -11,7 +11,7 @@ import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.maps.TileMap;
-import com.mygdx.scenes.AbilityHUD;
+import com.mygdx.scenes.HUD;
 import com.mygdx.trees.skills.Indomitable;
 import com.mygdx.trees.skills.Skill;
 import com.mygdx.trees.skills.Zeal;
@@ -35,8 +35,6 @@ public class BattleManager {
 	private int round = 1;
 	private boolean currentTurnStarted = false;
 
-	private AbilityHUD abilityHUD;
-
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
 		this.traps = traps;		
@@ -50,8 +48,6 @@ public class BattleManager {
 		this.units = TurnManager.newTurnOrder(nextUnits);
 		cUnit = this.units.poll();
 		getNextRange();
-
-		abilityHUD = new AbilityHUD(this);
 	}
 
 	public void draw() {
@@ -62,14 +58,13 @@ public class BattleManager {
 		for (Trap trap : traps) trap.draw(batcher, map);
 		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
-		abilityHUD.draw();
 	}
 	
 	public void update() {
-		abilityHUD.update();
+
 	}
 
-	public void handleTurn(int mRow, int mCol) {
+	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
 		if (!hudIsOpen) {
 			//If a left click is received, the unit is moving
@@ -90,17 +85,17 @@ public class BattleManager {
 					afterActivation = new FadingMessage(MouseButtons.getX()-cUnit.getUnitDim(),
 							Game.HEIGHT-MouseButtons.getY()+cUnit.getUnitDim(), message);
 
-					getNextTurn();
+					getNextTurn(hud);
 				}
 			}
 		} else {
 			if (MouseButtons.isLeftPressed()) {
 				//adding ability effect
 				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
-					if (!abilityHUD.getCurrentAbility().range.inRange(mRow, mCol)) return;
+					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
 					
-					abilityHUD.getCurrentAbility().effect(mRow, mCol, this);
-					abilityHUD.dispose();
+					hud.getCurrentAbility().effect(mRow, mCol, this);
+					hud.dispose();
 				}
 				
 			}
@@ -134,7 +129,7 @@ public class BattleManager {
 		}
 	}
 	//clears the current unit and finds the next unit/next turn order
-	private void getNextTurn() {
+	private void getNextTurn(HUD hud) {
 		cUnit.rangeFinder.clearRange();
 		message = "";
 
@@ -144,7 +139,7 @@ public class BattleManager {
 		}
 
 		cUnit = ((LinkedList<Unit>) units).poll();
-		abilityHUD.showNextUnit(cUnit);
+		hud.showNextUnit(cUnit);
 		getNextRange();
 		currentTurnStarted = false;
 	}
