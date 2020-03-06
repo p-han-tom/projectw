@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -38,11 +39,12 @@ public class AbilityHUD {
 	private List<Button> abilityButtonList = new ArrayList<Button>();
 	private boolean activated = false;
 	private int buttonIndex;
+	private Table table;
 	
 	public AbilityHUD(BattleManager combat) {
 		this.combat = combat;
 		abilityList = combat.getCurrentUnit().abilities;		
-		
+		table = new Table();
 		for (int i = 0; i < abilityList.size(); i ++) {
 			final int index = i;
 			abilityList.get(i).range.createMapContext(combat.map);
@@ -58,10 +60,12 @@ public class AbilityHUD {
 					});
 				}
 			});
-			abilityButtonList.get(abilityButtonList.size()-1).setPosition(Game.WIDTH-180+i*60, Game.HEIGHT-200);
 		}
-
-		for (Button button : abilityButtonList) stage.addActor(button);
+		table.setPosition(Game.WIDTH-130, 425);
+		table.add(abilityButtonList.get(0)).width(60).height(60).pad(15);
+		table.add(abilityButtonList.get(1)).width(60).height(60).pad(15);
+		stage.addActor(table);
+//		for (Button button : abilityButtonList) stage.addActor(button);
 		Gdx.input.setInputProcessor(stage);
 	}
 	
@@ -91,7 +95,7 @@ public class AbilityHUD {
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
 			sr.setColor(new Color(1,0,0,0.3f));
-			sr.rect(Game.WIDTH-180+60*buttonIndex, Game.HEIGHT-200, abilityButtonList.get(buttonIndex).getWidth() ,abilityButtonList.get(buttonIndex).getHeight());
+			sr.rect(abilityButtonList.get(buttonIndex).getX()+table.getX(), abilityButtonList.get(buttonIndex).getY()+table.getY(), abilityButtonList.get(buttonIndex).getWidth(),abilityButtonList.get(buttonIndex).getHeight());
 			sr.end();
 			Gdx.gl.glDisable(GL30.GL_BLEND);
 			abilityList.get(buttonIndex).range.draw();
