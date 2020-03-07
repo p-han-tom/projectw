@@ -18,12 +18,21 @@ import com.mygdx.maps.TileMap;
 
 public class Fireball extends Ability{
 
-	boolean exit = false;
+	public boolean exit = false;
+	private float acc = 1.1f;
+	
+	private Sprite fireball = new Sprite(new TextureRegion(spritesheet, spritedim*15+15, spritedim*10+10, spritedim, spritedim)) {
+		{
+		setSize(60, 60);
+		}
+	};
 	
 	public Fireball() {
 		abilityRange = 4;
 		range = new AbilityRange(abilityRange, new Color(0,1,1,0.3f));
 		icon = new Sprite(new TextureRegion(spritesheet, spritedim*15+15, spritedim*10+10, spritedim, spritedim));
+		
+		
 	}
 
 	@Override
@@ -47,4 +56,21 @@ public class Fireball extends Ability{
 		}
 	}
 
+	@Override
+	public void draw() {
+		
+		batcher.begin();
+		
+		fireball.setPosition(x, y);
+		fireball.draw(batcher);
+		x += run*=acc;
+		y += rise*=acc;
+		
+		batcher.end();
+		
+		if ((above && y > fy) || (!above && y < fy) || (horizontal && onLeft && x < fx) || (horizontal && !onLeft && x > fx)) finishedDrawing = true;
+		
+	}
+	
+	
 }

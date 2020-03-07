@@ -133,8 +133,10 @@ public class PlayState extends GameState{
 	}
 
 	public void update(float dt) {
-		hud.update(combat);
-		handleInput();
+		if (!combat.abilityIsDrawing) {
+			hud.update(combat);
+			handleInput();
+		}
 	}
 
 	public void draw() {

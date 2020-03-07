@@ -31,6 +31,7 @@ import com.mygdx.abilities.Ability;
 import com.mygdx.entities.Unit;
 import com.mygdx.game.Game;
 import com.mygdx.managers.BattleManager;
+import com.mygdx.managers.MouseButtons;
 import com.mygdx.maps.TileMap;
 
 public class HUD {
@@ -46,6 +47,7 @@ public class HUD {
 	private BattleManager combat;
 	
 	private TextButton btnEndTurn;
+	private double endPressFlicker = 0;
 	
 	private List<Ability> abilityList;
 	private List<Button> abilityButtonList = new ArrayList<Button>();
@@ -118,7 +120,10 @@ public class HUD {
 		tableMain.row();
 		
 		for (Button button : abilityButtonList) {
-			tableAbilities.add(button).width(60).height(60).pad(25);
+			tableAbilities.add(button)
+			.width(button.getWidth())
+			.height(button.getHeight())
+			.pad(25);
 		}
 		
 		tableMain.add(tableAbilities);
@@ -131,20 +136,21 @@ public class HUD {
 		styleEndTurn.font = font;
 		styleEndTurn.fontColor = Color.YELLOW;
 
-		btnEndTurn = new TextButton("End Turn", styleEndTurn);
-		btnEndTurn.right();
-		btnEndTurn.setPosition(0, 0);
-		btnEndTurn.addListener(new ClickListener() {
-			public void clicked(InputEvent event, float x, float y) {
-				abilityActivated = false;
-				endTurnPressed = true;
+		btnEndTurn = new TextButton("End Turn", styleEndTurn) {
+			{
+				right();
+				setSize(150,75);
+				setPosition(Game.WIDTH-width+(width-150)/2-padding/2, 250);
+				addListener(new ClickListener() {
+					public void clicked(InputEvent event, float x, float y) {
+						abilityActivated = false;
+						endTurnPressed = true;
+					}
+				});
 			}
-		});
-		tableBottom.add(btnEndTurn).width(width);
+		};
 		
-		tableBottom.setPosition(Game.WIDTH-padding/2, 125);
-		
-		stage.addActor(tableBottom);
+		stage.addActor(btnEndTurn);
 	}
 	public void draw(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
 		sr.begin(ShapeType.Filled);
@@ -168,6 +174,20 @@ public class HUD {
 			Gdx.gl.glDisable(GL30.GL_BLEND);
 			abilityList.get(buttonIndex).range.draw();
 		}
+		
+		
+		if ((MouseButtons.isLeftPressed() && MouseButtons.getX() >= btnEndTurn.getX() && MouseButtons.getX() <= btnEndTurn.getX()+btnEndTurn.getWidth()
+			&& Game.HEIGHT-MouseButtons.getY() >= btnEndTurn.getY() && Game.HEIGHT-MouseButtons.getY() <= btnEndTurn.getY()+btnEndTurn.getHeight()) || 
+				(endPressFlicker > 0 && endPressFlicker <= 0.1)) {
+			sr.begin(ShapeType.Filled);
+			Gdx.gl.glEnable(GL30.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+			sr.setColor(new Color(0,1,0,0.3f));
+			sr.rect(btnEndTurn.getX(), btnEndTurn.getY(), btnEndTurn.getWidth(), btnEndTurn.getHeight());
+			sr.end();
+			Gdx.gl.glDisable(GL30.GL_BLEND);
+			endPressFlicker += Gdx.graphics.getDeltaTime();
+		} else endPressFlicker = 0;
 		
 		batch.setProjectionMatrix(stage.getCamera().combined);
 		stage.draw();

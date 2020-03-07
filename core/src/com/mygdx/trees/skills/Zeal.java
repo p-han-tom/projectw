@@ -15,7 +15,7 @@ public class Zeal extends Skill{
 	@Override
 	public boolean activationCondition() {
 		activation = (int) (Math.random()*100+1);
-		if (activation <= 50) return true;
+		if (activation <= 15) return true;
 		return false;
 	}
 
