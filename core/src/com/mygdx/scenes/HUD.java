@@ -58,7 +58,9 @@ public class HUD {
 	public boolean abilityUsed = false;
 	
 	public HUD(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
-		abilityList = combat.getCurrentUnit().abilities;		
+		
+		// Loops through abilities to initialize their range and create a button for each one
+		abilityList = combat.getCurrentUnit().abilities;	
 		for (int i = 0; i < abilityList.size(); i ++) {
 			final int index = i;
 			abilityList.get(i).range.createMapContext(combat.map);
@@ -75,7 +77,7 @@ public class HUD {
 				}
 			});
 		}
-
+		// This line needs to be here for buttons to work
 		Gdx.input.setInputProcessor(stage);
 		
 		cUnit = combat.getCurrentUnit();
@@ -106,6 +108,7 @@ public class HUD {
 			setWidth(width);
 		}};
 		
+		// Uncomment these to see table outlines
 //		tableMain.debug();
 //		tableAbilities.debug();
 //		tableBottom.debug();
@@ -153,16 +156,19 @@ public class HUD {
 		stage.addActor(btnEndTurn);
 	}
 	public void draw(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font) {
+		// Hud gray rectangle
 		sr.begin(ShapeType.Filled);
 		sr.setColor(Color.DARK_GRAY);
 		sr.rect(Game.WIDTH-(width+padding), 0, (width+padding), Game.HEIGHT);
 		sr.end();
 		
+		//Hud rectangle gray border
 		sr.begin();
 		sr.setColor(Color.BLACK);
 		sr.rect(Game.WIDTH-(width+padding)+padding/2, padding/2, width, Game.HEIGHT-padding);
 		sr.end();
 		
+		// Highlight ability button and range
 		if (abilityActivated && !abilityUsed) {
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
@@ -175,8 +181,8 @@ public class HUD {
 			abilityList.get(buttonIndex).range.draw();
 		}
 		
-		
-		if ((MouseButtons.isLeftPressed() && MouseButtons.getX() >= btnEndTurn.getX() && MouseButtons.getX() <= btnEndTurn.getX()+btnEndTurn.getWidth()
+		// Highlights end turn button if mouse is held down
+		if ((MouseButtons.isLeftDown() && MouseButtons.getX() >= btnEndTurn.getX() && MouseButtons.getX() <= btnEndTurn.getX()+btnEndTurn.getWidth()
 			&& Game.HEIGHT-MouseButtons.getY() >= btnEndTurn.getY() && Game.HEIGHT-MouseButtons.getY() <= btnEndTurn.getY()+btnEndTurn.getHeight()) || 
 				(endPressFlicker > 0 && endPressFlicker <= 0.1)) {
 			sr.begin(ShapeType.Filled);
