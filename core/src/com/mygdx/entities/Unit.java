@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.abilities.Ability;
-import com.mygdx.controller.Controller;
 import com.mygdx.managers.BattleManager;
 import com.mygdx.maps.TileMap;
 import com.mygdx.scenes.HUD;
@@ -43,7 +42,6 @@ public class Unit extends Entity{
 	public List<Skill> skills = new ArrayList<Skill>();
 	public List<Ability> abilities = new ArrayList<Ability>();
 	
-	private Controller controller;
 	public Attributes attribute;
 	private int level;
 	private int xp;
@@ -52,10 +50,9 @@ public class Unit extends Entity{
 	public UnitRangeFinder rangeFinder;
 	private int unitDim, uOffX, uOffY;
 	
-	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute, Controller controller) {
+	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
 		super(name, col, row, sprite);
 		this.attribute = attribute;
-		this.controller = controller;
 		hp = attribute.maxHP;
 	}
 	
@@ -73,10 +70,6 @@ public class Unit extends Entity{
 	public void move(int row, int col) {
 		this.setRow(row);
 		this.setCol(col);
-	}
-	
-	public void control(BattleManager combat, HUD hud) {
-		controller.control(combat, hud);
 	}
 	
 	public int getHp() {return hp;}

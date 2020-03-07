@@ -22,8 +22,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.abilities.Fireball;
 import com.mygdx.abilities.Slash;
-import com.mygdx.controller.ControlDummy;
-import com.mygdx.controller.ControlPlayer;
 import com.mygdx.entities.Attributes;
 import com.mygdx.entities.Trap;
 import com.mygdx.entities.Unit;
@@ -96,7 +94,7 @@ public class PlayState extends GameState{
 		spritesheet = new Texture("placeholder/sheet.png");
 		Sprite heroDbuSprite = new Sprite(new TextureRegion(spritesheet, 25*spritedim+25, 2*spritedim+2, spritedim, spritedim));
 		
-		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 10, 15, 10), new ControlPlayer()) {{
+		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 10, 15, 10)) {{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
 			abilities.add(new Slash());
@@ -104,7 +102,7 @@ public class PlayState extends GameState{
 		units.add(heroDbu);
 		
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 10, 10, 10), new ControlPlayer()) {{
+		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 10, 10, 10)) {{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
 			abilities.add(new Slash());
@@ -112,7 +110,7 @@ public class PlayState extends GameState{
 		units.add(heroMee);
 		
 		Sprite dummySprite = new Sprite(new TextureRegion(spritesheet, 28*spritedim+26, 2*spritedim+2, spritedim, spritedim));
-		dummy = new Unit("Dummy", 4, 5, dummySprite, new Attributes(10, 10, 10, 10), new ControlDummy()) {{
+		dummy = new Unit("Dummy", 4, 5, dummySprite, new Attributes(10, 10, 10, 10)) {{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
 			abilities.add(new Slash());
