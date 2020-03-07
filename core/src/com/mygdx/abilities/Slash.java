@@ -27,4 +27,10 @@ public class Slash extends Ability {
 		}
 	}
 
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

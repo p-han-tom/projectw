@@ -24,6 +24,7 @@ public class BattleManager {
 	public LinkedList<Unit> nextUnits = new LinkedList<Unit>();
 	public List<Trap> traps;
 	public boolean hudIsOpen = false;
+	public boolean abilityIsDrawing = false;
 
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer();
@@ -34,6 +35,8 @@ public class BattleManager {
 	private String message = "";
 	private int round = 1;
 	private boolean currentTurnStarted = false;
+	private Ability abilityToDraw;
+	private float srcX, srcY, fX, fY;
 	
 	public boolean canMove = true, canCast = true;
 
@@ -58,6 +61,16 @@ public class BattleManager {
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
 		for (Trap trap : traps) trap.draw(batcher, map);
+		
+		if (abilityIsDrawing) {
+			if (abilityToDraw.finishedDrawing) {
+				abilityIsDrawing = false;
+				abilityToDraw.finishedDrawing = false;
+			} else {
+				abilityToDraw.draw();
+			}
+		}
+		
 		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
 		if (afterActivation != null) afterActivation.draw(batcher, sr);
 	}
@@ -82,6 +95,13 @@ public class BattleManager {
 					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
 					
 					hud.getCurrentAbility().effect(mRow, mCol, this);
+					
+					abilityToDraw = hud.getCurrentAbility();
+					abilityToDraw.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
+							mCol*map.tileDim+map.offsetX, mRow*map.tileDim+map.offsetY);
+
+					abilityIsDrawing = true;
+
 					hud.dispose();
 					canCast = false;
 					hud.abilityUsed = true;
