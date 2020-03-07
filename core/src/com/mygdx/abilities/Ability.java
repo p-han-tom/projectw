@@ -13,6 +13,8 @@ public abstract class Ability {
 	protected double timer = 0;
 	protected float x, y, fx, fy, rise, run;
 	protected boolean above;
+	protected boolean horizontal;
+	protected boolean onLeft;
 	
 	public boolean finishedDrawing = false;
 	
@@ -36,6 +38,8 @@ public abstract class Ability {
 		this.fy = fy;
 		
 		if (fy > y) above = true;
+		if (fy - y == 0) horizontal = true;
+	
 		
 		if (fx > x) {
 			run = 1;
@@ -45,6 +49,7 @@ public abstract class Ability {
 		else if (fx < x) {
 			run = -1;
 			rise = -(fy-y)/(fx-x);
+			onLeft = true;
 			return;
 		}
 		else {
