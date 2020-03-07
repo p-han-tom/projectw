@@ -109,7 +109,7 @@ public class PlayState extends GameState{
 		}};
 		units.add(heroMee);
 		
-		Sprite dummySprite = new Sprite(new TextureRegion(spritesheet, 28*spritedim+26, 2*spritedim+2, spritedim, spritedim));
+		Sprite dummySprite = new Sprite(new TextureRegion(spritesheet, 28*spritedim+28, 2*spritedim+2, spritedim, spritedim));
 		dummy = new Unit("Dummy", 4, 5, dummySprite, new Attributes(10, 10, 10, 10)) {{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
