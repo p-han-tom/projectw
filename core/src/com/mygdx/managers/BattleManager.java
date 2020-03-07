@@ -64,9 +64,11 @@ public class BattleManager {
 		
 		if (abilityIsDrawing) {
 			if (abilityToDraw.finishedDrawing) {
+				System.out.println("here");
 				abilityIsDrawing = false;
 				abilityToDraw.finishedDrawing = false;
 			} else {
+				System.out.println("drawing");
 				abilityToDraw.draw();
 			}
 		}
@@ -100,6 +102,9 @@ public class BattleManager {
 					abilityToDraw.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
 							mCol*map.tileDim+map.offsetX, mRow*map.tileDim+map.offsetY);
 
+					System.out.println((cUnit.getCol()*map.tileDim+map.offsetX) + " " + (cUnit.getRow()*map.tileDim+map.offsetY));
+					System.out.println((mCol*map.tileDim+map.offsetX) + " " + (mRow*map.tileDim+map.offsetY));
+					
 					abilityIsDrawing = true;
 
 					hud.dispose();
