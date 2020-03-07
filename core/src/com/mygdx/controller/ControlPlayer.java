@@ -27,6 +27,13 @@ public class ControlPlayer extends Controller{
 					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
 					
 					hud.getCurrentAbility().effect(mRow, mCol, combat);
+					
+					abilityToDraw = hud.getCurrentAbility();
+					abilityToDraw.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
+							mCol*map.tileDim+map.offsetX, mRow*map.tileDim+map.offsetY);
+
+					abilityIsDrawing = true;
+					
 					hud.dispose();
 					combat.canCast = false;
 					hud.abilityUsed = true;
