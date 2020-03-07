@@ -64,9 +64,11 @@ public class BattleManager {
 		
 		if (abilityIsDrawing) {
 			if (abilityToDraw.finishedDrawing) {
+				System.out.println("here");
 				abilityIsDrawing = false;
 				abilityToDraw.finishedDrawing = false;
 			} else {
+				System.out.println("drawing");
 				abilityToDraw.draw();
 			}
 		}
@@ -77,7 +79,40 @@ public class BattleManager {
 
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
-		cUnit.control(this, hud);
+		if (!hudIsOpen && canMove) {
+			//If a left click is received, the unit is moving
+			if (MouseButtons.isLeftPressed()) {
+
+				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
+					if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
+
+					cUnit.move(mRow, mCol);
+					canMove = false;
+				}
+			}
+		} else if (hudIsOpen && canCast){
+			if (MouseButtons.isLeftPressed()) {
+				//adding ability effect
+				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
+					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
+					
+					hud.getCurrentAbility().effect(mRow, mCol, this);
+					
+					abilityToDraw = hud.getCurrentAbility();
+					abilityToDraw.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
+							mCol*map.tileDim+map.offsetX, mRow*map.tileDim+map.offsetY);
+
+					System.out.println((cUnit.getCol()*map.tileDim+map.offsetX) + " " + (cUnit.getRow()*map.tileDim+map.offsetY));
+					System.out.println((mCol*map.tileDim+map.offsetX) + " " + (mRow*map.tileDim+map.offsetY));
+					
+					abilityIsDrawing = true;
+
+					hud.dispose();
+					canCast = false;
+					hud.abilityUsed = true;
+				}
+			}
+		}
 	}
 
 	//finds the movement range of the current unit and stores it

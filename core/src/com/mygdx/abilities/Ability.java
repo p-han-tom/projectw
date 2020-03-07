@@ -40,7 +40,6 @@ public abstract class Ability {
 		if (fy > y) above = true;
 		if (fy - y == 0) horizontal = true;
 	
-		
 		if (fx > x) {
 			run = 1;
 			rise = (fy-y)/(fx-x);
