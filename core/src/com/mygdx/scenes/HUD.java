@@ -47,6 +47,7 @@ public class HUD {
 	private BattleManager combat;
 	
 	private TextButton btnEndTurn;
+	private double endPressFlicker = 0;
 	
 	private List<Ability> abilityList;
 	private List<Button> abilityButtonList = new ArrayList<Button>();
@@ -139,7 +140,7 @@ public class HUD {
 			{
 				right();
 				setSize(150,75);
-				setPosition(Game.WIDTH-width+(width-150)/2-padding, 250);
+				setPosition(Game.WIDTH-width+(width-150)/2-padding/2, 250);
 				addListener(new ClickListener() {
 					public void clicked(InputEvent event, float x, float y) {
 						abilityActivated = false;
@@ -175,9 +176,9 @@ public class HUD {
 		}
 		
 		
-		if (MouseButtons.isLeftPressed() && MouseButtons.getX() >= btnEndTurn.getX() && MouseButtons.getX() <= btnEndTurn.getX()+btnEndTurn.getWidth()
-				&& Game.HEIGHT-MouseButtons.getY() >= btnEndTurn.getY() && Game.HEIGHT-MouseButtons.getY() <= btnEndTurn.getY()+btnEndTurn.getHeight()) {
-			System.out.println("Here");
+		if ((MouseButtons.isLeftPressed() && MouseButtons.getX() >= btnEndTurn.getX() && MouseButtons.getX() <= btnEndTurn.getX()+btnEndTurn.getWidth()
+			&& Game.HEIGHT-MouseButtons.getY() >= btnEndTurn.getY() && Game.HEIGHT-MouseButtons.getY() <= btnEndTurn.getY()+btnEndTurn.getHeight()) || 
+				(endPressFlicker > 0 && endPressFlicker <= 0.1)) {
 			sr.begin(ShapeType.Filled);
 			Gdx.gl.glEnable(GL30.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
@@ -185,7 +186,8 @@ public class HUD {
 			sr.rect(btnEndTurn.getX(), btnEndTurn.getY(), btnEndTurn.getWidth(), btnEndTurn.getHeight());
 			sr.end();
 			Gdx.gl.glDisable(GL30.GL_BLEND);
-		}
+			endPressFlicker += Gdx.graphics.getDeltaTime();
+		} else endPressFlicker = 0;
 		
 		batch.setProjectionMatrix(stage.getCamera().combined);
 		stage.draw();
