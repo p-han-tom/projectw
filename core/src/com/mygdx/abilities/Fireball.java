@@ -68,6 +68,7 @@ public class Fireball extends Ability{
 		
 		batcher.end();
 		
+		
 		if ((above && y > fy) || (!above && y < fy) || (horizontal && onLeft && x < fx) || (horizontal && !onLeft && x > fx)) finishedDrawing = true;
 		
 	}

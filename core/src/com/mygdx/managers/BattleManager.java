@@ -36,7 +36,6 @@ public class BattleManager {
 	private int round = 1;
 	private boolean currentTurnStarted = false;
 	private Ability abilityToDraw;
-	private float srcX, srcY, fX, fY;
 	
 	public boolean canMove = true, canCast = true;
 
@@ -68,7 +67,6 @@ public class BattleManager {
 				abilityIsDrawing = false;
 				abilityToDraw.finishedDrawing = false;
 			} else {
-				System.out.println("drawing");
 				abilityToDraw.draw();
 			}
 		}

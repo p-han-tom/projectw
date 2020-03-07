@@ -32,6 +32,10 @@ public abstract class Ability {
 	public abstract void effect(int row, int col, BattleManager combat);
 	public abstract void draw();
 	public void drawLocation(float x, float y, float fx, float fy) {
+		above = false;
+		horizontal = false;
+		onLeft = false;
+		
 		this.x = x;
 		this.y = y;
 		this.fx = fx;
