@@ -64,30 +64,7 @@ public class BattleManager {
 
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
-		if (!hudIsOpen && canMove) {
-			//If a left click is received, the unit is moving
-			if (MouseButtons.isLeftPressed()) {
-
-				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
-					if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
-
-					cUnit.move(mRow, mCol);
-					canMove = false;
-				}
-			}
-		} else if (hudIsOpen && canCast){
-			if (MouseButtons.isLeftPressed()) {
-				//adding ability effect
-				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
-					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
-					
-					hud.getCurrentAbility().effect(mRow, mCol, this);
-					hud.dispose();
-					canCast = false;
-					hud.abilityUsed = true;
-				}
-			}
-		}
+		cUnit.control(this, hud);
 	}
 
 	//finds the movement range of the current unit and stores it
