@@ -36,6 +36,9 @@ import com.mygdx.maps.TileMap;
 
 public class HUD {
 	public static int HUDDisplace = 100;
+	private static SpriteBatch batch;
+	private static ShapeRenderer sr;
+	
 	public int width = 250;
 	private int padding = 10;
 	
@@ -43,9 +46,7 @@ public class HUD {
 	private Label lblCurrentTurn, lblUnitInfo, lblRound;
 	
 	private Table tableMain, tableAbilities, tableBottom;
-	
-	private BattleManager combat;
-	
+		
 	private TextButton btnEndTurn;
 	private double endPressFlicker = 0;
 	
@@ -60,11 +61,11 @@ public class HUD {
 	public HUD(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
 		
 		// Loops through abilities to initialize their range and create a button for each one
-		abilityList = combat.getCurrentUnit().abilities;	
+		abilityList = combat.cUnit.abilities;	
 		for (int i = 0; i < abilityList.size(); i ++) {
 			final int index = i;
 			abilityList.get(i).range.createMapContext(combat.map);
-			abilityList.get(i).range.buildRange(combat.getCurrentUnit().getRow(), combat.getCurrentUnit().getCol(), abilityList.get(i).getAbilityRange());
+			abilityList.get(i).range.buildRange(combat.cUnit.getRow(), combat.cUnit.getCol(), abilityList.get(i).getAbilityRange());
 			abilityButtonList.add(new Button(new TextureRegionDrawable(abilityList.get(i).getIcon())) {
 				{
 					setSize(60,60);
@@ -80,7 +81,7 @@ public class HUD {
 		// This line needs to be here for buttons to work
 		Gdx.input.setInputProcessor(stage);
 		
-		cUnit = combat.getCurrentUnit();
+		cUnit = combat.cUnit;
 		
 		tableMain = new Table();
 		tableMain.right();
@@ -102,7 +103,7 @@ public class HUD {
 		}};
 		
 		
-		lblRound = new Label("Combat round: " + combat.getRound(), new Label.LabelStyle(font, Color.WHITE)) {{
+		lblRound = new Label("Combat round: " + combat.round, new Label.LabelStyle(font, Color.WHITE)) {{
 			setWrap(true);
 			setAlignment(Align.center);
 			setWidth(width);
@@ -200,32 +201,29 @@ public class HUD {
 	}
 	
 	public void update(BattleManager combat) {
-		if (!combat.canMove) showNextUnit(combat.getCurrentUnit());
+		if (!combat.canMove) getNextAbilityRange(combat.cUnit);
 		if (endTurnPressed) {
 			endTurnPressed = false;
 			abilityUsed = false;
 			combat.getNextTurn();
-			showNextUnit(combat.getCurrentUnit());
+			getNextAbilityRange(combat.cUnit);
 		}
 		
-		if (!abilityUsed) combat.flickHud(abilityActivated);
-		else combat.flickHud(false);
-		cUnit = combat.getCurrentUnit();
+		if (!abilityUsed) combat.abilitySelected = abilityActivated;
+		else combat.abilitySelected = false;
+		cUnit = combat.cUnit;
 		lblCurrentTurn.setText("It is currently "+cUnit+"'s turn.");
 		lblUnitInfo.setText("HP: "+cUnit.getHp()+"/"+cUnit.attribute.maxHP);
-		lblRound.setText("Combat round: " + combat.getRound());
+		lblRound.setText("Combat round: " + combat.round);
 	}
 	
-	public void showNextUnit(Unit unit) {
+	public void getNextAbilityRange(Unit unit) {
 		for (Ability ability : abilityList) {
 			ability.range.reset();
 			ability.range.buildRange(unit.getRow() ,unit.getCol(), ability.getAbilityRange());
 		}
 	}
-	public void dispose() {
-		abilityActivated = false;
-	}
-	public Ability getCurrentAbility() {
-		return abilityList.get(buttonIndex);
-	}
+	
+	public void clearRange() {abilityActivated = false;}
+	public Ability getCurrentAbility() {return abilityList.get(buttonIndex);}
 }

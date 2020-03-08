@@ -21,23 +21,24 @@ public class BattleManager {
 
 	public TileMap map;
 	public LinkedList<Unit> units = new LinkedList<Unit>();
+	public Unit cUnit;
+	public int round = 1;
 	public LinkedList<Unit> nextUnits = new LinkedList<Unit>();
 	public List<Trap> traps;
-	public boolean hudIsOpen = false;
+	public boolean abilitySelected = false;
 	public boolean abilityIsDrawing = false;
+	public boolean canMove = true;
+	public boolean canCast = true;
 
 	private SpriteBatch batcher = new SpriteBatch();
 	private ShapeRenderer sr = new ShapeRenderer();
 
-	private Unit cUnit;
-	private FadingMessage beforeActivation;
-	private FadingMessage afterActivation;
-	private String message = "";
-	private int round = 1;
-	private boolean currentTurnStarted = false;
-	private Ability abilityToDraw;
+	private FadingMessage beforeTurnSkills;
+	private FadingMessage afterTurnSkills;
+	private String skillActivationMessage = "";
 	
-	public boolean canMove = true, canCast = true;
+	private boolean currentTurnStarted = false;
+	private Ability animatedAbility;
 
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
@@ -45,8 +46,9 @@ public class BattleManager {
 
 		for (Unit unit : units) {
 			nextUnits.add(unit);
-			unit.skills.add(new Indomitable(this));
-			unit.skills.add(new Zeal(this));
+			for (Skill skill : unit.skills) {
+				skill.setCurrentCombat(this);
+			}
 		}
 
 		this.units = TurnManager.newTurnOrder(nextUnits);
@@ -55,32 +57,29 @@ public class BattleManager {
 	}
 
 	public void draw() {
-		if (!hudIsOpen && canMove) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
+		if (!abilitySelected && canMove) cUnit.rangeFinder.displayRange(map.offsetX, map.offsetY, map.tileDim);
 		map.draw();
 		for (Unit unit : units) unit.draw(batcher, map);
 		for (Unit unit : nextUnits) unit.draw(batcher, map);
 		for (Trap trap : traps) trap.draw(batcher, map);
 		
 		if (abilityIsDrawing) {
-			if (abilityToDraw.finishedDrawing) {
-				System.out.println("here");
+			if (animatedAbility.finishedDrawing) {
 				abilityIsDrawing = false;
-				abilityToDraw.finishedDrawing = false;
-			} else {
-				abilityToDraw.draw();
-			}
+				animatedAbility.finishedDrawing = false;
+			} else animatedAbility.draw();
 		}
 		
-		if (beforeActivation != null) beforeActivation.draw(batcher, sr);
-		if (afterActivation != null) afterActivation.draw(batcher, sr);
+		if (beforeTurnSkills != null) beforeTurnSkills.draw(batcher, sr);
+		if (afterTurnSkills != null) afterTurnSkills.draw(batcher, sr);
 	}
 
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
-		if (!hudIsOpen && canMove) {
-			//If a left click is received, the unit is moving
+		
+		//Checks if an ability has not been selected and if the current unit can move. If so, the unit moves to the selected space.
+		if (!abilitySelected && canMove) {
 			if (MouseButtons.isLeftPressed()) {
-
 				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
 					if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
 
@@ -88,24 +87,23 @@ public class BattleManager {
 					canMove = false;
 				}
 			}
-		} else if (hudIsOpen && canCast){
+		}
+		
+		//checks if an ability has been selected and the current unit can use an ability. If so, the unit casts an ability.
+		else if (abilitySelected && canCast){
 			if (MouseButtons.isLeftPressed()) {
-				//adding ability effect
 				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
 					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
 					
 					hud.getCurrentAbility().effect(mRow, mCol, this);
 					
-					abilityToDraw = hud.getCurrentAbility();
-					abilityToDraw.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
+					animatedAbility = hud.getCurrentAbility();
+					animatedAbility.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
 							mCol*map.tileDim+map.offsetX, mRow*map.tileDim+map.offsetY);
-
-					System.out.println((cUnit.getCol()*map.tileDim+map.offsetX) + " " + (cUnit.getRow()*map.tileDim+map.offsetY));
-					System.out.println((mCol*map.tileDim+map.offsetX) + " " + (mRow*map.tileDim+map.offsetY));
 					
 					abilityIsDrawing = true;
 
-					hud.dispose();
+					hud.clearRange();
 					canCast = false;
 					hud.abilityUsed = true;
 				}
@@ -118,28 +116,29 @@ public class BattleManager {
 		//exclude occupied tiles from the current unit's movement range and find the new range
 		for (Unit unit : nextUnits) map.getTile(unit.getRow(), unit.getCol()).isOccupied = true;
 		map.getTile(cUnit.getRow(), cUnit.getCol()).isOccupied = false;
+		
 		cUnit.rangeFinder.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
 	}
 	//activates skills that activate at the start of a unit's turn
 	private void beforeTurnSkills() {
 		if (!currentTurnStarted) {
-
 			for (Skill skill : cUnit.skills) {
 				if (skill.atTurnStart()) {
 					if (skill.activationCondition()) {
 						skill.effect();
-						message += "- " + skill.getActivation() + "\n";
+						skillActivationMessage += "- " + skill.getActivation() + "\n";
 					}
 				}
 			}
 
-			beforeActivation = new FadingMessage(cUnit.getCol()*map.tileDim+map.offsetX,(int) (cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim*1.2), message);
-			message = "";
+			beforeTurnSkills = new FadingMessage(cUnit.getCol()*map.tileDim+map.offsetX,(int) (cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim*1.2), skillActivationMessage);
+			skillActivationMessage = "";
 
 			currentTurnStarted = true;
 		}
 	}
 	//clears the current unit and finds the next unit/next turn order
+	//also activates any skills that occur at the end of a unit's turn
 	public void getNextTurn() {
 		canMove = true;
 		canCast = true;
@@ -147,14 +146,14 @@ public class BattleManager {
 		for (Skill skill : cUnit.skills) {
 			if (skill.activationCondition()) {
 				skill.effect();
-				message += "- " + skill.getActivation() + "\n";
+				skillActivationMessage += "- " + skill.getActivation() + "\n";
 			}
 		}
 		
-		afterActivation = new FadingMessage(cUnit.getCol()*cUnit.getUnitDim()+map.offsetX,
-				(int) (cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim*1.2), message);
+		afterTurnSkills = new FadingMessage(cUnit.getCol()*cUnit.getUnitDim()+map.offsetX,
+				(int) (cUnit.getRow()*map.tileDim+map.offsetY+map.tileDim*1.2), skillActivationMessage);
 		
-		message = "";
+		skillActivationMessage = "";
 
 		if (units.isEmpty()) {
 			units = TurnManager.newTurnOrder(nextUnits);
@@ -165,7 +164,4 @@ public class BattleManager {
 		getNextRange();
 		currentTurnStarted = false;
 	}
-	public Unit getCurrentUnit() {return cUnit;}
-	public int getRound() {return round;}
-	public void flickHud(boolean activation) {hudIsOpen = activation;}
 }

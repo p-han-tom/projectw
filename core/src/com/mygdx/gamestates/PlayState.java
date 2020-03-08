@@ -33,7 +33,9 @@ import com.mygdx.managers.MouseButtons;
 import com.mygdx.managers.TurnManager;
 import com.mygdx.managers.UIManager;
 import com.mygdx.maps.TileMap;
+import com.mygdx.trees.skills.Indomitable;
 import com.mygdx.trees.skills.Skill;
+import com.mygdx.trees.skills.Zeal;
 import com.mygdx.scenes.HUD;
 import com.mygdx.ui.TextBox;
 
@@ -51,7 +53,6 @@ public class PlayState extends GameState{
 
 	private static Unit heroDbu;
 	private static Unit heroMee;
-	
 	private static Unit dummy;
 
 	private static Trap trapMagic;
@@ -98,6 +99,8 @@ public class PlayState extends GameState{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
 			abilities.add(new Slash());
+			skills.add(new Indomitable());
+			skills.add(new Zeal());
 		}};;
 		units.add(heroDbu);
 		
@@ -106,6 +109,8 @@ public class PlayState extends GameState{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
 			abilities.add(new Slash());
+			skills.add(new Indomitable());
+			skills.add(new Zeal());
 		}};
 		units.add(heroMee);
 		
@@ -114,6 +119,8 @@ public class PlayState extends GameState{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
 			abilities.add(new Slash());
+			skills.add(new Indomitable());
+			skills.add(new Zeal());
 		}};
 		units.add(dummy);
 		

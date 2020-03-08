@@ -6,8 +6,7 @@ public class Zeal extends Skill{
 	
 	private int activation;
 	
-	public Zeal(BattleManager combat) {
-		super(combat);
+	public Zeal() {
 		activationMessage = "ZEAL: EXTRA TURN!";
 		beforeTurn = false;
 	}
@@ -21,7 +20,7 @@ public class Zeal extends Skill{
 
 	@Override
 	public void effect() {
-		combat.units.addFirst(combat.getCurrentUnit());
+		combat.units.addFirst(combat.cUnit);
 	}
 
 	@Override

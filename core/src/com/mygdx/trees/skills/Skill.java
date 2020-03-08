@@ -10,7 +10,10 @@ public abstract class Skill {
 	protected String activationMessage;
 	protected boolean beforeTurn;
 	
-	public Skill(BattleManager combat) {
+	public Skill() {
+	}
+	
+	public void setCurrentCombat(BattleManager combat) {
 		this.combat = combat;
 	}
 	

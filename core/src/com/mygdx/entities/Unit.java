@@ -56,6 +56,8 @@ public class Unit extends Entity{
 		hp = attribute.maxHP;
 	}
 	
+	
+	
 	public void createMovementRange(TileMap map) {
 		rangeFinder = new UnitRangeFinder(map, this.row, this.col);
 		setUnitDim(map.tileDim);
@@ -81,5 +83,6 @@ public class Unit extends Entity{
 	public void setuOffX(int uOffX) {this.uOffX = uOffX;}
 	public int getuOffY() {return uOffY;}
 	public void setuOffY(int uOffY) {this.uOffY = uOffY;}	
+	
 
 }
