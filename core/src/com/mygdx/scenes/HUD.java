@@ -38,6 +38,7 @@ public class HUD {
 	public static int HUDDisplace = 100;
 	private static SpriteBatch batch;
 	private static ShapeRenderer sr;
+	private BattleManager combat;
 	
 	public int width = 250;
 	private int padding = 10;
@@ -60,24 +61,10 @@ public class HUD {
 	
 	public HUD(Stage stage, SpriteBatch batch, ShapeRenderer sr, BitmapFont font, BattleManager combat) {
 		
-		// Loops through abilities to initialize their range and create a button for each one
-		abilityList = combat.cUnit.abilities;	
-		for (int i = 0; i < abilityList.size(); i ++) {
-			final int index = i;
-			abilityList.get(i).range.createMapContext(combat.map);
-			abilityList.get(i).range.buildRange(combat.cUnit.getRow(), combat.cUnit.getCol(), abilityList.get(i).getAbilityRange());
-			abilityButtonList.add(new Button(new TextureRegionDrawable(abilityList.get(i).getIcon())) {
-				{
-					setSize(60,60);
-					addListener(new ClickListener() {
-						public void clicked(InputEvent event, float x, float y) {
-							abilityActivated = !abilityActivated;
-							buttonIndex = index;
-						}
-					});
-				}
-			});
-		}
+		this.combat = combat;
+		
+		getNextAbilities();
+		
 		// This line needs to be here for buttons to work
 		Gdx.input.setInputProcessor(stage);
 		
@@ -123,14 +110,11 @@ public class HUD {
 		tableMain.add(lblRound).width(width).padTop(padding);
 		tableMain.row();
 		
-		for (Button button : abilityButtonList) {
-			tableAbilities.add(button)
-			.width(button.getWidth())
-			.height(button.getHeight())
-			.pad(25);
-		}
 		
+		
+		getNextButtons();
 		tableMain.add(tableAbilities);
+		
 		
 		tableMain.setPosition(Game.WIDTH-padding/2, Game.HEIGHT-125);
 		
@@ -207,6 +191,9 @@ public class HUD {
 			abilityUsed = false;
 			combat.getNextTurn();
 			getNextAbilityRange(combat.cUnit);
+			abilityButtonList.clear();
+			getNextAbilities();
+			getNextButtons();
 		}
 		
 		if (!abilityUsed) combat.abilitySelected = abilityActivated;
@@ -226,4 +213,39 @@ public class HUD {
 	
 	public void clearRange() {abilityActivated = false;}
 	public Ability getCurrentAbility() {return abilityList.get(buttonIndex);}
+	
+	private void getNextAbilities() {
+		// Loops through abilities to initialize their range and create a button for each one
+		abilityList = combat.cUnit.abilities;	
+		for (int i = 0; i < abilityList.size(); i ++) {
+			final int index = i;
+			abilityList.get(i).range.createMapContext(combat.map);
+			abilityList.get(i).range.buildRange(combat.cUnit.getRow(), combat.cUnit.getCol(), abilityList.get(i).getAbilityRange());
+			abilityButtonList.add(new Button(new TextureRegionDrawable(abilityList.get(i).getIcon())) {
+				{
+					setSize(60,60);
+					addListener(new ClickListener() {
+						public void clicked(InputEvent event, float x, float y) {
+							abilityActivated = !abilityActivated;
+							buttonIndex = index;
+						}
+					});
+				}
+			});
+		}
+	}
+	
+	private void getNextButtons() {
+		tableAbilities.clear();
+		for (Button button : abilityButtonList) {
+			tableAbilities.add(button)
+			.width(button.getWidth())
+			.height(button.getHeight())
+			.pad(25);
+		}
+		
+//		tableMain.add(tableAbilities);
+		
+	}
+	
 }

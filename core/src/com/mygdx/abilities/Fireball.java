@@ -19,7 +19,7 @@ import com.mygdx.maps.TileMap;
 public class Fireball extends Ability{
 
 	public boolean exit = false;
-	private float acc = 1.1f;
+	private float acc = 1.05f;
 	
 	private Sprite fireball = new Sprite(new TextureRegion(spritesheet, spritedim*15+15, spritedim*10+10, spritedim, spritedim)) {
 		{
@@ -68,8 +68,11 @@ public class Fireball extends Ability{
 		
 		batcher.end();
 		
-		
-		if ((above && y > fy) || (!above && y < fy) || (horizontal && onLeft && x < fx) || (horizontal && !onLeft && x > fx)) finishedDrawing = true;
+		if ((above && y > fy) ||
+			(!above && y < fy) ||
+			(horizontal && onLeft && x < fx) ||
+			(horizontal && !onLeft && x > fx))
+			finishedDrawing = true;
 		
 	}
 	

@@ -83,7 +83,7 @@ public class PlayState extends GameState{
 		// 2 = mud (higher move cost)
 		// 0 = empty
 		
-		tmap = new TileMap(mapint, 60);
+		tmap = new TileMap(mapint, Game.HEIGHT/10);
 		sr = new ShapeRenderer();
 		sr.setAutoShapeType(true);
 
@@ -98,7 +98,7 @@ public class PlayState extends GameState{
 		heroDbu = new Unit("Dbu", 1, 1, heroDbuSprite, new Attributes(10, 10, 15, 10)) {{
 			createMovementRange(tmap);
 			abilities.add(new Fireball());
-			abilities.add(new Slash());
+//			abilities.add(new Slash());
 			skills.add(new Indomitable());
 			skills.add(new Zeal());
 		}};;
@@ -107,8 +107,9 @@ public class PlayState extends GameState{
 		Sprite heroMeeSprite = new Sprite(new TextureRegion(spritesheet, 26*spritedim+26, 2*spritedim+2, spritedim, spritedim));
 		heroMee = new Unit("Mee", 3, 2, heroMeeSprite, new Attributes(10, 10, 10, 10)) {{
 			createMovementRange(tmap);
-			abilities.add(new Fireball());
 			abilities.add(new Slash());
+			abilities.add(new Fireball());
+			
 			skills.add(new Indomitable());
 			skills.add(new Zeal());
 		}};
