@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.mygdx.abilities.Ability;
+import com.mygdx.controller.Controller;
 import com.mygdx.managers.BattleManager;
 import com.mygdx.maps.TileMap;
 import com.mygdx.scenes.HUD;
@@ -50,8 +51,11 @@ public class Unit extends Entity{
 	public UnitRangeFinder rangeFinder;
 	private int unitDim, uOffX, uOffY;
 	
-	public Unit(String name, int col, int row, Sprite sprite, Attributes attribute) {
+	private Controller controller;
+	
+	public Unit(String name, int col, int row, Controller controller, Sprite sprite, Attributes attribute) {
 		super(name, col, row, sprite);
+		this.setController(controller);
 		this.attribute = attribute;
 		hp = attribute.maxHP;
 	}
@@ -82,7 +86,8 @@ public class Unit extends Entity{
 	public int getuOffX() {return uOffX;}
 	public void setuOffX(int uOffX) {this.uOffX = uOffX;}
 	public int getuOffY() {return uOffY;}
-	public void setuOffY(int uOffY) {this.uOffY = uOffY;}	
-	
+	public void setuOffY(int uOffY) {this.uOffY = uOffY;}
 
+	public Controller getController() {return controller;}
+	public void setController(Controller controller) {this.controller = controller;}
 }

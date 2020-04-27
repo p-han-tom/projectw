@@ -54,7 +54,7 @@ public class HUD {
 	private List<Ability> abilityList;
 	private List<Button> abilityButtonList = new ArrayList<Button>();
 	private boolean abilityActivated = false;
-	private boolean endTurnPressed = false;
+	public boolean endTurnPressed = false;
 	private int buttonIndex;
 	
 	public boolean abilityUsed = false;
