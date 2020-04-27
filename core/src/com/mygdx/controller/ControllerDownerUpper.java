@@ -5,6 +5,7 @@ import com.mygdx.maps.TileMap;
 import com.mygdx.scenes.HUD;
 
 public class ControllerDownerUpper extends Controller {
+	// this is a cringe test ai
 	private boolean down = true;
 	@Override
 	public void act(BattleManager combat, int mRow, int mCol, HUD hud) {

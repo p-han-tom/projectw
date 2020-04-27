@@ -150,8 +150,8 @@ public class PlayState extends GameState{
 	public void draw() {
 		
 		hud.draw(stage, batch, sr, font);
-		UIManager.draw(batch, font, sr);
 		combat.draw();
+		UIManager.draw(batch, font, sr);
 		
 		
 	}
