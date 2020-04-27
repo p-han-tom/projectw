@@ -38,7 +38,7 @@ public class BattleManager {
 	private String skillActivationMessage = "";
 	
 	private boolean currentTurnStarted = false;
-	private Ability animatedAbility;
+	public Ability animatedAbility;
 
 	public BattleManager(TileMap map, List<Unit> units, List<Trap> traps) {
 		this.map = map;
@@ -76,39 +76,8 @@ public class BattleManager {
 
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
+		cUnit.getController().act(this, mRow, mCol, hud);
 		
-		//Checks if an ability has not been selected and if the current unit can move. If so, the unit moves to the selected space.
-		if (!abilitySelected && canMove) {
-			if (MouseButtons.isLeftPressed()) {
-				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0 && map.getTile(mRow, mCol).passable) {
-					if (!cUnit.rangeFinder.inRange(mRow, mCol)) return;
-
-					cUnit.move(mRow, mCol);
-					canMove = false;
-				}
-			}
-		}
-		
-		//checks if an ability has been selected and the current unit can use an ability. If so, the unit casts an ability.
-		else if (abilitySelected && canCast){
-			if (MouseButtons.isLeftPressed()) {
-				if (mRow < map.length && mRow >= 0 && mCol < map.width && mCol >= 0) {
-					if (!hud.getCurrentAbility().range.inRange(mRow, mCol)) return;
-					
-					hud.getCurrentAbility().effect(mRow, mCol, this);
-					
-					animatedAbility = hud.getCurrentAbility();
-					animatedAbility.drawLocation(cUnit.getCol()*map.tileDim+map.offsetX, cUnit.getRow()*map.tileDim+map.offsetY,
-							mCol*map.tileDim+map.offsetX, mRow*map.tileDim+map.offsetY);
-					
-					abilityIsDrawing = true;
-
-					hud.clearRange();
-					canCast = false;
-					hud.abilityUsed = true;
-				}
-			}
-		}
 	}
 
 	//finds the movement range of the current unit and stores it
