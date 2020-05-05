@@ -77,7 +77,6 @@ public class BattleManager {
 	public void handleTurn(int mRow, int mCol, HUD hud) {
 		beforeTurnSkills();
 		cUnit.getController().act(this, mRow, mCol, hud);
-		
 	}
 
 	//finds the movement range of the current unit and stores it
@@ -88,6 +87,7 @@ public class BattleManager {
 		
 		cUnit.rangeFinder.findRange(map, cUnit.getRow(), cUnit.getCol(), cUnit.attribute.moves);
 	}
+	
 	//activates skills that activate at the start of a unit's turn
 	private void beforeTurnSkills() {
 		if (!currentTurnStarted) {

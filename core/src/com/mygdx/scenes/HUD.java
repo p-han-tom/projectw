@@ -206,8 +206,8 @@ public class HUD {
 	
 	public void getNextAbilityRange(Unit unit) {
 		for (Ability ability : abilityList) {
-			ability.range.reset();
-			ability.range.buildRange(unit.getRow() ,unit.getCol(), ability.getAbilityRange());
+			ability.range.clearRange();
+//			ability.range.buildRange(unit.getRow() ,unit.getCol(), ability.getAbilityRange());
 		}
 	}
 	

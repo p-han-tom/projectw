@@ -28,7 +28,6 @@ public class AbilityRange {
 	
 	private int range;
 	private Color color;
-	
 	private static final float fade = 0.3f;
 	private static ShapeRenderer sr = new ShapeRenderer();
 	private TileMap map;
@@ -50,18 +49,20 @@ public class AbilityRange {
 		visited = new boolean[map.length][map.width];
 	}
 	
-	public void reset() {
+	public void clearRange() {
+		System.out.println(canTarget);
 		visited = new boolean[map.length][map.width];
 		canTarget.clear();
 	}
 	
 	public void buildRange(int row, int col, int range) {	
 		if (range >= 0 && row < map.length && col < map.width && 
-				map.getTile(row, col).passable) {
-				if (!visited[row][col]) {
-					canTarget.add(new Pair(row, col));
-					visited[row][col] = true;
-				}	
+			map.getTile(row, col).passable) {
+			if (!visited[row][col]) {
+				System.out.println(canTarget.size());
+				canTarget.add(new Pair(row, col));
+				visited[row][col] = true;
+			}	
 		} else return;
 			
 		buildRange(row+1,col,range-1);
