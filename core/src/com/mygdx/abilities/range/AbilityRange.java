@@ -50,7 +50,6 @@ public class AbilityRange {
 	}
 	
 	public void clearRange() {
-		System.out.println(canTarget);
 		visited = new boolean[map.length][map.width];
 		canTarget.clear();
 	}
@@ -59,7 +58,6 @@ public class AbilityRange {
 		if (range >= 0 && row < map.length && col < map.width && 
 			map.getTile(row, col).passable) {
 			if (!visited[row][col]) {
-				System.out.println(canTarget.size());
 				canTarget.add(new Pair(row, col));
 				visited[row][col] = true;
 			}	

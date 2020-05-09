@@ -29,7 +29,6 @@ public class TileMap {
 		
 		//offsets for centering grid
 		offsetX = ((Game.WIDTH-(map.length*tileDim))/2-HUD.HUDDisplace)/2;
-		System.out.println(offsetX);
 		offsetY = (Game.HEIGHT-(map.length*tileDim))/2;
 		
 		//loops through each element in int array and creates a tile based off int key value

@@ -22,17 +22,13 @@ public class Fireball extends Ability{
 	private float acc = 1.05f;
 	
 	private Sprite fireball = new Sprite(new TextureRegion(spritesheet, spritedim*15+15, spritedim*10+10, spritedim, spritedim)) {
-		{
-		setSize(60, 60);
-		}
+		{setSize(60, 60);}
 	};
 	
 	public Fireball() {
 		abilityRange = 4;
 		range = new AbilityRange(abilityRange, new Color(0,1,1,0.3f));
 		icon = new Sprite(new TextureRegion(spritesheet, spritedim*15+15, spritedim*10+10, spritedim, spritedim));
-		
-		
 	}
 
 	@Override
@@ -68,13 +64,10 @@ public class Fireball extends Ability{
 		
 		batcher.end();
 		
-		if ((above && y > fy) ||
-			(!above && y < fy) ||
-			(horizontal && onLeft && x < fx) ||
-			(horizontal && !onLeft && x > fx))
-			finishedDrawing = true;
-		
+		if ((aboveInitialPos && y > fy) ||
+			(!aboveInitialPos && y < fy) ||
+			(sameInitialRow && onInitialLeft && x < fx) ||
+			(sameInitialRow && !onInitialLeft && x > fx))
+			finishedDrawing = true;	
 	}
-	
-	
 }

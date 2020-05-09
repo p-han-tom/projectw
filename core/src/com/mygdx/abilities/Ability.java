@@ -5,16 +5,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.abilities.range.AbilityRange;
 import com.mygdx.managers.BattleManager;
-import com.mygdx.maps.TileMap;
 
 public abstract class Ability {
-	public String id;
 	protected static SpriteBatch batcher = new SpriteBatch();
-	protected double timer = 0;
+	
+	// variables for moving objects
 	protected float x, y, fx, fy, rise, run;
-	protected boolean above;
-	protected boolean horizontal;
-	protected boolean onLeft;
+	protected boolean aboveInitialPos;
+	protected boolean sameInitialRow;
+	protected boolean onInitialLeft;
 	
 	public boolean finishedDrawing = false;
 	
@@ -26,44 +25,37 @@ public abstract class Ability {
 	protected int abilityRange;
 
 	public Ability() {
-		
+		// Individual abilities are set up with their own constructors
 	}
 	
 	public abstract void effect(int row, int col, BattleManager combat);
 	public abstract void draw();
+	
+	public Sprite getIcon() {return icon;}
+	public int getAbilityRange() {return abilityRange;}
+
+	// this function initializes the direction and speed of the casted ability
+	// x,y refers to the position of the unit
+	// fx,fy refers to the position of the mouse where the ability has been cast
 	public void drawLocation(float x, float y, float fx, float fy) {
-		above = false;
-		horizontal = false;
-		onLeft = false;
-		
 		this.x = x;
 		this.y = y;
 		this.fx = fx;
 		this.fy = fy;
 		
-		if (fy > y) above = true;
-		if (fy - y == 0) horizontal = true;
-	
+		aboveInitialPos = (fy > y) ? true : false;
+		sameInitialRow = (fy == y) ? true : false;
+		onInitialLeft = (fx < x) ? true : false;
+
 		if (fx > x) {
 			run = 1;
 			rise = (fy-y)/(fx-x);
-			return;
-		}
-		else if (fx < x) {
+		} else if (fx < x) {
 			run = -1;
 			rise = -(fy-y)/(fx-x);
-			onLeft = true;
-			return;
-		}
-		else {
+		} else if (fx == x){
 			run = 0;
-			if (fy > y) rise = 1;
-			else rise = -1;
-			return;
+			rise = (fy > y) ? 1 : -1;
 		}
-		
 	}
-	
-	public Sprite getIcon() {return icon;}
-	public int getAbilityRange() {return abilityRange;}
 }

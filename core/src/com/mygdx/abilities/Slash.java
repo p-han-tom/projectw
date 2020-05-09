@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.abilities.range.AbilityRange;
 import com.mygdx.entities.Unit;
 import com.mygdx.managers.BattleManager;
-import com.mygdx.maps.TileMap;
 
 //Test ability for melee classes 
 
