@@ -23,10 +23,6 @@ public abstract class Ability {
 	
 	public AbilityRange range;
 	protected int abilityRange;
-
-	public Ability() {
-		// Individual abilities are set up with their own constructors
-	}
 	
 	public abstract void effect(int row, int col, BattleManager combat);
 	public abstract void draw();
